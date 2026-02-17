@@ -8,6 +8,7 @@
 
 class WireManager;
 class Electricity;
+class HouseManager;
 
 class SceneMain : public SceneBase
 {
@@ -59,4 +60,9 @@ private:
 	/// 電気のゲームオブジェクト
 	/// </summary>
 	Electricity* mObjElectricity;
+
+	/// <summary>
+	/// 住宅のマネージャーのゲームオブジェクト
+	/// </summary>
+	HouseManager* mObjHouseManager;
 };

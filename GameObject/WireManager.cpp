@@ -26,15 +26,17 @@ WireManager::~WireManager()
 
 void WireManager::InitGameObject()
 {
-	LineSegment wire;
+	Wire wire;
 
 	// 左側の固定電線を生成
-	wire.start = kLeftFixWireStart;
-	wire.end = kLeftFixWireEnd;
+	wire.line.start = kLeftFixWireStart;
+	wire.line.end = kLeftFixWireEnd;
+	wire.enable = true;
 	mFixedWireList.emplace_back(wire);
 	// 右側の固定電線を生成
-	wire.start = kRightFixWireStart;
-	wire.end = kRightFixWireEnd;
+	wire.line.start = kRightFixWireStart;
+	wire.line.end = kRightFixWireEnd;
+	wire.enable = true;
 	mFixedWireList.emplace_back(wire);
 
 	// 追加電線の初期化
@@ -53,7 +55,7 @@ void WireManager::Update()
 	SetDrawEndPos();
 
 	// 電線を引く
-	AddWire();
+	CreateAddWire();
 }
 
 void WireManager::Draw()
@@ -67,14 +69,49 @@ void WireManager::Draw()
 	// 固定電線を描画
 	for (const auto& wire : mFixedWireList)
 	{
-		DrawLine(wire.start.x, wire.start.y, wire.end.x, wire.end.y, Color::kCyan);
+		DrawLine(wire.line.start.x, wire.line.start.y, wire.line.end.x, wire.line.end.y, Color::kCyan);
 	}
 
-	// 固定電線を描画
+	// 電線を描画
 	for (const auto& wire : mWireList)
 	{
-		DrawLine(wire.start.x, wire.start.y, wire.end.x, wire.end.y, Color::kCyan);
+		DrawLine(wire.line.start.x, wire.line.start.y, wire.line.end.x, wire.line.end.y, wire.enable ? Color::kCyan : Color::kBrown);
 	}
+
+
+
+	
+	Rect shapeA;
+	Circle shapeB;
+	shapeA.left = 100;
+	shapeA.top = 100;
+	shapeA.right= 300;
+	shapeA.bottom = 300;
+
+	/*shapeB.left = 120;
+	shapeB.top = 120;
+	shapeB.right = 280;
+	shapeB.bottom = 280;*/
+
+	//shapeA.center = Vector2(150, 150);
+	//shapeA.radius = 75;
+	shapeB.center = Vector2(300, 200);
+	shapeB.radius = 75;
+
+	DrawBox(shapeA.left, shapeA.top, shapeA.right, shapeA.bottom, Color::kRed, 0);
+	//DrawBox(shapeB.left, shapeB.top, shapeB.right, shapeB.bottom, Color::kGreen, 0);
+	//DrawCircle(shapeA.center.x, shapeA.center.y, shapeA.radius, Color::kRed, 0);
+	DrawCircle(shapeB.center.x, shapeB.center.y, shapeB.radius, Color::kGreen, 0);
+
+	if (Collision::IsIntersect(shapeA, shapeB))
+	{
+		DrawBox(200, 200, 210, 210, Color::kWhite, 1);
+	}
+}
+
+void WireManager::AddWire(const Wire wire)
+{
+	mWireList.emplace_back(wire);
 }
 
 void WireManager::SetDrawStartPos()
@@ -99,13 +136,13 @@ void WireManager::SetDrawEndPos()
 	mDrawWire.end = Vector2(x, y);
 }
 
-void WireManager::AddWire()
+void WireManager::CreateAddWire()
 {
 	if (!InputManager::GetInstance().IsReleased(Input::Action::Draw)) return;
 	
 	// 固定電線に触れているかチェック
-	if (Collision::IsIntersect(mDrawWire, mFixedWireList[0])
-		&& Collision::IsIntersect(mDrawWire, mFixedWireList[1]))
+	if (Collision::IsIntersect(mDrawWire, mFixedWireList[FixedWire::kLeftIndex].line)
+		&& Collision::IsIntersect(mDrawWire, mFixedWireList[FixedWire::kRightIndex].line))
 	{
 		// 開始点を左の固定電線に合わせるために、
 		// 開始点を左に置く
@@ -115,11 +152,14 @@ void WireManager::AddWire()
 		}
 
 		// 開始点を左の固定電線に合わせる
-		mDrawWire.start = Collision::GetIntersectPoint(mFixedWireList[0], mDrawWire);
+		mDrawWire.start = Collision::GetIntersectPoint(mFixedWireList[FixedWire::kLeftIndex].line, mDrawWire);
 		// 終着点を右の固定電線に合わせる
-		mDrawWire.end = Collision::GetIntersectPoint(mFixedWireList[1], mDrawWire);
+		mDrawWire.end = Collision::GetIntersectPoint(mFixedWireList[FixedWire::kRightIndex].line, mDrawWire);
 
 		// 電線を追加
-		mWireList.emplace_back(mDrawWire);
+		Wire wire;
+		wire.line = mDrawWire;
+		wire.enable = true;
+		mWireList.emplace_back(wire);
 	}
 }

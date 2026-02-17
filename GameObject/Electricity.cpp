@@ -3,6 +3,7 @@
 #include "../Utility/Vector.h"
 #include "../Utility/Color.h"
 #include "../GameObject/WireManager.h"
+#include <cassert>
 
 namespace
 {
@@ -26,8 +27,8 @@ void Electricity::InitGameObject()
 	const WireList& wires = mPtrWireManager->GetFixedWireList();
 
 	// 固定電線を開始点にする
-	mStartPos = wires[0].start;
-	mEndPos = wires[0].end;
+	mStartPos = wires[0].line.start;
+	mEndPos = wires[0].line.end;
 	SetPosition(mStartPos);
 }
 
@@ -63,14 +64,14 @@ void Electricity::MoveToOtherWire(Vector2& newPos)
 	const auto& wires = mPtrWireManager->GetWireList();
 
 	// 左右どちらの固定電線にいるかチェック
-	const bool isLeft = newPos.x == fixedWires[FixedWire::kLeftIndex].start.x;
-	const bool isRight = newPos.x == fixedWires[FixedWire::kRightIndex].start.x;
+	const bool isLeft = newPos.x == fixedWires[FixedWire::kLeftIndex].line.start.x;
+	const bool isRight = newPos.x == fixedWires[FixedWire::kRightIndex].line.start.x;
 
 	// 固定電線にいないなら終了
 	if (!isLeft && !isRight) return;
 
 	// 移動可能な電線のリスト
-	std::vector<LineSegment> canMoveWires;
+	std::vector<Wire> canMoveWires;
 
 	// すべての電線を調べて移動前と移動後の範囲内にある電線を取得する
 	for (const auto& wire : wires)
@@ -78,12 +79,17 @@ void Electricity::MoveToOtherWire(Vector2& newPos)
 		// 移動開始点を取得
 		// 左の固定電線にいるならstartを開始点にする
 		// 右の固定電線にいるならendを開始点にする
-		const auto& startPoint = (isLeft ? wire.start : wire.end);
+		const auto& startPoint = (isLeft ? wire.line.start : wire.line.end);
+		const auto& endPoint = (isLeft ? wire.line.end : wire.line.start);
 
+		// 開始点のX座標が一致しなかったらスキップ
+		if (startPoint.x != GetPosition().x) continue;
 		// 開始点より外側ならスキップ
 		if (startPoint.y <= GetPosition().y) continue;
 		// 終点より外側ならスキップ
-		if (startPoint.y >= newPos.y) continue;
+		if (startPoint.y > newPos.y) continue;
+		// 電線が無効ならスキップ
+		if (!wire.enable) continue;
 
 		// 移動範囲内にあるためリストに追加
 		canMoveWires.emplace_back(wire);
@@ -91,14 +97,14 @@ void Electricity::MoveToOtherWire(Vector2& newPos)
 
 	// 最小値判定用にfloatの最大値を入れておく
 	float min = FLT_MAX;
-
+	
 	// 移動範囲内にある電線の内、移動前から一番近い電線に移動する
 	for (const auto& wire : canMoveWires)
 	{
 		// 移動開始点を取得
-		const auto& startPoint = (isLeft ? wire.start : wire.end);
+		const auto& startPoint = (isLeft ? wire.line.start : wire.line.end);
 		// 移動終点を取得
-		const auto& endPoint = (isLeft ? wire.end : wire.start);
+		const auto& endPoint = (isLeft ? wire.line.end : wire.line.start);
 
 		// 現在の最小値以上だったらスキップ
 		if (startPoint.y >= min) continue;
@@ -125,14 +131,14 @@ void Electricity::MoveToFixedWire(Vector2& newPos)
 		const WireList& wires = mPtrWireManager->GetFixedWireList();
 
 		// 左の固定電線かどうか
-		const bool isLeft = (newPos.x <= wires[FixedWire::kLeftIndex].start.x);
+		const bool isLeft = (newPos.x <= wires[FixedWire::kLeftIndex].line.start.x);
 
 		// 移動先の固定電線の添え字
 		const int index = isLeft ? FixedWire::kLeftIndex : FixedWire::kRightIndex;
 
 		// 開始点と終点を固定電線に設定
-		mStartPos = wires[index].start;
-		mEndPos = wires[index].end;
+		mStartPos = wires[index].line.start;
+		mEndPos = wires[index].line.end;
 
 		// 座標更新
 		newPos.x = mStartPos.x;

@@ -6,6 +6,7 @@
 #include "../System/InputManager.h"
 #include "../GameObject/WireManager.h"
 #include "../GameObject/Electricity.h"
+#include "../GameObject/HouseManager.h"
 
 namespace
 {
@@ -13,7 +14,8 @@ namespace
 
 SceneMain::SceneMain() :
 	mObjWireManager(nullptr),
-	mObjElectricity(nullptr)
+	mObjElectricity(nullptr),
+	mObjHouseManager(nullptr)
 {
 }
 
@@ -25,18 +27,16 @@ void SceneMain::InitializeScene()
 {
 	mObjWireManager = new WireManager(GetObjectManager());
 	mObjWireManager->Init();
+
+	mObjHouseManager = new HouseManager(GetObjectManager(), mObjWireManager);
+	mObjHouseManager->Init();
 }
 
 void SceneMain::EndScene()
 {
-	mObjElectricity->End();
-	delete mObjElectricity;
-
-	if (mObjElectricity)
-	{
-		mObjElectricity->End();
-		delete mObjElectricity;
-	}
+	mObjElectricity = nullptr;
+	mObjWireManager = nullptr;
+	mObjHouseManager = nullptr;
 }
 
 SceneBase* SceneMain::UpdateScene()

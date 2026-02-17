@@ -270,6 +270,17 @@ public:
 	}
 
 	/// <summary>
+	/// ベクトルの長さの2乗を求める
+	/// 平方根を求めない分軽い
+	/// </summary>
+	/// <param name="v">長さを求めたいベクトル</param>
+	/// <returns>ベクトルの長さの2乗</returns>
+	static float LengthSquare(const Vector2& v)
+	{
+		return v.x * v.x + v.y * v.y;
+	}
+
+	/// <summary>
 	/// ベクトルを正規化する
 	/// </summary>
 	/// <param name="v">正規化したいベクトル</param>
@@ -575,6 +586,17 @@ public:
 	static float Length(const Vector3& v)
 	{
 		return sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	}
+
+	/// <summary>
+	/// ベクトルの長さの2乗を求める
+	/// 平方根を求めない分軽い
+	/// </summary>
+	/// <param name="v">長さを求めたいベクトル</param>
+	/// <returns>ベクトルの長さの2乗</returns>
+	static float LengthSquare(const Vector3& v)
+	{
+		return v.x * v.x + v.y * v.y + v.z * v.z;
 	}
 
 	/// <summary>

@@ -4,10 +4,16 @@
 #include <vector>
 #include "../Collision/Collision2D.h"
 
+struct Wire
+{
+	LineSegment line;
+	bool enable;
+};
+
 /// <summary>
 /// 電線のリスト
 /// </summary>
-using WireList = std::vector<LineSegment>;
+using WireList = std::vector<Wire>;
 
 namespace FixedWire
 {
@@ -53,6 +59,11 @@ public:
 	void Draw() override;
 
 	/// <summary>
+	/// 電線リストに電線を追加する
+	/// </summary>
+	void AddWire(Wire wire);
+
+	/// <summary>
 	/// 電線のリストを取得
 	/// </summary>
 	/// <returns>電線のリスト</returns>
@@ -79,7 +90,7 @@ private:
 	/// <summary>
 	/// 追加電線の生成
 	/// </summary>
-	void AddWire();
+	void CreateAddWire();
 
 	/// <summary>
 	/// 電線リストのデータ

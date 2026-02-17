@@ -18,6 +18,7 @@ SceneManager::~SceneManager()
 	assert(mPtrScene && "m_pSceneがnullptrです");
 	if (!mPtrScene) return;
 
+	mPtrScene->End();
 	delete mPtrScene;
 }
 
@@ -38,6 +39,7 @@ void SceneManager::Update(float deltaTime)
 		pScene->GetFader()->SetFadeColor(faderColor);			// 次のシーンのフェーダーの色を変更
 
 		// 前のシーンを削除
+		mPtrScene->End();
 		delete mPtrScene;
 
 		// 次のシーンを初期化

@@ -1,4 +1,5 @@
 #include "Collision2D.h"
+#include <cmath>
 #include "../Utility/Vector.h"
 
 bool Collision::IsIntersect(const LineSegment& lineA, const LineSegment& lineB)
@@ -22,6 +23,60 @@ bool Collision::IsIntersect(const LineSegment& lineA, const LineSegment& lineB)
 	}
 
 	// —¼•û•‰‚Ì‚½‚ßAŒğ·‚µ‚Ä‚¢‚é
+	return true;
+}
+
+bool Collision::IsIntersect(const Rect& rectA, const Rect& rectB)
+{
+	// A‚Ì¶‚Ì•Ó‚ªB‚Ì‰E‚Ì•Ó‚æ‚è‰E‚É‚ ‚Á‚½‚çŒğ·‚µ‚Ä‚¢‚È‚¢
+	if (rectA.left > rectB.right) return false;
+	// A‚Ìã‚Ì•Ó‚ªB‚Ì‰º‚Ì•Ó‚æ‚è‰º‚É‚ ‚Á‚½‚çŒğ·‚µ‚Ä‚¢‚È‚¢
+	if (rectA.top > rectB.bottom) return false;
+	// A‚Ì‰E‚Ì•Ó‚ªB‚Ì¶‚Ì•Ó‚æ‚è¶‚É‚ ‚Á‚½‚çŒğ·‚µ‚Ä‚¢‚È‚¢
+	if (rectA.right < rectB.left) return false;
+	// A‚Ì‰º‚Ì•Ó‚ªB‚Ìã‚Ì•Ó‚æ‚èã‚É‚ ‚Á‚½‚çŒğ·‚µ‚Ä‚¢‚È‚¢
+	if (rectA.bottom < rectB.top) return false;
+
+	// ‚±‚±‚Ü‚ÅğŒ‚ğ–‚½‚³‚È‚©‚Á‚½‚çŒğ·‚µ‚Ä‚¢‚é
+	return true;
+}
+
+bool Collision::IsIntersect(const Circle& circleA, const Circle& circleB)
+{
+	// ‰~‚ÌŠÔ‚Ì‹——£‚ğŒvZ
+	Vector2 vect = circleA.center - circleB.center;
+	float distSq = Vector2::LengthSquare(vect);
+
+	// 2‚Â‚Ì‰~‚Ì”¼Œa‚Ì‡Œv‚ğŒvZ
+	float rad = circleA.radius + circleB.radius;
+	// ‹——£‚ª2æ‚³‚ê‚Ä‚¢‚é‚½‚ß”¼Œa‚à2æ‚·‚é
+	float radSq = rad * rad;
+
+	// ”¼Œa‚Ì‡Œv‚æ‚è‹——£‚ª’·‚©‚Á‚½‚çŒğ·‚µ‚Ä‚¢‚È‚¢
+	if (distSq > radSq) return false;
+
+	// ‚±‚±‚Ü‚ÅğŒ‚ğ–‚½‚³‚È‚©‚Á‚½‚çŒğ·‚µ‚Ä‚¢‚é
+	return true;
+}
+
+bool Collision::IsIntersect(const Rect& rect, const Circle& circle)
+{
+	// 2‚Â‚Ì‰~‚Ì”¼Œa‚Ì‡Œv‚ğŒvZ
+	float rad = circle.radius + circle.radius;
+	// ‹——£‚ª2æ‚³‚ê‚Ä‚¢‚é‚½‚ß”¼Œa‚à2æ‚·‚é
+	float radSq = rad * rad;
+
+	Vector2 pos;
+
+	pos = Vector2(rect.left, rect.top);
+	if (Vector2::LengthSquare(pos - circle.center) > radSq) return false;
+	pos = Vector2(rect.left, rect.bottom);
+	if (Vector2::LengthSquare(pos - circle.center) > radSq) return false;
+	pos = Vector2(rect.right, rect.top);
+	if (Vector2::LengthSquare(pos - circle.center) > radSq) return false;
+	pos = Vector2(rect.right, rect.bottom);
+	if (Vector2::LengthSquare(pos - circle.center) > radSq) return false;
+
 	return true;
 }
 
