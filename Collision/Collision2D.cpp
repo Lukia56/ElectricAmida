@@ -69,15 +69,24 @@ bool Collision::IsIntersect(const Rect& rect, const Circle& circle)
 	Vector2 pos;
 
 	pos = Vector2(rect.left, rect.top);
-	if (Vector2::LengthSquare(pos - circle.center) > radSq) return false;
+	if (circle.center.x < pos.x - circle.radius) return false;
 	pos = Vector2(rect.left, rect.bottom);
-	if (Vector2::LengthSquare(pos - circle.center) > radSq) return false;
+	if (circle.center.x > pos.x + circle.radius) return false;
 	pos = Vector2(rect.right, rect.top);
-	if (Vector2::LengthSquare(pos - circle.center) > radSq) return false;
+	if (circle.center.y < pos.y - circle.radius) return false;
 	pos = Vector2(rect.right, rect.bottom);
-	if (Vector2::LengthSquare(pos - circle.center) > radSq) return false;
+	if (circle.center.y > pos.y + circle.radius) return false;
 
-	return true;
+	pos = Vector2(rect.left, rect.top);
+	if (Vector2::LengthSquare(pos - circle.center) < radSq) return true;
+	pos = Vector2(rect.left, rect.bottom);
+	if (Vector2::LengthSquare(pos - circle.center) < radSq) return true;
+	pos = Vector2(rect.right, rect.top);
+	if (Vector2::LengthSquare(pos - circle.center) < radSq) return true;
+	pos = Vector2(rect.right, rect.bottom);
+	if (Vector2::LengthSquare(pos - circle.center) < radSq) return true;
+
+	return false;
 }
 
 Vector2 Collision::GetIntersectPoint(const LineSegment& lineA, const LineSegment& lineB)

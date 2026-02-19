@@ -4,12 +4,13 @@
 #include "../Game.h"
 #include "../Scene/SceneBase.h"
 #include "../Scene/SceneMain.h"
+#include "../Scene/SceneTest.h"
 #include "../Scene/Fader.h"
 
 SceneManager::SceneManager() :
 	mPtrScene(nullptr)
 {
-	mPtrScene = new SceneMain();
+	mPtrScene = new SceneTest();
 	mPtrScene->Initialize(this);
 }
 

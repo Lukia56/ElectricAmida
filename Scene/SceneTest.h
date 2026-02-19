@@ -1,6 +1,8 @@
 #pragma once
 #include "SceneBase.h"
 #include <DxLib.h>
+#include "../Utility/Vector.h"
+#include "../Collision/Collision2D.h"
 
 /// <summary>
 /// 確認用のクラス
@@ -47,4 +49,6 @@ public:
 
 private:
 
+	Rect mRect;
+	Circle mCircle;
 };
