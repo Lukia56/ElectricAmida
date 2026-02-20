@@ -160,6 +160,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="System\InputManager.cpp" />
     <ClCompile Include="System\SceneManager.cpp" />
+    <ClCompile Include="System\Time.cpp" />
     <ClCompile Include="Utility\Vector.cpp" />
     <ClCompile Include="GameObject\WireManager.cpp" />
   </ItemGroup>
@@ -186,6 +187,7 @@
     <ClInclude Include="Scene\Fader.h" />
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="System\InputManager.h" />
+    <ClInclude Include="System\Time.h" />
     <ClInclude Include="Utility\Color.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="System\SceneManager.h" />

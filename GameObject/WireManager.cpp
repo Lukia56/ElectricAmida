@@ -3,6 +3,7 @@
 #include "../Utility/Color.h"
 #include "../Collision/Collision2D.h"
 #include "../System/InputDevice/InputDeviceMouse.h"
+#include "../Scene/SceneMain.h"
 
 namespace
 {
@@ -15,8 +16,9 @@ namespace
 	const Vector2 kRightFixWireEnd = { 640, 530 };
 }
 
-WireManager::WireManager(ObjectManager* manager) :
-	GameObject(manager)
+WireManager::WireManager(ObjectManager* manager, SceneMain* scene) :
+	GameObject(manager),
+	mPtrScene(scene)
 {
 }
 
@@ -63,7 +65,7 @@ void WireManager::Draw()
 	if (InputManager::GetInstance().IsHeld(Input::Action::Draw))
 	{
 		// マウスが離された座標を開始点にする
-		DrawLine(mDrawWire.start.x, mDrawWire.start.y, mDrawWire.end.x, mDrawWire.end.y, Color::kWhite);
+		DrawLine(mDrawWire.start.x, mDrawWire.start.y, mDrawWire.end.x, mDrawWire.end.y, mPtrScene->GetBudget() > 0 ? Color::kWhite : Color::kRed);
 	}
 
 	// 固定電線を描画
@@ -77,41 +79,11 @@ void WireManager::Draw()
 	{
 		DrawLine(wire.line.start.x, wire.line.start.y, wire.line.end.x, wire.line.end.y, wire.enable ? Color::kCyan : Color::kBrown);
 	}
-
-
-
-	
-	Rect shapeA;
-	Circle shapeB;
-	shapeA.left = 100;
-	shapeA.top = 100;
-	shapeA.right= 300;
-	shapeA.bottom = 300;
-
-	/*shapeB.left = 120;
-	shapeB.top = 120;
-	shapeB.right = 280;
-	shapeB.bottom = 280;*/
-
-	//shapeA.center = Vector2(150, 150);
-	//shapeA.radius = 75;
-	shapeB.center = Vector2(300, 200);
-	shapeB.radius = 75;
-
-	DrawBox(shapeA.left, shapeA.top, shapeA.right, shapeA.bottom, Color::kRed, 0);
-	//DrawBox(shapeB.left, shapeB.top, shapeB.right, shapeB.bottom, Color::kGreen, 0);
-	//DrawCircle(shapeA.center.x, shapeA.center.y, shapeA.radius, Color::kRed, 0);
-	DrawCircle(shapeB.center.x, shapeB.center.y, shapeB.radius, Color::kGreen, 0);
-
-	if (Collision::IsIntersect(shapeA, shapeB))
-	{
-		DrawBox(200, 200, 210, 210, Color::kWhite, 1);
-	}
 }
 
-void WireManager::AddWire(const Wire wire)
+void WireManager::AddWire(Wire& line)
 {
-	mWireList.emplace_back(wire);
+	mWireList.emplace_back(line);
 }
 
 void WireManager::SetDrawStartPos()
@@ -140,6 +112,9 @@ void WireManager::CreateAddWire()
 {
 	if (!InputManager::GetInstance().IsReleased(Input::Action::Draw)) return;
 	
+	// 予算が無いなら早期リターン
+	if (mPtrScene->GetBudget() <= 0) return;
+
 	// 固定電線に触れているかチェック
 	if (Collision::IsIntersect(mDrawWire, mFixedWireList[FixedWire::kLeftIndex].line)
 		&& Collision::IsIntersect(mDrawWire, mFixedWireList[FixedWire::kRightIndex].line))
@@ -161,5 +136,7 @@ void WireManager::CreateAddWire()
 		wire.line = mDrawWire;
 		wire.enable = true;
 		mWireList.emplace_back(wire);
+
+		mPtrScene->SetBudget(mPtrScene->GetBudget() - 1);
 	}
 }

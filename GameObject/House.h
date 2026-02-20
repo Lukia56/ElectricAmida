@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 
+class WireManager;
 struct Wire;
 
 class House : public GameObject
@@ -9,10 +10,16 @@ class House : public GameObject
 public:
 
 	/// <summary>
+	/// デフォルトコンストラクタ
+	/// </summary>
+	House() = default;
+
+	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
-	House(ObjectManager* manager);
+	/// <param name="wireMgr">電線のマネージャーのポインタ</param>
+	House(ObjectManager* manager, WireManager* wireMgr);
 
 	/// <summary>
 	/// デストラクタ
@@ -39,9 +46,18 @@ public:
 	/// </summary>
 	void Draw() override;
 
-	void SetEnable(const bool enable) { mIsEnabled = enable; }
+	void SetWireActive();
+
+	void SetActive();
+
+	bool IsEnable() const { return mIsEnabled; }
 
 private:
+
+	/// <summary>
+	/// 電線のマネージャーのポインタ
+	/// </summary>
+	WireManager* mPtrWireManager;
 
 	/// <summary>
 	/// 有効化どうか
@@ -49,7 +65,7 @@ private:
 	bool mIsEnabled;
 
 	/// <summary>
-	/// 電線
+	/// 自身の引込線のインデックス
 	/// </summary>
-	Wire* mWire;
+	int mWireIndex;
 };

@@ -49,6 +49,23 @@ public:
 	/// </summary>
 	void DrawScene() override;
 
+	/// <summary>
+	/// 電気を届けるのに成功した数を加算する
+	/// </summary>
+	void SuccessToDelivery();
+	
+	/// <summary>
+	/// 予算を取得
+	/// </summary>
+	/// <returns>現在の予算</returns>
+	int GetBudget() const { return mBudget; }
+
+	/// <summary>
+	/// 予算を設定
+	/// </summary>
+	/// <param name="budget">予算</param>
+	void SetBudget(const int budget) { mBudget = budget; }
+
 private:
 
 	/// <summary>
@@ -65,4 +82,19 @@ private:
 	/// 住宅のマネージャーのゲームオブジェクト
 	/// </summary>
 	HouseManager* mObjHouseManager;
+
+	/// <summary>
+	/// 電気を届けるのに成功した数
+	/// </summary>
+	int mSuccessNum;
+
+	/// <summary>
+	/// ゲームの残り時間
+	/// </summary>
+	float mRemainTime;
+
+	/// <summary>
+	/// 電線を引く予算
+	/// </summary>
+	int mBudget;
 };

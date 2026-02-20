@@ -10,7 +10,7 @@
 SceneManager::SceneManager() :
 	mPtrScene(nullptr)
 {
-	mPtrScene = new SceneTest();
+	mPtrScene = new SceneMain();
 	mPtrScene->Initialize(this);
 }
 
@@ -23,7 +23,7 @@ SceneManager::~SceneManager()
 	delete mPtrScene;
 }
 
-void SceneManager::Update(float deltaTime)
+void SceneManager::Update()
 {
 	// Šm”Fˆ—
 	assert(mPtrScene && "m_pScene‚ªnullptr‚Å‚·");

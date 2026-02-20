@@ -6,12 +6,6 @@
 class WireManager;
 class House;
 
-struct HouseData
-{
-	House* house;
-	int wireIndex;
-};
-
 class HouseManager :  public GameObject
 {
 public:
@@ -48,6 +42,24 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// ランダムな住宅を有効にする
+	/// </summary>
+	void EnableRandomHouse();
+
+	/// <summary>
+	/// 一番近い住宅を取得する
+	/// </summary>
+	/// <param name="pos">調べたい座標</param>
+	/// <returns>一番近い住宅のゲームオブジェクト</returns>
+	House* GetNearestHouse(Vector2 pos);
+
+	/// <summary>
+	/// 電線のマネージャーの取得
+	/// </summary>
+	/// <returns>電線のマネージャーのポインタ</returns>
+	WireManager* GetWireManager() const { return mPtrWireManager; }
+
 private:
 
 	/// <summary>
@@ -55,5 +67,5 @@ private:
 	/// </summary>
 	WireManager* mPtrWireManager;
 
-	std::vector<HouseData> mObjHouseList;
+	std::vector<House*> mObjHouseList;
 };

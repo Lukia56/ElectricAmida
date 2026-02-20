@@ -4,6 +4,8 @@
 #include <vector>
 #include "../Collision/Collision2D.h"
 
+class SceneMain;
+
 struct Wire
 {
 	LineSegment line;
@@ -31,7 +33,8 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
-	WireManager(ObjectManager* manager);
+	/// <param name="scene">メインシーンのポインタ</param>
+	WireManager(ObjectManager* manager, SceneMain* scene);
 
 	/// <summary>
 	/// デストラクタ
@@ -61,7 +64,7 @@ public:
 	/// <summary>
 	/// 電線リストに電線を追加する
 	/// </summary>
-	void AddWire(Wire wire);
+	void AddWire(Wire& line);
 
 	/// <summary>
 	/// 電線のリストを取得
@@ -74,6 +77,13 @@ public:
 	/// </summary>
 	/// <returns>固定電線のリスト</returns>
 	WireList GetFixedWireList() const { return mFixedWireList; }
+
+	/// <summary>
+	/// インデックスを指定して電線の有効状態を変更する
+	/// </summary>
+	/// <param name="index">インデックス</param>
+	/// <param name="enable">状態</param>
+	void SetWireEnable(const int index, const bool enable) { mWireList[index].enable = enable; }
 
 private:
 
@@ -91,6 +101,11 @@ private:
 	/// 追加電線の生成
 	/// </summary>
 	void CreateAddWire();
+
+	/// <summary>
+	/// シーンのポインタ
+	/// </summary>
+	SceneMain* mPtrScene;
 
 	/// <summary>
 	/// 電線リストのデータ

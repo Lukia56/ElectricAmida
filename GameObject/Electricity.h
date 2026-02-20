@@ -3,6 +3,8 @@
 #include "GameObject.h"
 
 class WireManager;
+class SceneMain;
+class HouseManager;
 
 class Electricity : public GameObject
 {
@@ -13,7 +15,9 @@ public:
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
 	/// <param name="wireMgr">電線マネージャーのポインタ</param>
-	Electricity(ObjectManager* manager, WireManager* wireMgr);
+	/// <param name="scene">シーンメインのポインタ
+	/// <param name="houseMgr">住宅マネージャーのポインタ</param>
+	Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain* scene, HouseManager* houseMgr);
 
 	/// <summary>
 	/// デストラクタ
@@ -52,7 +56,25 @@ private:
 	/// </summary>
 	void MoveToFixedWire(Vector2& newPos);
 
+	/// <summary>
+	/// 住宅に移動し終わった処理
+	/// </summary>
+	void MovedToHouse();
+
+	/// <summary>
+	/// 電線のマネージャーのポインタ
+	/// </summary>
 	WireManager* mPtrWireManager;
+
+	/// <summary>
+	/// シーンへのポインタ
+	/// </summary>
+	SceneMain* mPtrSceneMain;
+
+	/// <summary>
+	/// 住宅のマネージャーのポインタ
+	/// </summary>
+	HouseManager* mPtrHouseManager;
 
 	/// <summary>
 	/// 電線上の開始点

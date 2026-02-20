@@ -5,6 +5,7 @@
 #include <cassert>
 #include "../System/SceneManager.h"
 #include "../System/InputManager.h"
+#include "../System/Time.h"
 #include "../Utility/Math.h"
 
 namespace
@@ -44,11 +45,14 @@ bool Game::Initialize()
 	// 1Fの経過時間を計算
 	mElapsedTime = static_cast<int>(1.0f / static_cast<float>(mSystemSettingData["fps"]) * 1000000.0f);
 
-	// シーンを作るためにシーンマネージャーを作成
-	mPtrSceneManager = new SceneManager();
-
 	// 入力マネージャーを初期化する
 	InputManager::GetInstance().Initialize();
+
+	// 時間のマネージャーを初期化する
+	Time::GetInstance();
+
+	// シーンを作るためにシーンマネージャーを作成
+	mPtrSceneManager = new SceneManager();
 	
 	return true;
 }
@@ -90,10 +94,11 @@ void Game::ProcessUpdate()
 	{}
 
 	// デルタタイムを計算
-	float deltaTime = CalculateDeltaTime();
+	//float deltaTime = CalculateDeltaTime();
+	Time::GetInstance().CalculateDeltaTime(mTime);
 	mTime = GetNowHiPerformanceCount();
 	
-	mPtrSceneManager->Update(deltaTime);
+	mPtrSceneManager->Update();
 }
 
 void Game::ProcessOutput()

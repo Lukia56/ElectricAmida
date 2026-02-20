@@ -23,8 +23,7 @@ public:
 	/// <summary>
 	/// シーンの更新処理
 	/// </summary>
-	/// <param name="deltaTime">デルタタイム</param>
-	void Update(float deltaTime);
+	void Update();
 	
 	/// <summary>
 	/// シーンの描画処理

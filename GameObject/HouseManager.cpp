@@ -33,27 +33,19 @@ void HouseManager::InitGameObject()
 	{
 		pos = kLeftTopPos + Vector2(0, kHouseDistance * i);
 
-		Wire wire;
-		wire.line.start = {mPtrWireManager->GetFixedWireList()[FixedWire::kLeftIndex].line.start.x, pos.y};
-		wire.line.end = pos;
-		wire.enable = false;
-		mPtrWireManager->AddWire(wire);
-
-		house = new House(GetObjectManager());
+		house = new House(GetObjectManager(), mPtrWireManager);
 		house->SetPosition(pos);
-
-		HouseData data;
-		data.house = house;
-		data.wireIndex = mPtrWireManager->GetWireList().size() - 1;
-		mObjHouseList.emplace_back(data);
+		house->Init();
+		mObjHouseList.emplace_back(house);
 	}
 	for (int i = 0; i < std::floor(kHouseNum / 2.0f); i++)
 	{
-		/*Wire wire;
-		wire.line = LineSegment{};
-		mPtrWireManager->AddWire(wire);
-		house = new House(GetObjectManager(), wire.enable);
-		house->SetPosition(kRightTopPos + Vector2(0, kHouseDistance * i));*/
+		pos = kRightTopPos + Vector2(0, kHouseDistance * i);
+
+		house = new House(GetObjectManager(), mPtrWireManager);
+		house->SetPosition(pos);
+		house->Init();
+		mObjHouseList.emplace_back(house);
 	}
 }
 
@@ -63,13 +55,42 @@ void HouseManager::EndGameObject()
 
 void HouseManager::Update()
 {
-	for (auto& data : mObjHouseList)
-	{
-		bool enable = mPtrWireManager->GetWireList()[data.wireIndex].enable;
-		data.house->SetEnable(enable);
-	}
 }
 
 void HouseManager::Draw()
 {
+}
+
+void HouseManager::EnableRandomHouse()
+{
+	std::vector<House*> houseList;
+
+	for (const auto& house : mObjHouseList)
+	{
+		if (house->IsEnable()) continue;
+
+		houseList.emplace_back(house);
+	}
+
+	if (houseList.size() == 0) return;
+
+	int random = GetRand(houseList.size() - 1);
+	houseList[random]->SetWireActive();
+}
+
+House* HouseManager::GetNearestHouse(Vector2 pos)
+{
+	float dist = 999999;
+	House* nearestHouse = nullptr;
+
+	for (auto& house : mObjHouseList)
+	{
+		if (Vector2::Length(house->GetPosition() - pos) < dist)
+		{
+			dist = Vector2::Length(house->GetPosition() - pos);
+			nearestHouse = house;
+		}
+	}
+
+	return nearestHouse;
 }

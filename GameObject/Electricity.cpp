@@ -3,16 +3,22 @@
 #include "../Utility/Vector.h"
 #include "../Utility/Color.h"
 #include "../GameObject/WireManager.h"
+#include "../GameObject/HouseManager.h"
+#include "../GameObject/House.h"
+#include "../Scene/SceneMain.h"
+#include "../System/Time.h"
 #include <cassert>
 
 namespace
 {
-	constexpr float kInitSpeed = 10.0f;
+	constexpr float kInitSpeed = 600.0f;
 }
 
-Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr) :
+Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain* scene, HouseManager* houseMgr) :
 	GameObject(manager),
 	mPtrWireManager(wireMgr),
+	mPtrSceneMain(scene),
+	mPtrHouseManager(houseMgr),
 	mSpeed(kInitSpeed)
 {
 }
@@ -41,7 +47,7 @@ void Electricity::Update()
 	Vector2 vect = mEndPos - mStartPos;
 	vect = Vector2::Normalize(vect);
 
-	const Vector2& speed = vect * mSpeed;
+	const Vector2& speed = vect * mSpeed * Time::GetInstance().GetDeltaTime();
 
 	Vector2 newPos = GetPosition() + speed;
 
@@ -76,6 +82,9 @@ void Electricity::MoveToOtherWire(Vector2& newPos)
 	// すべての電線を調べて移動前と移動後の範囲内にある電線を取得する
 	for (const auto& wire : wires)
 	{
+		// 電線が無効ならスキップ
+		if (!wire.enable) continue;
+
 		// 移動開始点を取得
 		// 左の固定電線にいるならstartを開始点にする
 		// 右の固定電線にいるならendを開始点にする
@@ -88,8 +97,6 @@ void Electricity::MoveToOtherWire(Vector2& newPos)
 		if (startPoint.y <= GetPosition().y) continue;
 		// 終点より外側ならスキップ
 		if (startPoint.y > newPos.y) continue;
-		// 電線が無効ならスキップ
-		if (!wire.enable) continue;
 
 		// 移動範囲内にあるためリストに追加
 		canMoveWires.emplace_back(wire);
@@ -121,26 +128,49 @@ void Electricity::MoveToOtherWire(Vector2& newPos)
 
 void Electricity::MoveToFixedWire(Vector2& newPos)
 {
-	// 追加電線から固定電線に移動する
-	if (Vector2::Length(mEndPos - mStartPos) <= Vector2::Length(newPos - mStartPos))
+	// 電線の移動が終わったなら
+	if (Vector2::Length(mEndPos - mStartPos) > Vector2::Length(newPos - mStartPos)) return;
+	
+	// 現在の電線の終点に移動
+	newPos.y = mEndPos.y;
+
+	// 固定電線のリストをキャッシュ
+	const WireList& wires = mPtrWireManager->GetFixedWireList();
+
+	// 左の固定電線かどうか
+	const bool isLeft = (newPos.x <= wires[FixedWire::kLeftIndex].line.start.x);
+
+	// 終点が固定電線に繋がっていないなら
+	if ((isLeft && mEndPos.x != wires[FixedWire::kLeftIndex].line.start.x)
+	|| (!isLeft && mEndPos.x != wires[FixedWire::kRightIndex].line.start.x))
 	{
-		// 現在の電線の終点に移動
-		newPos.y = mEndPos.y;
-
-		// 固定電線のリストをキャッシュ
-		const WireList& wires = mPtrWireManager->GetFixedWireList();
-
-		// 左の固定電線かどうか
-		const bool isLeft = (newPos.x <= wires[FixedWire::kLeftIndex].line.start.x);
-
-		// 移動先の固定電線の添え字
-		const int index = isLeft ? FixedWire::kLeftIndex : FixedWire::kRightIndex;
-
-		// 開始点と終点を固定電線に設定
-		mStartPos = wires[index].line.start;
-		mEndPos = wires[index].line.end;
-
-		// 座標更新
-		newPos.x = mStartPos.x;
+		MovedToHouse();
 	}
+
+	// 移動先の固定電線の添え字
+	const int index = isLeft ? FixedWire::kLeftIndex : FixedWire::kRightIndex;
+
+	// 開始点と終点を固定電線に設定
+	mStartPos = wires[index].line.start;
+	mEndPos = wires[index].line.end;
+
+	// 座標更新
+	newPos.x = mStartPos.x;
+
+	if (newPos.y == wires[index].line.end.y)
+	{
+		SetState(State::EDead);
+	}
+}
+
+void Electricity::MovedToHouse()
+{
+	if (auto* house = mPtrHouseManager->GetNearestHouse(GetPosition()))
+	{
+		house->SetActive();
+	}
+
+	mPtrSceneMain->SuccessToDelivery();
+
+	SetState(State::EDead);
 }
