@@ -144,6 +144,8 @@
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GameObject\House.cpp" />
     <ClCompile Include="GameObject\HouseManager.cpp" />
+    <ClCompile Include="Scene\SceneGameClear.cpp" />
+    <ClCompile Include="Scene\SceneGameOver.cpp" />
     <ClCompile Include="Scene\SceneMain.cpp" />
     <ClCompile Include="System\Easing.cpp" />
     <ClCompile Include="System\InputDevice\InputDeviceBase.cpp" />
@@ -174,6 +176,8 @@
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GameObject\House.h" />
     <ClInclude Include="GameObject\HouseManager.h" />
+    <ClInclude Include="Scene\SceneGameClear.h" />
+    <ClInclude Include="Scene\SceneGameOver.h" />
     <ClInclude Include="Scene\SceneMain.h" />
     <ClInclude Include="System\Easing.h" />
     <ClInclude Include="System\InputDevice\InputDeviceBase.h" />

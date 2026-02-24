@@ -23,4 +23,6 @@ namespace Color
 	const int kMagenta = 0xff00ff;
 	// ’ƒF
 	const int kBrown = 0x612928;
+	// ŠDF
+	const int kGray = 0x808080;
 }

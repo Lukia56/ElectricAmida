@@ -56,7 +56,7 @@ void House::Update()
 
 void House::Draw()
 {
-	int color = mIsEnabled ? Color::kYellow : Color::kRed;
+	int color = mIsEnabled ? Color::kYellow : Color::kGray;
 
 	const auto& pos = GetPosition();
 	DrawBox(pos.x - 40, pos.y - 40, pos.x + 40, pos.y + 40, color, true);

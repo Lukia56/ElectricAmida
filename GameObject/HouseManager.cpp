@@ -8,8 +8,8 @@ namespace
 {
 	int kHouseNum = 10;
 
-	Vector2 kLeftTopPos = { 150, 50 };
-	Vector2 kRightTopPos = { 810, 50 };
+	Vector2 kLeftTopPos = { 250, 80 };
+	Vector2 kRightTopPos = { 710, 80 };
 
 	// ‰Æ‚ÌŠÔ‚Ì‹——£
 	float kHouseDistance = 100.0f;
@@ -76,6 +76,11 @@ void HouseManager::EnableRandomHouse()
 
 	int random = GetRand(houseList.size() - 1);
 	houseList[random]->SetWireActive();
+}
+
+int HouseManager::GetHouseNum()
+{
+	return kHouseNum;
 }
 
 House* HouseManager::GetNearestHouse(Vector2 pos)

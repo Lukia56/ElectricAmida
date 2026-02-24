@@ -16,6 +16,7 @@ namespace Input
 		Down,
 		Left,
 		Right,
+		Confirm,
 		Draw,
 		Length
 	};

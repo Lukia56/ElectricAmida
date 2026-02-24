@@ -48,6 +48,12 @@ public:
 	void EnableRandomHouse();
 
 	/// <summary>
+	/// ‰Æ‚Ì”‚ğæ“¾
+	/// </summary>
+	/// <returns></returns>
+	int GetHouseNum();
+
+	/// <summary>
 	/// ˆê”Ô‹ß‚¢Z‘î‚ğæ“¾‚·‚é
 	/// </summary>
 	/// <param name="pos">’²‚×‚½‚¢À•W</param>

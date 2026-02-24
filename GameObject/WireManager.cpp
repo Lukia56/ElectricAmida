@@ -8,12 +8,12 @@
 namespace
 {
 	// ‰E‘¤‚ÌŒÅ’è“dü‚Ìü•ª
-	const Vector2 kLeftFixWireStart = { 320, 10 };
-	const Vector2 kLeftFixWireEnd = { 320, 530 };
+	const Vector2 kLeftFixWireStart = { 400, 10 };
+	const Vector2 kLeftFixWireEnd = { 400, 530 };
 
 	// ¶‘¤‚ÌŒÅ’è“dü‚Ìü•ª
-	const Vector2 kRightFixWireStart = { 640, 10 };
-	const Vector2 kRightFixWireEnd = { 640, 530 };
+	const Vector2 kRightFixWireStart = { 560, 10 };
+	const Vector2 kRightFixWireEnd = { 560, 530 };
 }
 
 WireManager::WireManager(ObjectManager* manager, SceneMain* scene) :

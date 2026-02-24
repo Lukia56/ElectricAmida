@@ -6,12 +6,14 @@
 #include "../GameObject/HouseManager.h"
 #include "../GameObject/House.h"
 #include "../Scene/SceneMain.h"
+#include "../Scene/SceneGameOver.h"
+#include "../Scene/Fader.h"
 #include "../System/Time.h"
 #include <cassert>
 
 namespace
 {
-	constexpr float kInitSpeed = 600.0f;
+	constexpr float kInitSpeed = 300.0f;
 }
 
 Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain* scene, HouseManager* houseMgr) :
@@ -29,12 +31,14 @@ Electricity::~Electricity()
 
 void Electricity::InitGameObject()
 {
+	const int isLeft = GetRand(1);
+
 	// 固定電線リストをキャッシュ
 	const WireList& wires = mPtrWireManager->GetFixedWireList();
 
 	// 固定電線を開始点にする
-	mStartPos = wires[0].line.start;
-	mEndPos = wires[0].line.end;
+	mStartPos = wires[isLeft].line.start;
+	mEndPos = wires[isLeft].line.end;
 	SetPosition(mStartPos);
 }
 
@@ -145,6 +149,8 @@ void Electricity::MoveToFixedWire(Vector2& newPos)
 	|| (!isLeft && mEndPos.x != wires[FixedWire::kRightIndex].line.start.x))
 	{
 		MovedToHouse();
+
+		return;
 	}
 
 	// 移動先の固定電線の添え字
@@ -157,9 +163,12 @@ void Electricity::MoveToFixedWire(Vector2& newPos)
 	// 座標更新
 	newPos.x = mStartPos.x;
 
+	// 固定電線の終点まで移動したら
 	if (newPos.y == wires[index].line.end.y)
 	{
 		SetState(State::EDead);
+
+		mPtrSceneMain->GetFader()->StartFadeOut<SceneGameOver>();
 	}
 }
 

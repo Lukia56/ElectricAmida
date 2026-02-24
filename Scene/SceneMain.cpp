@@ -1,6 +1,7 @@
 #include "SceneMain.h"
 #include <DxLib.h>
 #include "SceneBase.h"
+#include "../Scene/SceneGameClear.h"
 #include "../Scene/Fader.h"
 #include "../Utility/Color.h"
 #include "../System/InputManager.h"
@@ -52,26 +53,33 @@ void SceneMain::EndScene()
 
 SceneBase* SceneMain::UpdateScene()
 {
-	if (InputManager::GetInstance().IsPressed(Input::Action::Down))
+	if (mRemainTime <= kLimitTime - 1 && !mObjElectricity)
 	{
 		mObjElectricity = new Electricity(GetObjectManager(), mObjWireManager, this, mObjHouseManager);
 		mObjElectricity->Init();
 	}
-	if (InputManager::GetInstance().IsPressed(Input::Action::Right))
-	{
-		mObjHouseManager->EnableRandomHouse();
-	}
 
 	mRemainTime -= Time::GetInstance().GetDeltaTime();
+
+	// Žc‚èŽžŠÔ‚ª–³‚­‚È‚Á‚½‚ç
+	if (mRemainTime <= 0)
+	{
+		GetFader()->StartFadeOut<SceneGameClear>();
+	}
+	// ‚·‚×‚Ä‚ÌZ‘î‚É“d‹C‚ð“Í‚¯I‚í‚Á‚½‚ç
+	if (mSuccessNum == mObjHouseManager->GetHouseNum())
+	{
+		GetFader()->StartFadeOut<SceneGameClear>();
+	}
 
 	return this;
 }
 
 void SceneMain::DrawScene()
 {
-	printfDx("¬Œ÷‰ñ” = %d", mSuccessNum);
-	printfDx("Žc‚èŽžŠÔ = %f", mRemainTime);
-	printfDx("—\ŽZ = %d", mBudget);
+	printfDx("¬Œ÷‰ñ” = %d\n", mSuccessNum);
+	printfDx("Žc‚èŽžŠÔ = %f\n", mRemainTime);
+	printfDx("—\ŽZ = %d\n", mBudget);
 }
 
 void SceneMain::SuccessToDelivery()
@@ -79,4 +87,6 @@ void SceneMain::SuccessToDelivery()
 	mSuccessNum++;
 
 	mObjHouseManager->EnableRandomHouse();
+
+	mObjElectricity = nullptr;
 }
