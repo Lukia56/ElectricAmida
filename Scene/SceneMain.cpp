@@ -9,6 +9,7 @@
 #include "../GameObject/WireManager.h"
 #include "../GameObject/Electricity.h"
 #include "../GameObject/HouseManager.h"
+#include "../GameObject/GameUI.h"
 
 namespace
 {
@@ -25,7 +26,8 @@ SceneMain::SceneMain() :
 	mObjHouseManager(nullptr),
 	mSuccessNum(0),
 	mRemainTime(kLimitTime),
-	mBudget(kBudget)
+	mBudget(kBudget),
+	mGameUI(nullptr)
 {
 }
 
@@ -42,6 +44,9 @@ void SceneMain::InitializeScene()
 	mObjHouseManager->Init();
 
 	mObjHouseManager->EnableRandomHouse();
+
+	mGameUI = new GameUI();
+	mGameUI->Init(this);
 }
 
 void SceneMain::EndScene()
@@ -49,6 +54,10 @@ void SceneMain::EndScene()
 	mObjElectricity = nullptr;
 	mObjWireManager = nullptr;
 	mObjHouseManager = nullptr;
+
+	mGameUI->End();
+	delete mGameUI;
+	mGameUI = nullptr;
 }
 
 SceneBase* SceneMain::UpdateScene()
@@ -80,6 +89,8 @@ void SceneMain::DrawScene()
 	printfDx("¬Œ÷‰ñ” = %d\n", mSuccessNum);
 	printfDx("Žc‚èŽžŠÔ = %f\n", mRemainTime);
 	printfDx("—\ŽZ = %d\n", mBudget);
+
+	mGameUI->Draw();
 }
 
 void SceneMain::SuccessToDelivery()

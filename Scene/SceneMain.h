@@ -9,6 +9,7 @@
 class WireManager;
 class Electricity;
 class HouseManager;
+class GameUI;
 
 class SceneMain : public SceneBase
 {
@@ -55,11 +56,22 @@ public:
 	void SuccessToDelivery();
 	
 	/// <summary>
-	/// —\Z‚ğæ“¾
+	/// ¬Œ÷”‚ğæ“¾‚·‚é
+	/// </summary>
+	/// <returns></returns>
+	int GetSuccessNum() const { return mSuccessNum; }
+
+	/// <summary>
+	/// c‚èŠÔ‚ğæ“¾‚·‚é
+	/// </summary>
+	/// <returns></returns>
+	int GetRemainTime() const { return mRemainTime; }
+
+	/// <summary>
+	/// —\Z‚ğæ“¾‚·‚é
 	/// </summary>
 	/// <returns>Œ»İ‚Ì—\Z</returns>
 	int GetBudget() const { return mBudget; }
-
 	/// <summary>
 	/// —\Z‚ğİ’è
 	/// </summary>
@@ -97,4 +109,6 @@ private:
 	/// “dü‚ğˆø‚­—\Z
 	/// </summary>
 	int mBudget;
+
+	GameUI* mGameUI;
 };
