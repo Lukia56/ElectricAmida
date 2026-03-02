@@ -53,6 +53,8 @@ public:
 	/// <returns></returns>
 	int GetHouseNum();
 
+	std::vector<House*> GetHouseObjectList() const { return mObjHouseList; }
+
 	/// <summary>
 	/// 一番近い住宅を取得する
 	/// </summary>
@@ -66,6 +68,8 @@ public:
 	/// <returns>電線のマネージャーのポインタ</returns>
 	WireManager* GetWireManager() const { return mPtrWireManager; }
 
+	int GetEnableHouseIndex() const { return mEnabledHouse; };
+
 private:
 
 	/// <summary>
@@ -74,4 +78,6 @@ private:
 	WireManager* mPtrWireManager;
 
 	std::vector<House*> mObjHouseList;
+
+	int mEnabledHouse;
 };

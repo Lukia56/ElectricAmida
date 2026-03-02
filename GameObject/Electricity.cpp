@@ -14,6 +14,8 @@
 namespace
 {
 	constexpr float kInitSpeed = 300.0f;
+
+	constexpr int kScreenCenterX = 320;
 }
 
 Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain* scene, HouseManager* houseMgr) :
@@ -21,7 +23,8 @@ Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain
 	mPtrWireManager(wireMgr),
 	mPtrSceneMain(scene),
 	mPtrHouseManager(houseMgr),
-	mSpeed(kInitSpeed)
+	mSpeed(kInitSpeed),
+	mIsStart(false)
 {
 }
 
@@ -31,7 +34,8 @@ Electricity::~Electricity()
 
 void Electricity::InitGameObject()
 {
-	const int isLeft = GetRand(1);
+	const auto& houses = mPtrHouseManager->GetHouseObjectList();
+	const int isLeft = houses[mPtrHouseManager->GetEnableHouseIndex()]->GetPosition().x < kScreenCenterX;
 
 	// 固定電線リストをキャッシュ
 	const WireList& wires = mPtrWireManager->GetFixedWireList();
@@ -48,6 +52,8 @@ void Electricity::EndGameObject()
 
 void Electricity::Update()
 {
+	if (!mIsStart) return;
+
 	Vector2 vect = mEndPos - mStartPos;
 	vect = Vector2::Normalize(vect);
 

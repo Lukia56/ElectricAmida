@@ -10,6 +10,7 @@ class WireManager;
 class Electricity;
 class HouseManager;
 class GameUI;
+class PauseManager;
 
 class SceneMain : public SceneBase
 {
@@ -111,4 +112,6 @@ private:
 	int mBudget;
 
 	GameUI* mGameUI;
+
+	PauseManager* mPauseManager;
 };

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <math.h>
+#include <cmath>
 #include <DxLib.h>
+#include <cassert>
 
 /// <summary>
 /// 2次元ベクトルを扱うクラス
@@ -64,23 +65,12 @@ public:
 	}
 
 	/// <summary>
-	/// ベクトル同士の各コンポーネントを乗算
-	/// </summary>
-	/// <param name="a">左</param>
-	/// <param name="b">右</param>
-	/// <returns>乗算結果</returns>
-	friend Vector2 operator*(const Vector2& a, const Vector2& b)
-	{
-		return Vector2(a.x * b.x, a.y * b.y);
-	}
-
-	/// <summary>
 	/// ベクトルとスカラーを乗算
 	/// </summary>
 	/// <param name="v">ベクトル</param>
 	/// <param name="s">スカラー</param>
 	/// <returns>乗算結果</returns>
-	friend Vector2 operator*(const Vector2& v, const float& s)
+	friend Vector2 operator*(const Vector2& v, const float s)
 	{
 		return Vector2(v.x * s, v.y * s);
 	}
@@ -91,7 +81,7 @@ public:
 	/// <param name="s">ベクトル</param>
 	/// <param name="v">スカラー</param>
 	/// <returns>乗算結果</returns>
-	friend Vector2 operator*(const float& s, const Vector2& v)
+	friend Vector2 operator*(const float s, const Vector2& v)
 	{
 		return Vector2(v.x * s, v.y * s);
 	}
@@ -102,19 +92,16 @@ public:
 	/// <param name="v">ベクトル</param>
 	/// <param name="s">スカラー</param>
 	/// <returns>除算結果</returns>
-	friend Vector2 operator/(const Vector2& v, const float& s)
+	friend Vector2 operator/(const Vector2& v, const float s)
 	{
+		if (s == 0.0f)
+		{
+			assert(false, "ゼロ除算が発生しました。長さ0のベクトルを返します");
+			return Vector2::Zero;
+		}
+
 		return Vector2(v.x / s, v.y / s);
 	}
-
-	/// <summary>
-	/// スカラーをベクトルで除算
-	/// 明示的に削除
-	/// </summary>
-	/// <param name="s">スカラー</param>
-	/// <param name="v">ベクトル</param>
-	/// <returns></returns>
-	friend Vector2 operator/(const float& s, const Vector2& v) = delete;
 
 	/// <summary>
 	/// コピー代入
@@ -158,22 +145,9 @@ public:
 	/// <summary>
 	/// 乗算代入
 	/// </summary>
-	/// <param name="v">ベクトル</param>
-	/// <returns>自身の実体</returns>
-	Vector2& operator*=(const Vector2& v)
-	{
-		x *= v.x;
-		y *= v.y;
-
-		return *this;
-	}
-
-	/// <summary>
-	/// 乗算代入
-	/// </summary>
 	/// <param name="s">スカラー</param>
 	/// <returns>自身の実体</returns>
-	Vector2& operator*=(const float& s)
+	Vector2& operator*=(const float s)
 	{
 		x *= s;
 		y *= s;
@@ -186,8 +160,14 @@ public:
 	/// </summary>
 	/// <param name="s">スカラー</param>
 	/// <returns>自身の実体</returns>
-	Vector2& operator/=(const float& s)
+	Vector2& operator/=(const float s)
 	{
+		if (s == 0.0f)
+		{
+			assert(false, "ゼロ除算が発生しました。値を変更せずに返します");
+			return *this;
+		}
+
 		x /= s;
 		y /= s;
 
@@ -412,17 +392,14 @@ public:
 	/// <returns>除算結果</returns>
 	friend Vector3 operator/(const Vector3& v, const float& s)
 	{
+		if (s == 0.0f)
+		{
+			assert(false, "ゼロ除算が発生しました。長さ0のベクトルを返します");
+			return Vector3::Zero;
+		}
+
 		return Vector3(v.x / s, v.y / s, v.z / s);
 	}
-
-	/// <summary>
-	/// スカラーをベクトルで除算
-	/// 明示的に削除
-	/// </summary>
-	/// <param name="s">スカラー</param>
-	/// <param name="v">ベクトル</param>
-	/// <returns></returns>
-	friend Vector3 operator/(const float& s, const Vector3& v) = delete;
 
 	/// <summary>
 	/// 符号を反転させる
@@ -514,6 +491,12 @@ public:
 	/// <returns>自身の実体</returns>
 	Vector3& operator/=(const float& s)
 	{
+		if (s == 0.0f)
+		{
+			assert(false, "ゼロ除算が発生しました。値を変更せずに返します");
+			return *this;
+		}
+
 		x /= s;
 		y /= s;
 		z /= s;

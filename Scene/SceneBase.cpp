@@ -52,10 +52,10 @@ SceneBase* SceneBase::Update()
 
 void SceneBase::Draw()
 {
+	mPtrObjectManager->Draw();
+
 	// シーンの描画処理
 	DrawScene();
-
-	mPtrObjectManager->Draw();
 
 	// フェードインアウトのフィルター処理
 	mPtrFader->Draw();

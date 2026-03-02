@@ -6,6 +6,7 @@
 #include "../Utility/Color.h"
 #include "../System/InputManager.h"
 #include "../System/Time.h"
+#include "../System/PauseManager.h"
 #include "../GameObject/WireManager.h"
 #include "../GameObject/Electricity.h"
 #include "../GameObject/HouseManager.h"
@@ -14,7 +15,7 @@
 namespace
 {
 	// ƒQ[ƒ€‚Ì§ŒÀŽžŠÔ
-	constexpr float kLimitTime = 30.0f;
+	constexpr float kLimitTime = 9930.0f;
 
 	// “dü‚Ì‰Šú—\ŽZ
 	constexpr int kBudget = 10;
@@ -27,7 +28,8 @@ SceneMain::SceneMain() :
 	mSuccessNum(0),
 	mRemainTime(kLimitTime),
 	mBudget(kBudget),
-	mGameUI(nullptr)
+	mGameUI(nullptr),
+	mPauseManager(nullptr)
 {
 }
 
@@ -47,6 +49,11 @@ void SceneMain::InitializeScene()
 
 	mGameUI = new GameUI();
 	mGameUI->Init(this);
+
+	mObjElectricity = new Electricity(GetObjectManager(), mObjWireManager, this, mObjHouseManager);
+	mObjElectricity->Init();
+
+	mPauseManager = new PauseManager(GetObjectManager());
 }
 
 void SceneMain::EndScene()
@@ -58,14 +65,16 @@ void SceneMain::EndScene()
 	mGameUI->End();
 	delete mGameUI;
 	mGameUI = nullptr;
+
+	delete mPauseManager;
+	mPauseManager = nullptr;
 }
 
 SceneBase* SceneMain::UpdateScene()
 {
-	if (mRemainTime <= kLimitTime - 1 && !mObjElectricity)
+	if (mObjElectricity && InputManager::GetInstance().IsPressed(Input::Action::Confirm))
 	{
-		mObjElectricity = new Electricity(GetObjectManager(), mObjWireManager, this, mObjHouseManager);
-		mObjElectricity->Init();
+		mObjElectricity->StartMove();
 	}
 
 	mRemainTime -= Time::GetInstance().GetDeltaTime();
@@ -90,7 +99,12 @@ void SceneMain::DrawScene()
 	printfDx("Žc‚èŽžŠÔ = %f\n", mRemainTime);
 	printfDx("—\ŽZ = %d\n", mBudget);
 
+	printfDx("%d\n", InputManager::GetInstance().IsPressed(Input::Action::Confirm));
+
 	mGameUI->Draw();
+
+	mPauseManager->Update();
+	mPauseManager->Draw();
 }
 
 void SceneMain::SuccessToDelivery()
@@ -99,5 +113,6 @@ void SceneMain::SuccessToDelivery()
 
 	mObjHouseManager->EnableRandomHouse();
 
-	mObjElectricity = nullptr;
+	mObjElectricity = new Electricity(GetObjectManager(), mObjWireManager, this, mObjHouseManager);
+	mObjElectricity->Init();
 }

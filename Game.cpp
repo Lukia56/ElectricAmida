@@ -81,7 +81,7 @@ void Game::ProcessInput()
 {
 	InputManager::GetInstance().Update();
 
-	if (CheckHitKey(KEY_INPUT_ESCAPE))
+	if (CheckHitKey(KEY_INPUT_TAB))
 	{
 		mIsRunning = false;
 	}

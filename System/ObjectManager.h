@@ -54,6 +54,10 @@ public:
 	/// <param name="gameObject">ゲームオブジェクトのポインタ</param>
 	void RemoveGameObject(GameObject* gameObject);
 
+	void ActiveAllGameObject();
+
+	void DeactiveAllGameObject();
+
 private:
 
 	/// <summary>

@@ -64,8 +64,8 @@ void InputManager::Initialize()
 	BindButton(Input::Action::Right, "Keyboard", "D");
 	BindButton(Input::Action::Right, "Mouse", "RClick");
 	BindButton(Input::Action::Confirm, "Keyboard", "Space");
-	BindButton(Input::Action::Confirm, "Mouse", "LClick");
 	BindButton(Input::Action::Draw, "Mouse", "LClick");
+	BindButton(Input::Action::Pause, "Keyboard", "Escape");
 }
 
 void InputManager::Update()

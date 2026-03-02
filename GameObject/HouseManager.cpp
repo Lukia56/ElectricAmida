@@ -17,7 +17,8 @@ namespace
 
 HouseManager::HouseManager(ObjectManager* manager, WireManager* wireMgr) :
 	GameObject(manager),
-	mPtrWireManager(wireMgr)
+	mPtrWireManager(wireMgr),
+	mEnabledHouse(false)
 {
 }
 
@@ -76,6 +77,8 @@ void HouseManager::EnableRandomHouse()
 
 	int random = GetRand(houseList.size() - 1);
 	houseList[random]->SetWireActive();
+	auto iter = std::find(mObjHouseList.begin(), mObjHouseList.end(), houseList[random]);
+	mEnabledHouse = std::distance(mObjHouseList.begin(), iter);
 }
 
 int HouseManager::GetHouseNum()

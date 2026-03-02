@@ -18,6 +18,7 @@ namespace Input
 		Right,
 		Confirm,
 		Draw,
+		Pause,
 		Length
 	};
 

@@ -44,6 +44,8 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	void StartMove() { mIsStart = true; }
+
 private:
 
 	/// <summary>
@@ -89,4 +91,6 @@ private:
 	/// ˆÚ“®‘¬“x
 	/// </summary>
 	float mSpeed;
+
+	bool mIsStart;
 };

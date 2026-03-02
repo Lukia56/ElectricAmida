@@ -81,6 +81,26 @@ void ObjectManager::RemoveGameObject(GameObject* gameObject)
 	}
 }
 
+void ObjectManager::ActiveAllGameObject()
+{
+	for (const auto& obj : m_gameObjects)
+	{
+		if (obj->GetState() == GameObject::State::EDead) continue;
+
+		obj->SetState(GameObject::State::EActive);
+	}
+}
+
+void ObjectManager::DeactiveAllGameObject()
+{
+	for (const auto& obj : m_gameObjects)
+	{
+		if (obj->GetState() == GameObject::State::EDead) continue;
+
+		obj->SetState(GameObject::State::EDeactive);
+	}
+}
+
 void ObjectManager::UpdateGameObjects()
 {
 	// ゲームオブジェクトを更新する
