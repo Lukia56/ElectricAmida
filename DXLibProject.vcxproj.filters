@@ -122,6 +122,9 @@
     <Image Include="Resources\Image\IconTimer.png">
       <Filter>リソース ファイル</Filter>
     </Image>
+    <Image Include="Resources\Image\Logo.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">

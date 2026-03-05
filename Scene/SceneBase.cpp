@@ -35,8 +35,10 @@ void SceneBase::End()
 {
 	mPtrObjectManager->End();
 	delete mPtrObjectManager;
+	mPtrObjectManager = nullptr;
 
 	delete mPtrFader;
+	mPtrFader = nullptr;
 
 	EndScene();
 }

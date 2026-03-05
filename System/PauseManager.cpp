@@ -9,7 +9,7 @@ namespace
 	enum Choice
 	{
 		EndPause,
-		Settings,
+		Retry,
 		Quit,
 		Max
 	};
@@ -94,10 +94,21 @@ void PauseManager::OnPause()
 	{
 		switch (mMenuChoice)
 		{
-		// ポーズ終了
 		case Choice::EndPause:
 
 			TogglePause();
+
+			break;
+
+		case Choice::Retry:
+
+
+
+			break;
+
+		case Choice::Quit:
+
+
 
 			break;
 		}

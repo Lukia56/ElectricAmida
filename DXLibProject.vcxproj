@@ -176,6 +176,7 @@
     <Image Include="Resources\Image\IconLightBulb.png" />
     <Image Include="Resources\Image\IconMoney.png" />
     <Image Include="Resources\Image\IconTimer.png" />
+    <Image Include="Resources\Image\Logo.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision\Collision2D.h" />

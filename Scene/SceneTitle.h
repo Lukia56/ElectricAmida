@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SceneBase.h"
+#include "../Utility/Vector.h"
 
 /// <summary>
 /// タイトル画面のシーン
@@ -41,4 +42,12 @@ public:
 	/// 描画
 	/// </summary>
 	void DrawScene() override;
+
+private:
+
+	int mGraphLogo;
+
+	int mMenuChoice;
+
+	Vector2 mArrowPos;
 };
