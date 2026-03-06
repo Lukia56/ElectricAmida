@@ -15,7 +15,7 @@ namespace
 {
 	constexpr float kInitSpeed = 300.0f;
 
-	constexpr int kScreenCenterX = 320;
+	constexpr int kScreenCenterX = 240;
 }
 
 Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain* scene, HouseManager* houseMgr) :

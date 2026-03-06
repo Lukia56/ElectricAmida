@@ -38,6 +38,11 @@ public:
 	void Draw();
 
 	/// <summary>
+	/// ImGui‚Ì•`‰æˆ—
+	/// </summary>
+	void DrawImGui();
+
+	/// <summary>
 	/// Œãˆ—
 	/// </summary>
 	void End();

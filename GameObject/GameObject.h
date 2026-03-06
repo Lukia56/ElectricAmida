@@ -88,6 +88,11 @@ public:
 	virtual void PostDraw() {};
 
 	/// <summary>
+	/// ImGuiの描画処理
+	/// </summary>
+	virtual void DrawImGui() {};
+
+	/// <summary>
 	/// オブジェクトマネージャーのゲッター
 	/// </summary>
 	/// <returns>オブジェクトマネージャーのポインタ</returns>

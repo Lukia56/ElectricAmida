@@ -37,6 +37,14 @@ void ObjectManager::Draw()
 	}
 }
 
+void ObjectManager::DrawImGui()
+{
+	for (const auto& obj : m_gameObjects)
+	{
+		obj->RunProcess([&]() { return obj->DrawImGui(); });
+	}
+}
+
 void ObjectManager::End()
 {
 	// ゲームオブジェクトをすべて削除する

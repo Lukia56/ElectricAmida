@@ -6,6 +6,7 @@
 #include "../System/SceneManager.h"
 #include "../System/InputManager.h"
 #include "../System/Time.h"
+#include "../System/ImGuiRenderer.h"
 #include "../Utility/Math.h"
 
 namespace
@@ -21,7 +22,8 @@ Game::Game() :
 	mIsRunning(true),
 	mTime(0),
 	mElapsedTime(0),
-	mPtrSceneManager(nullptr)
+	mPtrSceneManager(nullptr),
+	mImGuiRenderer(nullptr)
 {
 }
 
@@ -53,7 +55,11 @@ bool Game::Initialize()
 
 	// シーンを作るためにシーンマネージャーを作成
 	mPtrSceneManager = new SceneManager();
-	
+
+	// ImGuiを描画するために作成
+	mImGuiRenderer = new ImGuiRenderer();
+	mImGuiRenderer->Initialize();
+
 	return true;
 }
 
@@ -69,6 +75,12 @@ void Game::GameLoop()
 
 void Game::Finalize()
 {
+	if (mImGuiRenderer)
+	{
+		mImGuiRenderer->End();
+		delete mImGuiRenderer;
+	}
+
 	if (mPtrSceneManager)
 	{
 		delete mPtrSceneManager;
@@ -108,7 +120,20 @@ void Game::ProcessOutput()
 	// デバッグ用文字列を消す
 	clsDx();
 
+	// DxLibの描画処理
 	mPtrSceneManager->Draw();
+
+	// DxLibの描画関数で描画したものはScreenFlipなどを使用した際に一気に描画するため
+	// ImGuiと描画順序で問題を起こさないために、ここで強制描画
+	RenderVertex();
+
+#ifdef _DEBUG
+	// ImGuiの描画処理
+	mImGuiRenderer->Draw([this]()
+		{
+			mPtrSceneManager->DrawImGui();
+		});
+#endif
 
 	// 裏画面を表画面に反映する
 	ScreenFlip();

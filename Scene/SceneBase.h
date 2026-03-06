@@ -73,6 +73,16 @@ public:
 	virtual void DrawScene() = 0;
 
 	/// <summary>
+	/// ImGuiの描画処理
+	/// </summary>
+	void DrawImGui();
+
+	/// <summary>
+	/// シーンのImGuiの描画処理
+	/// </summary>
+	virtual void DrawSceneImGui() {};
+
+	/// <summary>
 	/// フェーダーのゲッター
 	/// </summary>
 	/// <returns>フェーダーのポインタ</returns>

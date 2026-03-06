@@ -4,6 +4,7 @@
 #include <nlohmann/json.hpp>
 
 class SceneManager;
+class ImGuiRenderer;
 
 using json = nlohmann::json;
 
@@ -105,4 +106,9 @@ private:
 	/// シーンマネージャーのポインタ
 	/// </summary>
 	SceneManager* mPtrSceneManager;
+
+	/// <summary>
+	/// ImGuiのレンダラー
+	/// </summary>
+	ImGuiRenderer* mImGuiRenderer;
 };

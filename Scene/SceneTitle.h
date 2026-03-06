@@ -1,7 +1,11 @@
 #pragma once
 
 #include "SceneBase.h"
+#include <array>
+#include <memory>
 #include "../Utility/Vector.h"
+
+class Tween;
 
 /// <summary>
 /// タイトル画面のシーン
@@ -43,11 +47,22 @@ public:
 	/// </summary>
 	void DrawScene() override;
 
+	/// <summary>
+	/// ImGuiの描画
+	/// </summary>
+	void DrawSceneImGui() override;
+
 private:
+
+	void UpdateButtonPos();
 
 	int mGraphLogo;
 
+	std::array<int, 3> mGraphButton;
+
+	std::array<Vector2, 3> mButtonPos;
+
 	int mMenuChoice;
 
-	Vector2 mArrowPos;
+	std::unique_ptr<Tween> mTween;
 };

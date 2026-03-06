@@ -6,13 +6,15 @@
 
 namespace
 {
-	int kHouseNum = 10;
+	const Vector2 kCenterPos = { 240, 360 };
 
-	Vector2 kLeftTopPos = { 250, 80 };
-	Vector2 kRightTopPos = { 710, 80 };
+	constexpr int kHouseNum = 10;
+
+	const Vector2 kLeftTopPos = { kCenterPos.x - 230.0f, 160 };
+	const Vector2 kRightTopPos = { kCenterPos.x + 230.0f, 160 };
 
 	// ‰Æ‚ÌŠÔ‚Ì‹——£
-	float kHouseDistance = 100.0f;
+	constexpr float kHouseDistance = 100.0f;
 }
 
 HouseManager::HouseManager(ObjectManager* manager, WireManager* wireMgr) :

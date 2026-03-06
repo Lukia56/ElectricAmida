@@ -30,6 +30,11 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ImGui‚Ì•`‰æˆ—
+	/// </summary>
+	void DrawImGui();
+
 private:
 
 	/// <summary>

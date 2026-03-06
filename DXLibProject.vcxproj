@@ -147,7 +147,15 @@
     <ClCompile Include="GameObject\GameUI.cpp" />
     <ClCompile Include="GameObject\House.cpp" />
     <ClCompile Include="GameObject\HouseManager.cpp" />
+    <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="ImGui\imgui_demo.cpp" />
+    <ClCompile Include="ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
+    <ClCompile Include="System\ImGuiRenderer.cpp" />
     <ClCompile Include="System\PauseManager.cpp" />
     <ClCompile Include="Scene\SceneGameClear.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
@@ -177,6 +185,7 @@
     <Image Include="Resources\Image\IconMoney.png" />
     <Image Include="Resources\Image\IconTimer.png" />
     <Image Include="Resources\Image\Logo.png" />
+    <Image Include="Resources\Image\MenuButton.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision\Collision2D.h" />
@@ -188,7 +197,16 @@
     <ClInclude Include="GameObject\GameUI.h" />
     <ClInclude Include="GameObject\House.h" />
     <ClInclude Include="GameObject\HouseManager.h" />
+    <ClInclude Include="ImGui\imconfig.h" />
+    <ClInclude Include="ImGui\imgui.h" />
+    <ClInclude Include="ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ImGui\imstb_textedit.h" />
+    <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
+    <ClInclude Include="System\ImGuiRenderer.h" />
     <ClInclude Include="System\PauseManager.h" />
     <ClInclude Include="Scene\SceneGameClear.h" />
     <ClInclude Include="Scene\SceneGameOver.h" />

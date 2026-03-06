@@ -62,3 +62,10 @@ void SceneBase::Draw()
 	// フェードインアウトのフィルター処理
 	mPtrFader->Draw();
 }
+
+void SceneBase::DrawImGui()
+{
+	mPtrObjectManager->DrawImGui();
+
+	DrawSceneImGui();
+}

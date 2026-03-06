@@ -2,6 +2,6 @@
     "colorBit": 32,
     "defaultWindowText": "Test",
     "fps": 60,
-    "windowHeight": 540,
-    "windowWidth": 960
+    "windowHeight": 720,
+    "windowWidth": 480
 }

@@ -58,3 +58,12 @@ void SceneManager::Draw()
 
 	mPtrScene->Draw();
 }
+
+void SceneManager::DrawImGui()
+{
+	// Šm”Fˆ—
+	assert(mPtrScene && "m_pScene‚ªnullptr‚Å‚·");
+	if (!mPtrScene) return;
+
+	mPtrScene->DrawImGui();
+}
