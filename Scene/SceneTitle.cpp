@@ -7,6 +7,8 @@
 #include "../Scene/Fader.h"
 #include "../Easing/Tween.h"
 #include "../ImGui/imgui.h"
+#include "../Game.h"
+#include "../System/InputDevice/InputDeviceMouse.h"
 
 namespace
 {
@@ -45,12 +47,12 @@ SceneTitle::SceneTitle() :
 	mTween(nullptr)
 {
 	mGraphButton.fill(-1);
-
 	for (int i = 0; i < mGraphButton.size(); i++)
 	{
 		mButtonPos[i] = Vector2(kButtonBasePos + kButtonOffsetPos * i);
 		mButtonPos[i].x -= kButtonChoiceOffsetPos;
 	}
+	mButtonAlpha.fill(255);
 }
 
 void SceneTitle::InitializeScene()
@@ -60,6 +62,8 @@ void SceneTitle::InitializeScene()
 	LoadDivGraph(kMenuButtonPath, 3, 1, 3, 187, 31, mGraphButton.data());
 
 	mTween = std::make_unique<Tween>();
+
+	UpdateButtonPos();
 }
 
 void SceneTitle::EndScene()
@@ -99,9 +103,15 @@ SceneBase* SceneTitle::UpdateScene()
 
 			break;
 
+		case Choice::Settings:
+
+
+
+			break;
+
 		case Choice::Quit:
 
-
+			Game::isRunning = false;
 
 			break;
 		}
@@ -116,10 +126,14 @@ void SceneTitle::DrawScene()
 {
 	for (int i = 0; i < Choice::Max; i++)
 	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, mButtonAlpha[i]);
+
 		//DrawGraph(mButtonPos[i].x, mButtonPos[i].y, mGraphButton[i], true);
 		DrawRotaGraph(mButtonPos[i].x, mButtonPos[i].y, 2, 0, mGraphButton[i], true);
 
-		DrawString(mButtonPos[i].x, mButtonPos[i].y, kButtonText[i], Color::kBlack);
+		DrawString(mButtonPos[i].x, mButtonPos[i].y, kButtonText[i], Color::kWhite);
+
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
 	DrawRotaGraph(kLogoPos.x, kLogoPos.y, kLogoScale, 0, mGraphLogo, true);
@@ -132,6 +146,13 @@ void SceneTitle::DrawSceneImGui()
 		ImGui::Text("SceneTitle");
 
 		ImGui::Text("mMenuChoice = %d", mMenuChoice);
+
+		auto mouse = InputManager::GetInstance().GetDevice<InputDeviceMouse>();
+		ImGui::Text("MousePos.x = %.1f", mouse->GetPos().x);
+		ImGui::Text("MousePos.y = %.1f", mouse->GetPos().y);
+
+		ImGui::Text(u8"MouseRelativePos.x = %.1f", InputManager::GetInstance().GetDevice<InputDeviceMouse>()->GetRelativePos().x);
+		ImGui::Text(u8"MouseRelativePos.y = %.1f", InputManager::GetInstance().GetDevice<InputDeviceMouse>()->GetRelativePos().y);
 	}
 
 	ImGui::End();
@@ -141,18 +162,30 @@ void SceneTitle::UpdateButtonPos()
 {
 	for (int i = 0; i < Choice::Max; i++)
 	{
+		// 選択されているなら
 		if (mMenuChoice == i)
 		{
+			// 飛び出させる
 			std::vector<Animation::Keyframe> keyframes;
+			// 開始位置を設定
 			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[i].x, 0, Animation::Ease::BackOut });
-			keyframes.emplace_back(Animation::Keyframe{ kButtonBasePos.x + kButtonOffsetPos.x, 20 });
+			// 終了位置を設定
+			keyframes.emplace_back(Animation::Keyframe{ kButtonBasePos.x + kButtonOffsetPos.x, 15 });
+
+			// アニメーションを開始
 			mTween->StartAnim(&mButtonPos[i].x, keyframes);
 		}
+		// 選択されていないなら
 		else
 		{
+			// 元の位置に戻す
 			std::vector<Animation::Keyframe> keyframes;
-			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[i].x, 0, Animation::Ease::BackOut });
-			keyframes.emplace_back(Animation::Keyframe{ kButtonBasePos.x + kButtonOffsetPos.x - kButtonChoiceOffsetPos, 20 });
+			// 開始位置を設定
+			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[i].x, 0, Animation::Ease::QuadInOut });
+			// 終了位置を設定
+			keyframes.emplace_back(Animation::Keyframe{ kButtonBasePos.x + kButtonOffsetPos.x - kButtonChoiceOffsetPos, 8 });
+
+			// アニメーションを開始
 			mTween->StartAnim(&mButtonPos[i].x, keyframes);
 		}
 	}

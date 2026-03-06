@@ -44,6 +44,11 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// ImGui‚Ì•`‰æ
+	/// </summary>
+	void DrawImGui() override;
+
 	void StartMove() { mIsStart = true; }
 
 private:

@@ -3,8 +3,15 @@
 #include "../ImGui/imgui_impl_win32.h"
 #include "../ImGui/imgui_impl_dx11.h"
 
-ImGuiRenderer::ImGuiRenderer()
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+// ImGuiにプロシージャの情報を流す
+LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wp, lp))
+	{
+		return true;
+	}
+	return 0;
 }
 
 void ImGuiRenderer::Initialize()
@@ -25,6 +32,9 @@ void ImGuiRenderer::Initialize()
 	config.MergeMode = true;
 	io.Fonts->AddFontDefault();
 	io.Fonts->AddFontFromFileTTF("c:/Users/student1/AppData/Local/Microsoft/Windows/Fonts/JF-Dot-K12.ttf", 12.0f, &config, ImGui::GetIO().Fonts->GetGlyphRangesJapanese());
+
+	// ウインドウプロージャを登録する
+	SetHookWinProc(WndProc);
 }
 
 void ImGuiRenderer::End()

@@ -52,6 +52,11 @@ public:
 	void DrawScene() override;
 
 	/// <summary>
+	/// ImGui‚Ì•`‰æ
+	/// </summary>
+	void DrawSceneImGui() override;
+
+	/// <summary>
 	/// “d‹C‚ğ“Í‚¯‚é‚Ì‚É¬Œ÷‚µ‚½”‚ğ‰ÁZ‚·‚é
 	/// </summary>
 	void SuccessToDelivery();

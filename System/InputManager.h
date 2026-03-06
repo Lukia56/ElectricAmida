@@ -97,9 +97,10 @@ public:
 	/// <summary>
 	/// デバイスを取得する
 	/// </summary>
-	/// <param name="deviceName">デバイス名</param>
-	/// <returns>デバイスのポインタ</returns>
-	std::shared_ptr<InputDeviceBase> GetDevice(std::string deviceName) const { return mDevices.at(deviceName); }
+	/// <typeparam name="T">取得したいデバイスの型</typeparam>
+	/// <returns>取得に成功したらデバイスのポインタを返す。失敗したらnullptrを返す</returns>
+	template <class T>
+	T* GetDevice() const;
 
 private:
 
@@ -155,3 +156,20 @@ private:
 	/// </summary>
 	std::unordered_map<std::string, std::shared_ptr<InputDeviceBase>> mDevices;
 };
+
+template<class T>
+inline T* InputManager::GetDevice() const
+{
+	// 型が一致する要素を探す
+	for (const auto& device : mDevices)
+	{
+		// 指定したデバイスにキャスト
+		T* result = dynamic_cast<T*>(device.second.get());
+
+		// キャストに成功したらポインタを返す
+		if (result != nullptr) return result;
+	}
+
+	// 型が見つからなかったためnullptrを返す
+	return nullptr;
+}

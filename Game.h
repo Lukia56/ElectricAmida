@@ -16,6 +16,11 @@ class Game
 public:
 
 	/// <summary>
+	/// ゲームを実行するかどうか
+	/// </summary>
+	static bool isRunning;
+
+	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	Game();
@@ -81,11 +86,6 @@ private:
 	/// </summary>
 	/// <returns>デルタタイムを返す</returns>
 	float CalculateDeltaTime() const;
-
-	/// <summary>
-	/// ゲームを実行するかどうか
-	/// </summary>
-	bool mIsRunning;
 
 	/// <summary>
 	/// フレームの開始時間

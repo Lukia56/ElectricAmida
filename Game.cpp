@@ -19,7 +19,6 @@ namespace
 }
 
 Game::Game() :
-	mIsRunning(true),
 	mTime(0),
 	mElapsedTime(0),
 	mPtrSceneManager(nullptr),
@@ -65,7 +64,7 @@ bool Game::Initialize()
 
 void Game::GameLoop()
 {
-	while (mIsRunning && ProcessMessage() == 0)
+	while (isRunning && ProcessMessage() == 0)
 	{
 		ProcessInput();
 		ProcessUpdate();
@@ -95,7 +94,7 @@ void Game::ProcessInput()
 
 	if (CheckHitKey(KEY_INPUT_TAB))
 	{
-		mIsRunning = false;
+		isRunning = false;
 	}
 }
 

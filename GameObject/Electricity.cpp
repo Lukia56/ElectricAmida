@@ -9,6 +9,7 @@
 #include "../Scene/SceneGameOver.h"
 #include "../Scene/Fader.h"
 #include "../System/Time.h"
+#include "../ImGui/imgui.h"
 #include <cassert>
 
 namespace
@@ -71,6 +72,18 @@ void Electricity::Draw()
 {
 	Vector2 pos = GetPosition();
 	DrawCircle(pos.x, pos.y, 25, Color::kYellow);
+}
+
+void Electricity::DrawImGui()
+{
+	if (ImGui::Begin("GameObject"))
+	{
+		ImGui::Text("===== Electricity =====");
+
+		ImGui::SliderFloat("mSpeed", &mSpeed, 0.0f, 1000.0f);
+	}
+
+	ImGui::End();
 }
 
 void Electricity::MoveToOtherWire(Vector2& newPos)

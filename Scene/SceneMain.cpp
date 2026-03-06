@@ -11,6 +11,7 @@
 #include "../GameObject/Electricity.h"
 #include "../GameObject/HouseManager.h"
 #include "../GameObject/GameUI.h"
+#include "../ImGui/imgui.h"
 
 namespace
 {
@@ -95,16 +96,28 @@ SceneBase* SceneMain::UpdateScene()
 
 void SceneMain::DrawScene()
 {
-	printfDx("¬Œ÷‰ñ” = %d\n", mSuccessNum);
-	printfDx("c‚èŠÔ = %f\n", mRemainTime);
-	printfDx("—\Z = %d\n", mBudget);
-
-	printfDx("%d\n", InputManager::GetInstance().IsPressed(Input::Action::Confirm));
+	//printfDx("¬Œ÷‰ñ” = %d\n", mSuccessNum);
+	//printfDx("c‚èŠÔ = %f\n", mRemainTime);
+	//printfDx("—\Z = %d\n", mBudget);
 
 	mGameUI->Draw();
 
 	mPauseManager->Update();
 	mPauseManager->Draw();
+}
+
+void SceneMain::DrawSceneImGui()
+{
+	if (ImGui::Begin("Scene"))
+	{
+		ImGui::Text("SceneMain");
+
+		ImGui::Text(u8"¬Œ÷‰ñ” = %d", mSuccessNum);
+		ImGui::Text(u8"c‚èŠÔ = %f", mRemainTime);
+		ImGui::Text(u8"—\Z = %d", mBudget);
+	}
+
+	ImGui::End();
 }
 
 void SceneMain::SuccessToDelivery()

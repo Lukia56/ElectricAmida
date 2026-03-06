@@ -62,6 +62,8 @@ private:
 
 	std::array<Vector2, 3> mButtonPos;
 
+	std::array<int, 3> mButtonAlpha;
+
 	int mMenuChoice;
 
 	std::unique_ptr<Tween> mTween;

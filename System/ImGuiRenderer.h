@@ -1,16 +1,15 @@
 #pragma once
 
 #include <functional>
-#include <vector>
 
 /// <summary>
-/// ImGuiを管理して、描画するクラス
+/// ImGuiを管理して描画するクラス
 /// </summary>
 class ImGuiRenderer
 {
 public:
 
-	ImGuiRenderer();
+	ImGuiRenderer() = default;
 	~ImGuiRenderer() = default;
 
 	/// <summary>
