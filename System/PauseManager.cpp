@@ -2,6 +2,10 @@
 #include <DxLib.h>
 #include "../System/InputManager.h"
 #include "../System/ObjectManager.h"
+#include "../Scene/SceneBase.h"
+#include "../Scene/SceneMain.h"
+#include "../Scene/SceneTitle.h"
+#include "../Scene/Fader.h"
 
 namespace
 {
@@ -15,11 +19,12 @@ namespace
 	};
 }
 
-PauseManager::PauseManager(ObjectManager* objManager) :
+PauseManager::PauseManager(ObjectManager* objManager, SceneBase* scene) :
 	mScreenGraph(-1),
 	mIsPaused(false),
 	mMenuChoice(0),
-	mObjectManager(objManager)
+	mObjectManager(objManager),
+	mScene(scene)
 {
 }
 
@@ -102,13 +107,13 @@ void PauseManager::OnPause()
 
 		case Choice::Retry:
 
-
+			mScene->GetFader()->StartFadeOut<SceneMain>();
 
 			break;
 
 		case Choice::Quit:
 
-
+			mScene->GetFader()->StartFadeOut<SceneTitle>();
 
 			break;
 		}

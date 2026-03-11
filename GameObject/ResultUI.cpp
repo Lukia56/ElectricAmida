@@ -1,5 +1,6 @@
 #include "ResultUI.h"
 #include <DxLib.h>
+#include <vector>
 #include "../System/InputManager.h"
 #include "../Utility/Color.h"
 #include "../ImGui/imgui.h"
@@ -7,6 +8,7 @@
 #include "../Scene/SceneTitle.h"
 #include "../Scene/Fader.h"
 #include "../Easing/Tween.h"
+#include "../Easing/Keyframe.h"
 #include "../Utility/Vector.h"
 
 namespace
@@ -44,9 +46,14 @@ void ResultUI::InitGameObject()
 	mTween = new Tween();
 	
 	std::vector<Animation::Keyframe> keyframes;
-	keyframes.emplace_back(Animation::Keyframe{ -50.0f, 0, Animation::Ease::BackIn });
+	keyframes.emplace_back(Animation::Keyframe{ 50.0f, 0, Animation::Ease::QuadOut });
 	keyframes.emplace_back(Animation::Keyframe{ 0.0f, 60 });
 	mTween->StartAnim(&mMenuY, keyframes);
+
+	keyframes.clear();
+	keyframes.emplace_back(Animation::Keyframe{ 0.0f, 0, Animation::Ease::Linear });
+	keyframes.emplace_back(Animation::Keyframe{ 255.0f, 10 });
+	mTween->StartAnim(&mAlpha, keyframes);
 }
 
 void ResultUI::EndGameObject()
@@ -118,7 +125,7 @@ void ResultUI::DrawImGui()
 
 		ImGui::Text("MenuChoice = %d", mMenuChoice);
 
-		ImGui::SliderInt("Alpha", &mAlpha, 0, 255);
+		ImGui::SliderFloat("Alpha", &mAlpha, 0, 255);
 	}
 
 	ImGui::End();

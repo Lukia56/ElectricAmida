@@ -60,7 +60,7 @@ private:
 	/// <summary>
 	/// メニューの不透明度
 	/// </summary>
-	int mAlpha;
+	float mAlpha;
 
 	/// <summary>
 	/// メニューのY座標

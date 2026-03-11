@@ -1,6 +1,7 @@
 #pragma once
 
 class ObjectManager;
+class SceneBase;
 
 class PauseManager
 {
@@ -9,7 +10,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	PauseManager(ObjectManager* objManager);
+	PauseManager(ObjectManager* objManager, SceneBase* scene);
 
 	/// <summary>
 	/// デストラクタ
@@ -60,4 +61,6 @@ private:
 	int mMenuChoice;
 
 	ObjectManager* mObjectManager;
+
+	SceneBase* mScene;
 };

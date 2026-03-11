@@ -8,6 +8,7 @@
 #include "../System/Time.h"
 #include "../System/ImGuiRenderer.h"
 #include "../Utility/Math.h"
+#include "../ImGui/imgui.h"
 
 namespace
 {
@@ -92,10 +93,12 @@ void Game::ProcessInput()
 {
 	InputManager::GetInstance().Update();
 
+#ifdef _DEBUG
 	if (CheckHitKey(KEY_INPUT_TAB))
 	{
 		isRunning = false;
 	}
+#endif
 }
 
 void Game::ProcessUpdate()
@@ -130,6 +133,10 @@ void Game::ProcessOutput()
 	// ImGui‚Ì•`‰æˆ—
 	mImGuiRenderer->Draw([this]()
 		{
+			ImGui::Begin("Main");
+			ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
+			ImGui::End();
+
 			mPtrSceneManager->DrawImGui();
 		});
 #endif

@@ -1,6 +1,7 @@
 #include "Fader.h"
 #include <DxLib.h>
 #include "../Utility/Color.h"
+#include "../System/Time.h"
 
 namespace
 {
@@ -47,7 +48,7 @@ bool Fader::ProcessFade()
 	bool isFadeOut = IsFadingOut();
 
 	// フェードインアウト
-	mFadeBright += mFadeSpeed;
+	mFadeBright += mFadeSpeed * Time::GetInstance().GetDeltaTime() * 60;
 
 	// フェードが完了したらフェードを停止
 	if (IsDoneFadeIn() || IsDoneFadeOut())

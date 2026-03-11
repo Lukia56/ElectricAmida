@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include <cmath>
 #include <algorithm>
+#include "../System/Time.h"
 
 template <typename T>
 float Pow(const T& value, const int exp)
@@ -33,7 +34,7 @@ AnimationCurve::AnimationCurve(float* value, const std::vector<Animation::Keyfra
 
 void AnimationCurve::Update()
 {
-	mTime++;
+	mTime += Time::GetInstance().GetDeltaTime() * 60;
 
 	UpdateValue();
 }

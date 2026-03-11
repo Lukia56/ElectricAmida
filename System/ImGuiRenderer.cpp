@@ -31,7 +31,7 @@ void ImGuiRenderer::Initialize()
 	ImFontConfig config;
 	config.MergeMode = true;
 	io.Fonts->AddFontDefault();
-	io.Fonts->AddFontFromFileTTF("c:/Users/student1/AppData/Local/Microsoft/Windows/Fonts/JF-Dot-K12.ttf", 12.0f, &config, ImGui::GetIO().Fonts->GetGlyphRangesJapanese());
+	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\meiryo.ttc", 20.0f, &config, ImGui::GetIO().Fonts->GetGlyphRangesJapanese());
 
 	// ウインドウプロージャを登録する
 	SetHookWinProc(WndProc);

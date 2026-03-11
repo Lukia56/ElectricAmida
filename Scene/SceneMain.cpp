@@ -35,7 +35,7 @@ SceneMain::SceneMain() :
 	mPauseManager(nullptr),
 	mResultUI(nullptr)
 {
-	mGameState = GameState::Result;
+	mGameState = GameState::Play;
 }
 
 SceneMain::~SceneMain()
@@ -58,7 +58,7 @@ void SceneMain::InitializeScene()
 	mObjElectricity = new Electricity(GetObjectManager(), mObjWireManager, this, mObjHouseManager);
 	mObjElectricity->Init();
 
-	mPauseManager = new PauseManager(GetObjectManager());
+	mPauseManager = new PauseManager(GetObjectManager(), this);
 }
 
 void SceneMain::EndScene()
@@ -96,14 +96,16 @@ SceneBase* SceneMain::UpdateScene()
 		// ‚·‚×‚Ä‚ÌZ‘î‚É“d‹C‚ð“Í‚¯I‚í‚Á‚½‚ç
 		if (mSuccessNum == mObjHouseManager->GetHouseNum())
 		{
-			GetFader()->StartFadeOut<SceneGameClear>();
+			mGameState = GameState::Result;
 		}
 	}
+	else
 	if (mGameState == GameState::Result)
 	{
 		if (mResultUI == nullptr)
 		{
 			mResultUI = new ResultUI(GetObjectManager(), this);
+			mResultUI->Init();
 		}
 	}
 
