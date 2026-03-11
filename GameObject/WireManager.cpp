@@ -54,6 +54,8 @@ void WireManager::EndGameObject()
 
 void WireManager::Update()
 {
+	if (mPtrScene->GetGameState() != SceneMain::GameState::Play) return;
+
 	SetDrawStartPos();
 	
 	SetDrawEndPos();

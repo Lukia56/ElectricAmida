@@ -11,6 +11,7 @@
 #include "../GameObject/Electricity.h"
 #include "../GameObject/HouseManager.h"
 #include "../GameObject/GameUI.h"
+#include "../GameObject/ResultUI.h"
 #include "../ImGui/imgui.h"
 
 namespace
@@ -26,12 +27,15 @@ SceneMain::SceneMain() :
 	mObjWireManager(nullptr),
 	mObjElectricity(nullptr),
 	mObjHouseManager(nullptr),
+	mGameState(GameState::Ready),
 	mSuccessNum(0),
 	mRemainTime(kLimitTime),
 	mBudget(kBudget),
 	mGameUI(nullptr),
-	mPauseManager(nullptr)
+	mPauseManager(nullptr),
+	mResultUI(nullptr)
 {
+	mGameState = GameState::Result;
 }
 
 SceneMain::~SceneMain()
@@ -69,26 +73,38 @@ void SceneMain::EndScene()
 
 	delete mPauseManager;
 	mPauseManager = nullptr;
+
+	mResultUI = nullptr;
 }
 
 SceneBase* SceneMain::UpdateScene()
 {
-	if (mObjElectricity && InputManager::GetInstance().IsPressed(Input::Action::Confirm))
+	if (mGameState == GameState::Play)
 	{
-		mObjElectricity->StartMove();
-	}
+		if (mObjElectricity && InputManager::GetInstance().IsPressed(Input::Action::Confirm))
+		{
+			mObjElectricity->StartMove();
+		}
 
-	mRemainTime -= Time::GetInstance().GetDeltaTime();
+		mRemainTime -= Time::GetInstance().GetDeltaTime();
 
-	// 残り時間が無くなったら
-	if (mRemainTime <= 0)
-	{
-		GetFader()->StartFadeOut<SceneGameClear>();
+		// 残り時間が無くなったら
+		if (mRemainTime <= 0)
+		{
+			GetFader()->StartFadeOut<SceneGameClear>();
+		}
+		// すべての住宅に電気を届け終わったら
+		if (mSuccessNum == mObjHouseManager->GetHouseNum())
+		{
+			GetFader()->StartFadeOut<SceneGameClear>();
+		}
 	}
-	// すべての住宅に電気を届け終わったら
-	if (mSuccessNum == mObjHouseManager->GetHouseNum())
+	if (mGameState == GameState::Result)
 	{
-		GetFader()->StartFadeOut<SceneGameClear>();
+		if (mResultUI == nullptr)
+		{
+			mResultUI = new ResultUI(GetObjectManager(), this);
+		}
 	}
 
 	return this;
@@ -102,8 +118,11 @@ void SceneMain::DrawScene()
 
 	mGameUI->Draw();
 
-	mPauseManager->Update();
-	mPauseManager->Draw();
+	if (mGameState == GameState::Play)
+	{
+		mPauseManager->Update();
+		mPauseManager->Draw();
+	}
 }
 
 void SceneMain::DrawSceneImGui()

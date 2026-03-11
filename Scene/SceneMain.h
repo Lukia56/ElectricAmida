@@ -11,10 +11,18 @@ class Electricity;
 class HouseManager;
 class GameUI;
 class PauseManager;
+class ResultUI;
 
 class SceneMain : public SceneBase
 {
 public:
+
+	enum GameState
+	{
+		Ready,
+		Play,
+		Result
+	};
 
 	/// <summary>
 	/// コンストラクタ
@@ -60,6 +68,8 @@ public:
 	/// 電気を届けるのに成功した数を加算する
 	/// </summary>
 	void SuccessToDelivery();
+
+	GameState GetGameState() const { return mGameState; }
 	
 	/// <summary>
 	/// 成功数を取得する
@@ -102,6 +112,11 @@ private:
 	HouseManager* mObjHouseManager;
 
 	/// <summary>
+	/// ゲームの進行状態
+	/// </summary>
+	GameState mGameState;
+
+	/// <summary>
 	/// 電気を届けるのに成功した数
 	/// </summary>
 	int mSuccessNum;
@@ -119,4 +134,6 @@ private:
 	GameUI* mGameUI;
 
 	PauseManager* mPauseManager;
+
+	ResultUI* mResultUI;
 };

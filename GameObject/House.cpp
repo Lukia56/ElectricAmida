@@ -48,10 +48,6 @@ void House::EndGameObject()
 
 void House::Update()
 {
-	if (InputManager::GetInstance().IsPressed(Input::Action::Up))
-	{
-		mPtrWireManager->SetWireEnable(mWireIndex, true);
-	}
 }
 
 void House::Draw()

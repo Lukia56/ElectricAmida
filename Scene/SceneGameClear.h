@@ -40,4 +40,8 @@ public:
 	/// SceneTest‰æ–Ê‚Ì•`‰æ‚ğs‚¤
 	/// </summary>
 	void DrawScene() override;
+
+private:
+
+
 };
