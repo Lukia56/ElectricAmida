@@ -12,6 +12,7 @@ class HouseManager;
 class GameUI;
 class PauseManager;
 class ResultUI;
+class ReadyUI;
 
 class SceneMain : public SceneBase
 {
@@ -96,6 +97,12 @@ public:
 
 private:
 
+	void GameReady();
+
+	void GamePlay();
+
+	void GameResult();
+
 	/// <summary>
 	/// 電線のマネージャーのゲームオブジェクト
 	/// </summary>
@@ -136,4 +143,6 @@ private:
 	PauseManager* mPauseManager;
 
 	ResultUI* mResultUI;
+
+	ReadyUI* mReadyUI;
 };

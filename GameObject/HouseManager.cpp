@@ -8,10 +8,10 @@ namespace
 {
 	const Vector2 kCenterPos = { 240, 360 };
 
-	constexpr int kHouseNum = 10;
+	constexpr int kHouseNum = 8;
 
-	const Vector2 kLeftTopPos = { kCenterPos.x - 230.0f, 160 };
-	const Vector2 kRightTopPos = { kCenterPos.x + 230.0f, 160 };
+	const Vector2 kLeftTopPos = { kCenterPos.x - 150.0f, 300 };
+	const Vector2 kRightTopPos = { kCenterPos.x + 150.0f, 300 };
 
 	// ‰Æ‚ÌŠÔ‚Ì‹——£
 	constexpr float kHouseDistance = 100.0f;
@@ -78,7 +78,7 @@ void HouseManager::EnableRandomHouse()
 	if (houseList.size() == 0) return;
 
 	int random = GetRand(houseList.size() - 1);
-	houseList[random]->SetWireActive();
+	houseList[random]->SetWireActive(true);
 	auto iter = std::find(mObjHouseList.begin(), mObjHouseList.end(), houseList[random]);
 	mEnabledHouse = std::distance(mObjHouseList.begin(), iter);
 }

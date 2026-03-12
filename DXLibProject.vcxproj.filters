@@ -135,6 +135,9 @@
     <ClCompile Include="GameObject\ResultUI.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\ReadyUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Image\Cloud.png">
@@ -153,6 +156,15 @@
       <Filter>リソース ファイル</Filter>
     </Image>
     <Image Include="Resources\Image\MenuButton.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\ready.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\start.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\finish.png">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>
@@ -287,6 +299,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\ResultUI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\ReadyUI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

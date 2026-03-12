@@ -35,7 +35,6 @@ SceneMain::SceneMain() :
 	mPauseManager(nullptr),
 	mResultUI(nullptr)
 {
-	mGameState = GameState::Play;
 }
 
 SceneMain::~SceneMain()
@@ -79,34 +78,17 @@ void SceneMain::EndScene()
 
 SceneBase* SceneMain::UpdateScene()
 {
-	if (mGameState == GameState::Play)
+	switch (mGameState)
 	{
-		if (mObjElectricity && InputManager::GetInstance().IsPressed(Input::Action::Confirm))
-		{
-			mObjElectricity->StartMove();
-		}
-
-		mRemainTime -= Time::GetInstance().GetDeltaTime();
-
-		// Žc‚èŽžŠÔ‚ª–³‚­‚È‚Á‚½‚ç
-		if (mRemainTime <= 0)
-		{
-			GetFader()->StartFadeOut<SceneGameClear>();
-		}
-		// ‚·‚×‚Ä‚ÌZ‘î‚É“d‹C‚ð“Í‚¯I‚í‚Á‚½‚ç
-		if (mSuccessNum == mObjHouseManager->GetHouseNum())
-		{
-			mGameState = GameState::Result;
-		}
-	}
-	else
-	if (mGameState == GameState::Result)
-	{
-		if (mResultUI == nullptr)
-		{
-			mResultUI = new ResultUI(GetObjectManager(), this);
-			mResultUI->Init();
-		}
+	case SceneMain::Ready:
+		GameReady();
+		break;
+	case SceneMain::Play:
+		GamePlay();
+		break;
+	case SceneMain::Result:
+		GameResult();
+		break;
 	}
 
 	return this;
@@ -135,7 +117,7 @@ void SceneMain::DrawSceneImGui()
 
 		ImGui::Text(u8"¬Œ÷‰ñ” = %d", mSuccessNum);
 		ImGui::Text(u8"Žc‚èŽžŠÔ = %f", mRemainTime);
-		ImGui::Text(u8"—\ŽZ = %d", mBudget);
+		//ImGui::Text(u8"—\ŽZ = %d", mBudget);
 	}
 
 	ImGui::End();
@@ -146,7 +128,42 @@ void SceneMain::SuccessToDelivery()
 	mSuccessNum++;
 
 	mObjHouseManager->EnableRandomHouse();
+}
 
-	mObjElectricity = new Electricity(GetObjectManager(), mObjWireManager, this, mObjHouseManager);
-	mObjElectricity->Init();
+void SceneMain::GameReady()
+{
+	if (InputManager::GetInstance().IsPressed(Input::Action::Confirm))
+	{
+		mGameState = GameState::Play;
+	}
+}
+
+void SceneMain::GamePlay()
+{
+	if (mObjElectricity && InputManager::GetInstance().IsPressed(Input::Action::StartMove))
+	{
+		mObjElectricity->StartMove();
+	}
+
+	mRemainTime -= Time::GetInstance().GetDeltaTime();
+
+	// Žc‚èŽžŠÔ‚ª–³‚­‚È‚Á‚½‚ç
+	if (mRemainTime <= 0)
+	{
+		GetFader()->StartFadeOut<SceneGameClear>();
+	}
+	// ‚·‚×‚Ä‚ÌZ‘î‚É“d‹C‚ð“Í‚¯I‚í‚Á‚½‚ç
+	if (mSuccessNum == mObjHouseManager->GetHouseNum())
+	{
+		mGameState = GameState::Result;
+	}
+}
+
+void SceneMain::GameResult()
+{
+	if (mResultUI == nullptr)
+	{
+		mResultUI = new ResultUI(GetObjectManager(), this);
+		mResultUI->Init();
+	}
 }

@@ -10,12 +10,12 @@ namespace
 	const Vector2 kCenterPos = { 240, 360 };
 
 	// ‰E‘¤‚ÌŒÅ’è“dü‚Ìü•ª
-	const Vector2 kLeftFixWireStart = { kCenterPos.x - 80.0f, 40 };
-	const Vector2 kLeftFixWireEnd = { kCenterPos.x - 80.0f, 600 };
+	const Vector2 kLeftFixWireStart = { kCenterPos.x - 80.0f, 100 };
+	const Vector2 kLeftFixWireEnd = { kCenterPos.x - 80.0f, 680 };
 
 	// ¶‘¤‚ÌŒÅ’è“dü‚Ìü•ª
-	const Vector2 kRightFixWireStart = { kCenterPos.x + 80.0f, 40 };
-	const Vector2 kRightFixWireEnd = { kCenterPos.x + 80.0f, 600 };
+	const Vector2 kRightFixWireStart = { kCenterPos.x + 80.0f, 100 };
+	const Vector2 kRightFixWireEnd = { kCenterPos.x + 80.0f, 680 };
 }
 
 WireManager::WireManager(ObjectManager* manager, SceneMain* scene) :

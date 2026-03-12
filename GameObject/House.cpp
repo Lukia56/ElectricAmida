@@ -58,14 +58,14 @@ void House::Draw()
 	DrawBox(pos.x - 40, pos.y - 40, pos.x + 40, pos.y + 40, color, true);
 }
 
-void House::SetWireActive()
+void House::SetWireActive(bool state)
 {
-	mPtrWireManager->SetWireEnable(mWireIndex, true);
+	mPtrWireManager->SetWireEnable(mWireIndex, state);
 }
 
 void House::SetActive()
 {
 	mIsEnabled = true;
 
-	mPtrWireManager->SetWireEnable(mWireIndex, false);
+	//mPtrWireManager->SetWireEnable(mWireIndex, false);
 }

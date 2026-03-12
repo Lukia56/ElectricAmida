@@ -29,6 +29,8 @@ Game::Game() :
 
 bool Game::Initialize()
 {
+	SetWaitVSyncFlag(0);
+
 	// DXƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰Šú‰»
 	if (DxLib_Init() == -1)
 	{

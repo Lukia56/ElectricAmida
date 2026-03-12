@@ -66,7 +66,7 @@ private:
 	/// <summary>
 	/// 住宅に移動し終わった処理
 	/// </summary>
-	void MovedToHouse();
+	void MovedToHouse(Vector2& newPos);
 
 	/// <summary>
 	/// 電線のマネージャーのポインタ

@@ -2,29 +2,22 @@
 
 #include "GameObject.h"
 
-class WireManager;
-struct Wire;
+class Tween;
 
-class House : public GameObject
+class ReadyUI : public GameObject
 {
 public:
-
-	/// <summary>
-	/// デフォルトコンストラクタ
-	/// </summary>
-	House() = default;
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
-	/// <param name="wireMgr">電線のマネージャーのポインタ</param>
-	House(ObjectManager* manager, WireManager* wireMgr);
+	ReadyUI(ObjectManager* manager);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~House();
+	~ReadyUI() = default;
 
 	/// <summary>
 	/// ゲームオブジェクト固有の初期化処理
@@ -46,26 +39,25 @@ public:
 	/// </summary>
 	void Draw() override;
 
-	void SetWireActive(bool state);
+	void PostDraw() override;
 
-	void SetActive();
-
-	bool IsEnable() const { return mIsEnabled; }
+	/// <summary>
+	/// ImGuiの描画
+	/// </summary>
+	void DrawImGui() override;
 
 private:
 
 	/// <summary>
-	/// 電線のマネージャーのポインタ
+	/// 不透明度
 	/// </summary>
-	WireManager* mPtrWireManager;
+	float mAlpha;
 
-	/// <summary>
-	/// 有効化どうか
-	/// </summary>
-	bool mIsEnabled;
+	float mScale;
 
-	/// <summary>
-	/// 自身の引込線のインデックス
-	/// </summary>
-	int mWireIndex;
+	int mGraphText;
+
+	bool mIsStarted;
+
+	Tween* mTween;
 };

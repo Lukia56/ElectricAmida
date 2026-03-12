@@ -14,7 +14,7 @@
 
 namespace
 {
-	constexpr float kInitSpeed = 300.0f;
+	constexpr float kInitSpeed = 100.0f;
 
 	constexpr int kScreenCenterX = 240;
 }
@@ -78,9 +78,18 @@ void Electricity::DrawImGui()
 {
 	if (ImGui::Begin("GameObject"))
 	{
-		ImGui::Text("===== Electricity =====");
+		ImGui::Text("[Electricity]");
+
+		ImGui::Text("Position");
+		ImGui::Text("X:%f Y:%f", GetPosition().x, GetPosition().y);
+		ImGui::Text("StartPos");
+		ImGui::Text("X:%f Y:%f", mStartPos.x, mStartPos.y);
+		ImGui::Text("EndPos");
+		ImGui::Text("X:%f Y:%f", mEndPos.x, mEndPos.y);
 
 		ImGui::SliderFloat("mSpeed", &mSpeed, 0.0f, 1000.0f);
+
+		ImGui::Checkbox("IsStart", &mIsStart);
 	}
 
 	ImGui::End();
@@ -167,7 +176,7 @@ void Electricity::MoveToFixedWire(Vector2& newPos)
 	if ((isLeft && mEndPos.x != wires[FixedWire::kLeftIndex].line.start.x)
 	|| (!isLeft && mEndPos.x != wires[FixedWire::kRightIndex].line.start.x))
 	{
-		MovedToHouse();
+		MovedToHouse(newPos);
 
 		return;
 	}
@@ -185,20 +194,23 @@ void Electricity::MoveToFixedWire(Vector2& newPos)
 	// ŒÅ’è“dü‚ÌI“_‚Ü‚ÅˆÚ“®‚µ‚½‚ç
 	if (newPos.y == wires[index].line.end.y)
 	{
-		SetState(State::EDead);
-
-		mPtrSceneMain->GetFader()->StartFadeOut<SceneGameOver>();
+		mIsStart = false;
+		Init();
+		newPos = GetPosition();
 	}
 }
 
-void Electricity::MovedToHouse()
+void Electricity::MovedToHouse(Vector2& newPos)
 {
 	if (auto* house = mPtrHouseManager->GetNearestHouse(GetPosition()))
 	{
-		house->SetActive();
+		house->SetWireActive(false);
 	}
 
 	mPtrSceneMain->SuccessToDelivery();
 
-	SetState(State::EDead);
+	//SetState(State::EDead);
+	mIsStart = false;
+	Init();
+	newPos = GetPosition();
 }

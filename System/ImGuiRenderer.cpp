@@ -51,6 +51,9 @@ void ImGuiRenderer::Draw(std::function<void(void)> func)
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	auto& style = ImGui::GetStyle();
+	style.Colors[ImGuiCol_::ImGuiCol_WindowBg].w = 0.5f;
+
 	// •`‰æˆ—
 	func();
 

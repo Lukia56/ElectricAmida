@@ -155,6 +155,7 @@
     <ClCompile Include="ImGui\imgui_tables.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="GameObject\ResultUI.cpp" />
+    <ClCompile Include="GameObject\ReadyUI.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="System\ImGuiRenderer.cpp" />
     <ClCompile Include="System\PauseManager.cpp" />
@@ -182,11 +183,14 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Image\Cloud.png" />
+    <Image Include="Resources\Image\finish.png" />
     <Image Include="Resources\Image\IconLightBulb.png" />
     <Image Include="Resources\Image\IconMoney.png" />
     <Image Include="Resources\Image\IconTimer.png" />
     <Image Include="Resources\Image\Logo.png" />
     <Image Include="Resources\Image\MenuButton.png" />
+    <Image Include="Resources\Image\ready.png" />
+    <Image Include="Resources\Image\start.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision\Collision2D.h" />
@@ -207,6 +211,7 @@
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="GameObject\ResultUI.h" />
+    <ClInclude Include="GameObject\ReadyUI.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="System\ImGuiRenderer.h" />
     <ClInclude Include="System\PauseManager.h" />
