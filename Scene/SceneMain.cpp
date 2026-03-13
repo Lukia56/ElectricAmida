@@ -12,12 +12,13 @@
 #include "../GameObject/HouseManager.h"
 #include "../GameObject/GameUI.h"
 #include "../GameObject/ResultUI.h"
+#include "../GameObject/ReadyUI.h"
 #include "../ImGui/imgui.h"
 
 namespace
 {
 	// ƒQ[ƒ€‚Ì§ŒÀŽžŠÔ
-	constexpr float kLimitTime = 9930.0f;
+	constexpr float kLimitTime = 30.0f;
 
 	// “dü‚Ì‰Šú—\ŽZ
 	constexpr int kBudget = 10;
@@ -33,7 +34,8 @@ SceneMain::SceneMain() :
 	mBudget(kBudget),
 	mGameUI(nullptr),
 	mPauseManager(nullptr),
-	mResultUI(nullptr)
+	mResultUI(nullptr),
+	mReadyUI(nullptr)
 {
 }
 
@@ -132,9 +134,10 @@ void SceneMain::SuccessToDelivery()
 
 void SceneMain::GameReady()
 {
-	if (InputManager::GetInstance().IsPressed(Input::Action::Confirm))
+	if (mReadyUI == nullptr)
 	{
-		mGameState = GameState::Play;
+		mReadyUI = new ReadyUI(GetObjectManager(), this);
+		mReadyUI->Init();
 	}
 }
 
@@ -150,13 +153,14 @@ void SceneMain::GamePlay()
 	// Žc‚èŽžŠÔ‚ª–³‚­‚È‚Á‚½‚ç
 	if (mRemainTime <= 0)
 	{
-		GetFader()->StartFadeOut<SceneGameClear>();
-	}
-	// ‚·‚×‚Ä‚ÌZ‘î‚É“d‹C‚ð“Í‚¯I‚í‚Á‚½‚ç
-	if (mSuccessNum == mObjHouseManager->GetHouseNum())
-	{
 		mGameState = GameState::Result;
+		//GetFader()->StartFadeOut<SceneGameClear>();
 	}
+	//// ‚·‚×‚Ä‚ÌZ‘î‚É“d‹C‚ð“Í‚¯I‚í‚Á‚½‚ç
+	//if (mSuccessNum >= mObjHouseManager->GetHouseNum())
+	//{
+	//	mGameState = GameState::Result;
+	//}
 }
 
 void SceneMain::GameResult()

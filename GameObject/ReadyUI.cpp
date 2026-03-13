@@ -2,20 +2,32 @@
 #include <DxLib.h>
 #include "../Easing/Tween.h"
 #include "../System/InputManager.h"
+#include "../Scene/SceneMain.h"
+#include "../System/Time.h"
 
-ReadyUI::ReadyUI(ObjectManager* manager) :
+namespace
+{
+	constexpr float kDelayStartTime = 1.0f;
+}
+
+ReadyUI::ReadyUI(ObjectManager* manager, SceneMain* scene) :
 	GameObject(manager),
-	mAlpha(0),
+	mTextReadyAlpha(255),
+	mTextStartAlpha(0),
 	mScale(1),
-	mGraphText(-1),
+	mGraphTextReady(-1),
+	mGraphTextStart(-1),
 	mIsStarted(false),
-	mTween(nullptr)
+	mScene(scene),
+	mTween(nullptr),
+	mStartTimer(kDelayStartTime)
 {
 }
 
 void ReadyUI::InitGameObject()
 {
-	mGraphText = LoadGraph("Resources\\Image\\ready.png");
+	mGraphTextReady = LoadGraph("Resources\\Image\\ready.png");
+	mGraphTextStart = LoadGraph("Resources\\Image\\start.png");
 
 	mTween = new Tween();
 }
@@ -26,20 +38,38 @@ void ReadyUI::EndGameObject()
 
 void ReadyUI::Update()
 {
-	if (InputManager::GetInstance().IsPressed(Input::Action::Confirm))
+	if (!mIsStarted && InputManager::GetInstance().IsReleased(Input::Action::Confirm))
 	{
 		mIsStarted = true;
 
 		std::vector<Animation::Keyframe> keyframes;
-		keyframes.emplace_back(Animation::Keyframe{ 1.0f, 0, Animation::Ease::Linear });
-		keyframes.emplace_back(Animation::Keyframe{ 1.5f, 60 });
+		keyframes.emplace_back(Animation::Keyframe{ 2.0f, 0, Animation::Ease::BounceOut });
+		keyframes.emplace_back(Animation::Keyframe{ 1.0f, 12 });
+		keyframes.emplace_back(Animation::Keyframe{ 1.0f, 40 });
+		keyframes.emplace_back(Animation::Keyframe{ 0.7f, 46 });
 		mTween->StartAnim(&mScale, keyframes);
 
 		keyframes.clear();
-		keyframes.emplace_back(Animation::Keyframe{ 1.0f, 0, Animation::Ease::Linear });
-		keyframes.emplace_back(Animation::Keyframe{ 1.0f, 60, Animation::Ease::Linear });
-		keyframes.emplace_back(Animation::Keyframe{ 0.0f, 70 });
-		mTween->StartAnim(&mScale, keyframes);
+		keyframes.emplace_back(Animation::Keyframe{ 255.0f, 0, Animation::Ease::Linear });
+		keyframes.emplace_back(Animation::Keyframe{ 255.0f, 40, Animation::Ease::Linear });
+		keyframes.emplace_back(Animation::Keyframe{ 0.0f, 46 });
+		mTween->StartAnim(&mTextStartAlpha, keyframes);
+
+		keyframes.clear();
+		keyframes.emplace_back(Animation::Keyframe{ 255.0f, 0, Animation::Ease::Linear });
+		keyframes.emplace_back(Animation::Keyframe{ 0.0f, 6 });
+		mTween->StartAnim(&mTextReadyAlpha, keyframes);
+	}
+
+	if (mIsStarted)
+	{
+		mStartTimer -= Time::GetInstance().GetDeltaTime();
+
+		if (mStartTimer < 0)
+		{
+			mScene->SetGameState(SceneMain::GameState::Play);
+			SetState(State::EDead);
+		}
 	}
 
 	mTween->Update();
@@ -47,7 +77,13 @@ void ReadyUI::Update()
 
 void ReadyUI::Draw()
 {
-	DrawRotaGraph(240, 360, mScale, 0, mGraphText, 1);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(mTextReadyAlpha));
+	DrawRotaGraph(240, 360, 1, 0, mGraphTextReady, 1);
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(mTextStartAlpha));
+	DrawRotaGraph(240, 360, mScale, 0, mGraphTextStart, 1);
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 void ReadyUI::PostDraw()

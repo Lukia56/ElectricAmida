@@ -63,7 +63,7 @@ void SceneTitle::InitializeScene()
 
 	mTween = std::make_unique<Tween>();
 
-	UpdateButtonPos();
+	AnimationButtonMove();
 }
 
 void SceneTitle::EndScene()
@@ -80,8 +80,8 @@ SceneBase* SceneTitle::UpdateScene()
 	int preChoice = mMenuChoice;
 
 	// 上下ボタンで選択場所を移動
-	if (InputManager::GetInstance().IsPressed(Input::Action::Up)) mMenuChoice--;
-	if (InputManager::GetInstance().IsPressed(Input::Action::Down)) mMenuChoice++;
+	if (InputManager::GetInstance().IsPressed(Input::Action::MenuUp)) mMenuChoice--;
+	if (InputManager::GetInstance().IsPressed(Input::Action::MenuDown)) mMenuChoice++;
 
 	// 選択場所を項目の範囲内に収める
 	mMenuChoice = (mMenuChoice + Choice::Max) % Choice::Max;
@@ -89,12 +89,14 @@ SceneBase* SceneTitle::UpdateScene()
 	// 項目を移動していたらボタン座標を更新
 	if (preChoice != mMenuChoice)
 	{
-		UpdateButtonPos();
+		AnimationButtonMove();
 	}
 
 	// 決定ボタンが押されたら項目を選ぶ
-	if (InputManager::GetInstance().IsPressed(Input::Action::Confirm))
+	if (InputManager::GetInstance().IsReleased(Input::Action::Confirm))
 	{
+		AnimationButtonChoose();
+
 		switch (mMenuChoice)
 		{
 		case Choice::Start:
@@ -146,19 +148,12 @@ void SceneTitle::DrawSceneImGui()
 		ImGui::Text("SceneTitle");
 
 		ImGui::Text("mMenuChoice = %d", mMenuChoice);
-
-		auto mouse = InputManager::GetInstance().GetDevice<InputDeviceMouse>();
-		ImGui::Text("MousePos.x = %.1f", mouse->GetPos().x);
-		ImGui::Text("MousePos.y = %.1f", mouse->GetPos().y);
-
-		ImGui::Text(u8"MouseRelativePos.x = %.1f", InputManager::GetInstance().GetDevice<InputDeviceMouse>()->GetRelativePos().x);
-		ImGui::Text(u8"MouseRelativePos.y = %.1f", InputManager::GetInstance().GetDevice<InputDeviceMouse>()->GetRelativePos().y);
 	}
 
 	ImGui::End();
 }
 
-void SceneTitle::UpdateButtonPos()
+void SceneTitle::AnimationButtonMove()
 {
 	for (int i = 0; i < Choice::Max; i++)
 	{
@@ -187,6 +182,41 @@ void SceneTitle::UpdateButtonPos()
 
 			// アニメーションを開始
 			mTween->StartAnim(&mButtonPos[i].x, keyframes);
+		}
+	}
+}
+
+void SceneTitle::AnimationButtonChoose()
+{
+	for (int i = 0; i < Choice::Max; i++)
+	{
+		// 選択されているなら
+		if (mMenuChoice == i)
+		{
+			// X座標のアニメーション
+			std::vector<Animation::Keyframe> keyframes;
+			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[i].x, 0, Animation::Ease::QuadIn });
+			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[i].x - 25, 3, Animation::Ease::ElasticOut });
+			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[i].x, 60 });
+
+			mTween->StartAnim(&mButtonPos[i].x, keyframes);
+		}
+		// 選択されていないなら
+		else
+		{
+			// X座標のアニメーション
+			std::vector<Animation::Keyframe> keyframes;
+			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[i].x, 0, Animation::Ease::QuadIn });
+			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[i].x - 100, 6 });
+
+			mTween->StartAnim(&mButtonPos[i].x, keyframes);
+
+			// アルファのアニメーション
+			keyframes.clear();
+			keyframes.emplace_back(Animation::Keyframe{ 255, 0, Animation::Ease::QuadIn });
+			keyframes.emplace_back(Animation::Keyframe{ 0, 6 });
+
+			mTween->StartAnim(&mButtonAlpha[i], keyframes);
 		}
 	}
 }

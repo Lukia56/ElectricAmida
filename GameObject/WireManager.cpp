@@ -54,11 +54,11 @@ void WireManager::EndGameObject()
 
 void WireManager::Update()
 {
-	if (mPtrScene->GetGameState() != SceneMain::GameState::Play) return;
-
 	SetDrawStartPos();
 	
 	SetDrawEndPos();
+
+	if (mPtrScene->GetGameState() != SceneMain::GameState::Play) return;
 
 	// 電線を引く
 	CreateAddWire();
@@ -66,7 +66,7 @@ void WireManager::Update()
 
 void WireManager::Draw()
 {
-	if (InputManager::GetInstance().IsHeld(Input::Action::Draw))
+	if (InputManager::GetInstance().IsHeld(Input::Action::Draw) && mPtrScene->GetGameState() == SceneMain::GameState::Play)
 	{
 		// マウスが離された座標を開始点にする
 		DrawLine(mDrawWire.start.x, mDrawWire.start.y, mDrawWire.end.x, mDrawWire.end.y, mPtrScene->GetBudget() > 0 ? Color::kWhite : Color::kRed);

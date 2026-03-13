@@ -31,6 +31,10 @@ bool Game::Initialize()
 {
 	SetWaitVSyncFlag(0);
 
+	if (!LoadSystemSetting()) return false;
+	
+	InitWindow();
+	
 	// DXƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰Šú‰»
 	if (DxLib_Init() == -1)
 	{
@@ -38,10 +42,6 @@ bool Game::Initialize()
 		return false;
 	}
 
-	if (!LoadSystemSetting()) return false;
-	
-	InitWindow();
-	
 	// •`‰æ‘ÎÛ‚ğ— ‰æ–Ê‚Éİ’è
 	SetDrawScreen(DX_SCREEN_BACK);
 

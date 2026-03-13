@@ -54,7 +54,9 @@ public:
 
 private:
 
-	void UpdateButtonPos();
+	void AnimationButtonMove();
+
+	void AnimationButtonChoose();
 
 	int mGraphLogo;
 
@@ -62,7 +64,7 @@ private:
 
 	std::array<Vector2, 3> mButtonPos;
 
-	std::array<int, 3> mButtonAlpha;
+	std::array<float, 3> mButtonAlpha;
 
 	int mMenuChoice;
 

@@ -24,6 +24,7 @@ namespace Input
 		Draw,
 		Pause,
 		StartMove,
+		Accel,
 		Length
 	};
 

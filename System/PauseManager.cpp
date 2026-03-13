@@ -88,8 +88,8 @@ void PauseManager::OnPause()
 	if (!mIsPaused) return;
 
 	// 上下ボタンで選択場所を移動
-	if (InputManager::GetInstance().IsPressed(Input::Action::Up)) mMenuChoice--;
-	if (InputManager::GetInstance().IsPressed(Input::Action::Down)) mMenuChoice++;
+	if (InputManager::GetInstance().IsPressed(Input::Action::MenuUp)) mMenuChoice--;
+	if (InputManager::GetInstance().IsPressed(Input::Action::MenuDown)) mMenuChoice++;
 
 	// 選択場所を項目の範囲内に収める
 	mMenuChoice = (mMenuChoice + Choice::Max) % Choice::Max;

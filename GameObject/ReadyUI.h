@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 
+class SceneMain;
 class Tween;
 
 class ReadyUI : public GameObject
@@ -12,7 +13,8 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
-	ReadyUI(ObjectManager* manager);
+	/// <param name="scene">シーンのポインタ</param>
+	ReadyUI(ObjectManager* manager, SceneMain* scene);
 
 	/// <summary>
 	/// デストラクタ
@@ -51,13 +53,20 @@ private:
 	/// <summary>
 	/// 不透明度
 	/// </summary>
-	float mAlpha;
+	float mTextReadyAlpha;
+	float mTextStartAlpha;
 
 	float mScale;
 
-	int mGraphText;
+	int mGraphTextReady;
+
+	int mGraphTextStart;
 
 	bool mIsStarted;
 
+	SceneMain* mScene;
+
 	Tween* mTween;
+
+	float mStartTimer;
 };

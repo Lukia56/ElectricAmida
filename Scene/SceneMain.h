@@ -71,6 +71,7 @@ public:
 	void SuccessToDelivery();
 
 	GameState GetGameState() const { return mGameState; }
+	void SetGameState(const GameState state) { mGameState = state; }
 	
 	/// <summary>
 	/// ¬Œ÷”‚ğæ“¾‚·‚é

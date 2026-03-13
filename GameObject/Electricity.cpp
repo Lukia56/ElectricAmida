@@ -9,14 +9,18 @@
 #include "../Scene/SceneGameOver.h"
 #include "../Scene/Fader.h"
 #include "../System/Time.h"
+#include "../System/InputManager.h"
 #include "../ImGui/imgui.h"
 #include <cassert>
 
 namespace
 {
-	constexpr float kInitSpeed = 100.0f;
+	constexpr float kInitSpeed = 150.0f;
 
 	constexpr int kScreenCenterX = 240;
+
+	// 加速時の係数
+	constexpr float kCoefSpeed = 5.0f;
 }
 
 Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain* scene, HouseManager* houseMgr) :
@@ -25,7 +29,8 @@ Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain
 	mPtrSceneMain(scene),
 	mPtrHouseManager(houseMgr),
 	mSpeed(kInitSpeed),
-	mIsStart(false)
+	mIsStart(false),
+	mCanAccel(false)
 {
 }
 
@@ -36,7 +41,7 @@ Electricity::~Electricity()
 void Electricity::InitGameObject()
 {
 	const auto& houses = mPtrHouseManager->GetHouseObjectList();
-	const int isLeft = houses[mPtrHouseManager->GetEnableHouseIndex()]->GetPosition().x < kScreenCenterX;
+	const int isLeft = 0;//houses[mPtrHouseManager->GetEnableHouseIndex()]->GetPosition().x < kScreenCenterX;
 
 	// 固定電線リストをキャッシュ
 	const WireList& wires = mPtrWireManager->GetFixedWireList();
@@ -45,6 +50,8 @@ void Electricity::InitGameObject()
 	mStartPos = wires[isLeft].line.start;
 	mEndPos = wires[isLeft].line.end;
 	SetPosition(mStartPos);
+
+	mCanAccel = false;
 }
 
 void Electricity::EndGameObject()
@@ -58,7 +65,16 @@ void Electricity::Update()
 	Vector2 vect = mEndPos - mStartPos;
 	vect = Vector2::Normalize(vect);
 
-	const Vector2& speed = vect * mSpeed * Time::GetInstance().GetDeltaTime();
+	Vector2 speed = vect * mSpeed * Time::GetInstance().GetDeltaTime();
+
+	if (!mCanAccel && InputManager::GetInstance().IsReleased(Input::Action::Accel))
+	{
+		mCanAccel = true;
+	}
+	if (mCanAccel && InputManager::GetInstance().IsHeld(Input::Action::Accel))
+	{
+		speed *= kCoefSpeed;
+	}
 
 	Vector2 newPos = GetPosition() + speed;
 

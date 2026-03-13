@@ -98,4 +98,6 @@ private:
 	float mSpeed;
 
 	bool mIsStart;
+
+	bool mCanAccel;
 };
