@@ -15,12 +15,15 @@ namespace
 
 	// ‰Æ‚ÌŠÔ‚Ì‹——£
 	constexpr float kHouseDistance = 100.0f;
+
+	const char* const kGraphPath = "Resources\\Image\\house.png";
 }
 
 HouseManager::HouseManager(ObjectManager* manager, WireManager* wireMgr) :
 	GameObject(manager),
 	mPtrWireManager(wireMgr),
-	mEnabledHouse(false)
+	mEnabledHouse(false),
+	mGraph(-1)
 {
 }
 
@@ -30,13 +33,15 @@ HouseManager::~HouseManager()
 
 void HouseManager::InitGameObject()
 {
+	mGraph = LoadGraph(kGraphPath);
+
 	House* house;
 	Vector2 pos;
 	for (int i = 0; i < std::ceil(kHouseNum / 2.0f); i++)
 	{
 		pos = kLeftTopPos + Vector2(0, kHouseDistance * i);
 
-		house = new House(GetObjectManager(), mPtrWireManager);
+		house = new House(GetObjectManager(), mPtrWireManager, mGraph);
 		house->SetPosition(pos);
 		house->Init();
 		mObjHouseList.emplace_back(house);
@@ -45,7 +50,7 @@ void HouseManager::InitGameObject()
 	{
 		pos = kRightTopPos + Vector2(0, kHouseDistance * i);
 
-		house = new House(GetObjectManager(), mPtrWireManager);
+		house = new House(GetObjectManager(), mPtrWireManager, mGraph);
 		house->SetPosition(pos);
 		house->Init();
 		mObjHouseList.emplace_back(house);
@@ -54,6 +59,7 @@ void HouseManager::InitGameObject()
 
 void HouseManager::EndGameObject()
 {
+	DeleteGraph(mGraph);
 }
 
 void HouseManager::Update()

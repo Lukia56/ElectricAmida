@@ -184,6 +184,7 @@
   <ItemGroup>
     <Image Include="Image\Cloud.png" />
     <Image Include="Resources\Image\finish.png" />
+    <Image Include="Resources\Image\house.png" />
     <Image Include="Resources\Image\IconLightBulb.png" />
     <Image Include="Resources\Image\IconMoney.png" />
     <Image Include="Resources\Image\IconTimer.png" />

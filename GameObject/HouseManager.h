@@ -80,4 +80,6 @@ private:
 	std::vector<House*> mObjHouseList;
 
 	int mEnabledHouse;
+
+	int mGraph;
 };

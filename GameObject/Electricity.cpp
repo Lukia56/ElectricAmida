@@ -1,7 +1,9 @@
 #include "Electricity.h"
 #include <DxLib.h>
+#include <cmath>
 #include "../Utility/Vector.h"
 #include "../Utility/Color.h"
+#include "../Utility/Math.h"
 #include "../GameObject/WireManager.h"
 #include "../GameObject/HouseManager.h"
 #include "../GameObject/House.h"
@@ -30,7 +32,8 @@ Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain
 	mPtrHouseManager(houseMgr),
 	mSpeed(kInitSpeed),
 	mIsStart(false),
-	mCanAccel(false)
+	mCanAccel(false),
+	mTimer(0)
 {
 }
 
@@ -60,6 +63,8 @@ void Electricity::EndGameObject()
 
 void Electricity::Update()
 {
+	mTimer += 50;
+
 	if (!mIsStart) return;
 
 	Vector2 vect = mEndPos - mStartPos;
@@ -87,7 +92,7 @@ void Electricity::Update()
 void Electricity::Draw()
 {
 	Vector2 pos = GetPosition();
-	DrawCircle(pos.x, pos.y, 25, Color::kYellow);
+	DrawCircle(pos.x, pos.y, 10 + std::sin(Math::ToRadian(mTimer)) * 1, Color::kYellow);
 }
 
 void Electricity::DrawImGui()

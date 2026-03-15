@@ -167,6 +167,9 @@
     <Image Include="Resources\Image\finish.png">
       <Filter>リソース ファイル</Filter>
     </Image>
+    <Image Include="Resources\Image\house.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">

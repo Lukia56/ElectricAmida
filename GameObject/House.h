@@ -19,7 +19,7 @@ public:
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
 	/// <param name="wireMgr">電線のマネージャーのポインタ</param>
-	House(ObjectManager* manager, WireManager* wireMgr);
+	House(ObjectManager* manager, WireManager* wireMgr, int graph);
 
 	/// <summary>
 	/// デストラクタ
@@ -68,4 +68,6 @@ private:
 	/// 自身の引込線のインデックス
 	/// </summary>
 	int mWireIndex;
+
+	int mGraph;
 };

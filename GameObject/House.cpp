@@ -4,11 +4,12 @@
 #include "WireManager.h"
 #include "../System/InputManager.h"
 
-House::House(ObjectManager* manager, WireManager* wireMgr) :
+House::House(ObjectManager* manager, WireManager* wireMgr, int graph) :
 	GameObject(manager),
 	mPtrWireManager(wireMgr),
 	mIsEnabled(false),
-	mWireIndex(0)
+	mWireIndex(0),
+	mGraph(graph)
 {
 }
 
@@ -55,12 +56,18 @@ void House::Draw()
 	int color = mIsEnabled ? Color::kYellow : Color::kGray;
 
 	const auto& pos = GetPosition();
+	//DrawBox(pos.x - 40, pos.y - 40, pos.x + 40, pos.y + 40, color, true);
+
+	DrawRotaGraph(pos.x, pos.y, 1, 0, mGraph, 1);
+	SetDrawBlendMode(DX_BLENDMODE_MUL, color);
 	DrawBox(pos.x - 40, pos.y - 40, pos.x + 40, pos.y + 40, color, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 void House::SetWireActive(bool state)
 {
 	mPtrWireManager->SetWireEnable(mWireIndex, state);
+	mIsEnabled = state;
 }
 
 void House::SetActive()

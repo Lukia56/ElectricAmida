@@ -100,4 +100,6 @@ private:
 	bool mIsStart;
 
 	bool mCanAccel;
+
+	int mTimer;
 };
