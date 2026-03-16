@@ -25,4 +25,6 @@ namespace Color
 	const int kBrown = 0x612928;
 	// ŠDF
 	const int kGray = 0x808080;
+	// ”Z‚¢ŠDF
+	const int kDkGray = 0x404040;
 }

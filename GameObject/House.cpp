@@ -3,6 +3,7 @@
 #include "../Utility/Color.h"
 #include "WireManager.h"
 #include "../System/InputManager.h"
+#include "../GameObject/HeartPopUp.h"
 
 House::House(ObjectManager* manager, WireManager* wireMgr, int graph) :
 	GameObject(manager),
@@ -53,7 +54,7 @@ void House::Update()
 
 void House::Draw()
 {
-	int color = mIsEnabled ? Color::kYellow : Color::kGray;
+	int color = mIsEnabled ? Color::kYellow : Color::kDkGray;
 
 	const auto& pos = GetPosition();
 	//DrawBox(pos.x - 40, pos.y - 40, pos.x + 40, pos.y + 40, color, true);
@@ -62,6 +63,13 @@ void House::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_MUL, color);
 	DrawBox(pos.x - 40, pos.y - 40, pos.x + 40, pos.y + 40, color, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
+void House::Success()
+{
+	HeartPopUp* popup = new HeartPopUp(GetObjectManager());
+	popup->Init();
+	popup->SetPosition(GetPosition());
 }
 
 void House::SetWireActive(bool state)

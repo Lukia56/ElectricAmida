@@ -2,10 +2,7 @@
 
 #include "GameObject.h"
 
-class SceneMain;
-class Tween;
-
-class ReadyUI : public GameObject
+class BackGround : public GameObject
 {
 public:
 
@@ -13,13 +10,12 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
-	/// <param name="scene">シーンのポインタ</param>
-	ReadyUI(ObjectManager* manager, SceneMain* scene);
+	BackGround(ObjectManager* manager);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~ReadyUI() = default;
+	~BackGround() = default;
 
 	/// <summary>
 	/// ゲームオブジェクト固有の初期化処理
@@ -41,8 +37,6 @@ public:
 	/// </summary>
 	void Draw() override;
 
-	void PostDraw() override;
-
 	/// <summary>
 	/// ImGuiの描画
 	/// </summary>
@@ -50,25 +44,5 @@ public:
 
 private:
 
-	/// <summary>
-	/// 不透明度
-	/// </summary>
-	float mTextReadyAlpha;
-	float mTextStartAlpha;
-
-	float mScale;
-
-	int mGraphTextReady;
-
-	int mGraphTextStart;
-
-	bool mIsStarted;
-
-	SceneMain* mScene;
-
-	Tween* mTween;
-
-	float mStartTimer;
-
-	float mAnimationTimer;
+	int mGraphTree;
 };

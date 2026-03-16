@@ -23,6 +23,8 @@ namespace
 
 	const char* const kButtonText[] = {"はじめる", "設定", "やめる"};
 
+	const char* const kBGGraphPath = "Resources\\Image\\titleBg.png";
+
 	// タイトルロゴの座標
 	const Vector2 kLogoPos = { 240, 280 };
 	// タイトルロゴのスケール
@@ -38,9 +40,12 @@ namespace
 	const float kButtonChoiceOffsetPos = 50;
 	// メニューボタンのパス
 	const char* const kMenuButtonPath = "Resources\\Image\\MenuButton.png";
+
+	const char* const kButtonDesc = "左クリック：決定\nWS・マウスホイール：項目移動";
 }
 
 SceneTitle::SceneTitle() :
+	mGraphBackGround(-1),
 	mGraphLogo(-1),
 	mGraphButton(),
 	mMenuChoice(0),
@@ -57,6 +62,8 @@ SceneTitle::SceneTitle() :
 
 void SceneTitle::InitializeScene()
 {
+	mGraphBackGround = LoadGraph(kBGGraphPath);
+
 	mGraphLogo = LoadGraph(kLogoGraphPath);
 
 	LoadDivGraph(kMenuButtonPath, 3, 1, 3, 187, 31, mGraphButton.data());
@@ -68,15 +75,20 @@ void SceneTitle::InitializeScene()
 
 void SceneTitle::EndScene()
 {
-	DeleteGraph(mGraphLogo);
 	for (auto& graph : mGraphButton)
 	{
 		DeleteGraph(graph);
 	}
+	DeleteGraph(mGraphLogo);
+	DeleteGraph(mGraphBackGround);
 }
 
 SceneBase* SceneTitle::UpdateScene()
 {
+	mTween->Update();
+
+	if (GetFader()->IsFadingOut()) return this;
+
 	int preChoice = mMenuChoice;
 
 	// 上下ボタンで選択場所を移動
@@ -95,37 +107,44 @@ SceneBase* SceneTitle::UpdateScene()
 	// 決定ボタンが押されたら項目を選ぶ
 	if (InputManager::GetInstance().IsReleased(Input::Action::Confirm))
 	{
-		AnimationButtonChoose();
-
 		switch (mMenuChoice)
 		{
 		case Choice::Start:
 
 			GetFader()->StartFadeOut<SceneMain>();
+			AnimationButtonChoose();
 
 			break;
 
 		case Choice::Settings:
+		{
+			// X座標のアニメーション
+			std::vector<Animation::Keyframe> keyframes;
+			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[Choice::Settings].x - 10, 0, Animation::Ease::QuadIn });
+			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[Choice::Settings].x + 5, 4, Animation::Ease::QuadInOut });
+			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[Choice::Settings].x, 8 });
 
-
+			mTween->StartAnim(&mButtonPos[Choice::Settings].x, keyframes);
 
 			break;
+		}
 
 		case Choice::Quit:
 
 			Game::isRunning = false;
+			AnimationButtonChoose();
 
 			break;
 		}
 	}
-
-	mTween->Update();
 
 	return this;
 }
 
 void SceneTitle::DrawScene()
 {
+	DrawGraph(0, 0, mGraphBackGround, true);
+
 	for (int i = 0; i < Choice::Max; i++)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, mButtonAlpha[i]);
@@ -139,6 +158,8 @@ void SceneTitle::DrawScene()
 	}
 
 	DrawRotaGraph(kLogoPos.x, kLogoPos.y, kLogoScale, 0, mGraphLogo, true);
+
+	DrawString(20, 670, kButtonDesc, Color::kWhite);
 }
 
 void SceneTitle::DrawSceneImGui()

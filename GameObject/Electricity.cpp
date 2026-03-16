@@ -7,6 +7,7 @@
 #include "../GameObject/WireManager.h"
 #include "../GameObject/HouseManager.h"
 #include "../GameObject/House.h"
+#include "../GameObject/Particle.h"
 #include "../Scene/SceneMain.h"
 #include "../Scene/SceneGameOver.h"
 #include "../Scene/Fader.h"
@@ -17,12 +18,14 @@
 
 namespace
 {
-	constexpr float kInitSpeed = 150.0f;
+	constexpr float kInitSpeed = 50.0f;
 
 	constexpr int kScreenCenterX = 240;
 
 	// ‰Á‘¬Žž‚ÌŒW”
-	constexpr float kCoefSpeed = 5.0f;
+	constexpr float kCoefSpeed = 10.0f;
+
+	constexpr int kParticleDuration = 2;
 }
 
 Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain* scene, HouseManager* houseMgr) :
@@ -32,8 +35,8 @@ Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain
 	mPtrHouseManager(houseMgr),
 	mSpeed(kInitSpeed),
 	mIsStart(false),
-	mCanAccel(false),
-	mTimer(0)
+	mTimer(0),
+	mParticleTimer(0)
 {
 }
 
@@ -53,8 +56,6 @@ void Electricity::InitGameObject()
 	mStartPos = wires[isLeft].line.start;
 	mEndPos = wires[isLeft].line.end;
 	SetPosition(mStartPos);
-
-	mCanAccel = false;
 }
 
 void Electricity::EndGameObject()
@@ -65,6 +66,14 @@ void Electricity::Update()
 {
 	mTimer += 50;
 
+	GenerateParticle();
+
+	if (mPtrSceneMain->GetGameState() == SceneMain::GameState::Result)
+	{
+		SetState(State::EDead);
+		return;
+	}
+
 	if (!mIsStart) return;
 
 	Vector2 vect = mEndPos - mStartPos;
@@ -72,11 +81,7 @@ void Electricity::Update()
 
 	Vector2 speed = vect * mSpeed * Time::GetInstance().GetDeltaTime();
 
-	if (!mCanAccel && InputManager::GetInstance().IsReleased(Input::Action::Accel))
-	{
-		mCanAccel = true;
-	}
-	if (mCanAccel && InputManager::GetInstance().IsHeld(Input::Action::Accel))
+	if (InputManager::GetInstance().IsHeld(Input::Action::Accel))
 	{
 		speed *= kCoefSpeed;
 	}
@@ -225,13 +230,24 @@ void Electricity::MovedToHouse(Vector2& newPos)
 {
 	if (auto* house = mPtrHouseManager->GetNearestHouse(GetPosition()))
 	{
-		house->SetWireActive(false);
+		house->Success();
 	}
 
 	mPtrSceneMain->SuccessToDelivery();
 
-	//SetState(State::EDead);
-	mIsStart = false;
 	Init();
 	newPos = GetPosition();
+}
+
+void Electricity::GenerateParticle()
+{
+	mParticleTimer--;
+
+	if (mParticleTimer < 0)
+	{
+		mParticleTimer = kParticleDuration;
+
+		Particle* pt = new Particle(GetObjectManager(), GetPosition());
+		pt->Init();
+	}
 }

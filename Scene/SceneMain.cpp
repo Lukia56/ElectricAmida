@@ -13,15 +13,13 @@
 #include "../GameObject/GameUI.h"
 #include "../GameObject/ResultUI.h"
 #include "../GameObject/ReadyUI.h"
+#include "../GameObject/BackGround.h"
 #include "../ImGui/imgui.h"
 
 namespace
 {
 	// ƒQ[ƒ€‚Ì§ŒÀŽžŠÔ
 	constexpr float kLimitTime = 30.0f;
-
-	// “dü‚Ì‰Šú—\ŽZ
-	constexpr int kBudget = 10;
 }
 
 SceneMain::SceneMain() :
@@ -31,7 +29,6 @@ SceneMain::SceneMain() :
 	mGameState(GameState::Ready),
 	mSuccessNum(0),
 	mRemainTime(kLimitTime),
-	mBudget(kBudget),
 	mGameUI(nullptr),
 	mPauseManager(nullptr),
 	mResultUI(nullptr),
@@ -60,6 +57,9 @@ void SceneMain::InitializeScene()
 	mObjElectricity->Init();
 
 	mPauseManager = new PauseManager(GetObjectManager(), this);
+
+	auto background = new BackGround(GetObjectManager());
+	background->Init();
 }
 
 void SceneMain::EndScene()
@@ -93,16 +93,14 @@ SceneBase* SceneMain::UpdateScene()
 		break;
 	}
 
+	mGameUI->Update();
+
 	return this;
 }
 
 void SceneMain::DrawScene()
 {
-	//printfDx("¬Œ÷‰ñ” = %d\n", mSuccessNum);
-	//printfDx("Žc‚èŽžŠÔ = %f\n", mRemainTime);
-	//printfDx("—\ŽZ = %d\n", mBudget);
-
-	mGameUI->Draw();
+	if (!mPauseManager->IsPaused()) mGameUI->Draw();
 
 	if (mGameState == GameState::Play)
 	{
@@ -118,8 +116,7 @@ void SceneMain::DrawSceneImGui()
 		ImGui::Text("SceneMain");
 
 		ImGui::Text(u8"¬Œ÷‰ñ” = %d", mSuccessNum);
-		ImGui::Text(u8"Žc‚èŽžŠÔ = %f", mRemainTime);
-		//ImGui::Text(u8"—\ŽZ = %d", mBudget);
+		ImGui::SliderFloat(u8"Žc‚èŽžŠÔ = %f", &mRemainTime, 0, kLimitTime);
 	}
 
 	ImGui::End();
@@ -128,6 +125,8 @@ void SceneMain::DrawSceneImGui()
 void SceneMain::SuccessToDelivery()
 {
 	mSuccessNum++;
+
+	mGameUI->CountUpLightNum();
 
 	mObjHouseManager->EnableRandomHouse();
 }
@@ -143,10 +142,9 @@ void SceneMain::GameReady()
 
 void SceneMain::GamePlay()
 {
-	if (mObjElectricity && InputManager::GetInstance().IsPressed(Input::Action::StartMove))
-	{
-		mObjElectricity->StartMove();
-	}
+	if (mPauseManager->IsPaused()) return;
+
+	mObjElectricity->StartMove();
 
 	mRemainTime -= Time::GetInstance().GetDeltaTime();
 
@@ -154,13 +152,7 @@ void SceneMain::GamePlay()
 	if (mRemainTime <= 0)
 	{
 		mGameState = GameState::Result;
-		//GetFader()->StartFadeOut<SceneGameClear>();
 	}
-	//// ‚·‚×‚Ä‚ÌZ‘î‚É“d‹C‚ð“Í‚¯I‚í‚Á‚½‚ç
-	//if (mSuccessNum >= mObjHouseManager->GetHouseNum())
-	//{
-	//	mGameState = GameState::Result;
-	//}
 }
 
 void SceneMain::GameResult()

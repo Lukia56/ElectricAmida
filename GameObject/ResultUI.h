@@ -9,6 +9,12 @@ class ResultUI : public GameObject
 {
 public:
 
+	enum class ResultState
+	{
+		Text,
+		Input
+	};
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -68,4 +74,10 @@ private:
 	float mMenuY;
 
 	Tween* mTween;
+
+	ResultState mState;
+
+	float mTextScale;
+
+	int mGraphText;
 };

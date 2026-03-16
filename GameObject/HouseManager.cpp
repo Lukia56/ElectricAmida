@@ -78,10 +78,17 @@ void HouseManager::EnableRandomHouse()
 	{
 		if (house->IsEnable()) continue;
 
+		if (house->GetPosition().x == mObjHouseList[mEnabledHouse]->GetPosition().x) continue;
+
 		houseList.emplace_back(house);
 	}
 
 	if (houseList.size() == 0) return;
+
+	for (const auto& house : mObjHouseList)
+	{
+		house->SetWireActive(false);
+	}
 
 	int random = GetRand(houseList.size() - 1);
 	houseList[random]->SetWireActive(true);

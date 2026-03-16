@@ -6,6 +6,7 @@
 #include "../Scene/SceneMain.h"
 #include "../Scene/SceneTitle.h"
 #include "../Scene/Fader.h"
+#include "../Utility/Color.h"
 
 namespace
 {
@@ -73,12 +74,11 @@ void PauseManager::Draw()
 		DrawGraph(0, 0, mScreenGraph, 0);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-		DrawString(60, 60, "戻る", mMenuChoice == 0 ? 0x00ffff : GetColor(255, 255, 255));
-		DrawString(60, 100, "リトライ", mMenuChoice == 1 ? 0x00ffff : GetColor(255, 255, 255));
-		DrawString(60, 140, "タイトル画面へ戻る", mMenuChoice == 2 ? 0x00ffff : GetColor(255, 255, 255));
+		DrawExtendString(180, 40, 2, 2, "ポーズ中", Color::kWhite);
 
-		// デバッグ用
-		printfDx("choice = %d", mMenuChoice);
+		DrawString(60, 240, "戻る", mMenuChoice == 0 ? Color::kYellow : Color::kGray);
+		DrawString(60, 280, "リトライ", mMenuChoice == 1 ? Color::kYellow : Color::kGray);
+		DrawString(60, 320, "タイトル画面へ戻る", mMenuChoice == 2 ? Color::kYellow : Color::kGray);
 	}
 }
 
@@ -86,6 +86,8 @@ void PauseManager::OnPause()
 {
 	// ポーズ中ではないなら早期リターン
 	if (!mIsPaused) return;
+
+	if (mScene->GetFader()->IsFadingOut()) return;
 
 	// 上下ボタンで選択場所を移動
 	if (InputManager::GetInstance().IsPressed(Input::Action::MenuUp)) mMenuChoice--;

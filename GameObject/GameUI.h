@@ -1,6 +1,9 @@
 #pragma once
 
+#include "../Utility/Vector.h"
+
 class SceneMain;
+class Tween;
 
 class GameUI
 {
@@ -14,12 +17,24 @@ public:
 
 	void End();
 
+	void Update();
+
 	void Draw();
+
+	void CountUpLightNum();
+
+	void CountDownTimer();
 
 private:
 
 	SceneMain* mSceneMain;
-	int mGraphMoneyIcon;
 	int mGraphLightBulbIcon;
 	int mGraphTimerIcon;
+
+	Vector2 mLightIconPos;
+	Vector2 mTimerIconPos;
+	Vector2 mLightTextPos;
+	Vector2 mTimerTextPos;
+
+	Tween* mTween;
 };

@@ -23,7 +23,6 @@ namespace Input
 		Confirm,
 		Draw,
 		Pause,
-		StartMove,
 		Accel,
 		Length
 	};

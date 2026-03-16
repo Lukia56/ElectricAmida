@@ -1,13 +1,18 @@
 #include "ReadyUI.h"
 #include <DxLib.h>
+#include <cmath>
 #include "../Easing/Tween.h"
 #include "../System/InputManager.h"
 #include "../Scene/SceneMain.h"
 #include "../System/Time.h"
+#include "../Utility/Math.h"
 
 namespace
 {
 	constexpr float kDelayStartTime = 1.0f;
+
+	constexpr float kTextScalingSpeed = 0.025f;
+	constexpr float kTextScalingRange = 0.025f;
 }
 
 ReadyUI::ReadyUI(ObjectManager* manager, SceneMain* scene) :
@@ -20,7 +25,8 @@ ReadyUI::ReadyUI(ObjectManager* manager, SceneMain* scene) :
 	mIsStarted(false),
 	mScene(scene),
 	mTween(nullptr),
-	mStartTimer(kDelayStartTime)
+	mStartTimer(kDelayStartTime),
+	mAnimationTimer(0.0f)
 {
 }
 
@@ -72,13 +78,16 @@ void ReadyUI::Update()
 		}
 	}
 
+	mAnimationTimer += kTextScalingSpeed;
+
 	mTween->Update();
 }
 
 void ReadyUI::Draw()
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(mTextReadyAlpha));
-	DrawRotaGraph(240, 360, 1, 0, mGraphTextReady, 1);
+	float scale = 1 + std::sin(mAnimationTimer) * 0.05f;
+	DrawRotaGraph(240, 360, scale, 0, mGraphTextReady, 1);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(mTextStartAlpha));
 	DrawRotaGraph(240, 360, mScale, 0, mGraphTextStart, 1);

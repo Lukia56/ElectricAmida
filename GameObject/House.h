@@ -46,6 +46,8 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	void Success();
+
 	void SetWireActive(bool state);
 
 	void SetActive();

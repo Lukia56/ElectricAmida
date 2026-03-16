@@ -66,22 +66,25 @@ void WireManager::Update()
 
 void WireManager::Draw()
 {
-	if (InputManager::GetInstance().IsHeld(Input::Action::Draw) && mPtrScene->GetGameState() == SceneMain::GameState::Play)
-	{
-		// マウスが離された座標を開始点にする
-		DrawLine(mDrawWire.start.x, mDrawWire.start.y, mDrawWire.end.x, mDrawWire.end.y, mPtrScene->GetBudget() > 0 ? Color::kWhite : Color::kRed);
-	}
-
 	// 固定電線を描画
 	for (const auto& wire : mFixedWireList)
 	{
-		DrawLine(wire.line.start.x, wire.line.start.y, wire.line.end.x, wire.line.end.y, Color::kCyan);
+		DrawLine(wire.line.start.x, wire.line.start.y, wire.line.end.x, wire.line.end.y, Color::kWhite);
 	}
 
 	// 電線を描画
 	for (const auto& wire : mWireList)
 	{
-		DrawLine(wire.line.start.x, wire.line.start.y, wire.line.end.x, wire.line.end.y, wire.enable ? Color::kCyan : Color::kBrown);
+		DrawLine(wire.line.start.x, wire.line.start.y, wire.line.end.x, wire.line.end.y, wire.enable ? Color::kWhite : Color::kDkGray);
+	}
+}
+
+void WireManager::PostDraw()
+{
+	if (InputManager::GetInstance().IsHeld(Input::Action::Draw) && mPtrScene->GetGameState() == SceneMain::GameState::Play)
+	{
+		// マウスが離された座標を開始点にする
+		DrawLine(mDrawWire.start.x, mDrawWire.start.y, mDrawWire.end.x, mDrawWire.end.y, CanCreateWire() ? Color::kWhite : Color::kRed);
 	}
 }
 
@@ -116,12 +119,8 @@ void WireManager::CreateAddWire()
 {
 	if (!InputManager::GetInstance().IsReleased(Input::Action::Draw)) return;
 	
-	// 予算が無いなら早期リターン
-	if (mPtrScene->GetBudget() <= 0) return;
-
 	// 固定電線に触れているかチェック
-	if (Collision::IsIntersect(mDrawWire, mFixedWireList[FixedWire::kLeftIndex].line)
-		&& Collision::IsIntersect(mDrawWire, mFixedWireList[FixedWire::kRightIndex].line))
+	if (CanCreateWire())
 	{
 		// 開始点を左の固定電線に合わせるために、
 		// 開始点を左に置く
@@ -140,7 +139,13 @@ void WireManager::CreateAddWire()
 		wire.line = mDrawWire;
 		wire.enable = true;
 		mWireList.emplace_back(wire);
-
-		mPtrScene->SetBudget(mPtrScene->GetBudget() - 1);
 	}
+}
+
+bool WireManager::CanCreateWire()
+{
+	bool result = Collision::IsIntersect(mDrawWire, mFixedWireList[FixedWire::kLeftIndex].line)
+		&& Collision::IsIntersect(mDrawWire, mFixedWireList[FixedWire::kRightIndex].line);
+
+	return result;
 }

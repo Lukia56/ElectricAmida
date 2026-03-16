@@ -85,17 +85,6 @@ public:
 	/// <returns></returns>
 	int GetRemainTime() const { return mRemainTime; }
 
-	/// <summary>
-	/// —\Z‚ğæ“¾‚·‚é
-	/// </summary>
-	/// <returns>Œ»İ‚Ì—\Z</returns>
-	int GetBudget() const { return mBudget; }
-	/// <summary>
-	/// —\Z‚ğİ’è
-	/// </summary>
-	/// <param name="budget">—\Z</param>
-	void SetBudget(const int budget) { mBudget = budget; }
-
 private:
 
 	void GameReady();
@@ -133,11 +122,6 @@ private:
 	/// ƒQ[ƒ€‚Ìc‚èŠÔ
 	/// </summary>
 	float mRemainTime;
-
-	/// <summary>
-	/// “dü‚ğˆø‚­—\Z
-	/// </summary>
-	int mBudget;
 
 	GameUI* mGameUI;
 

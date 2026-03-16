@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject\BackGround.cpp" />
     <ClCompile Include="Collision\Collision2D.cpp" />
     <ClCompile Include="Easing\AnimationCurve.cpp" />
     <ClCompile Include="Easing\Tween.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="GameObject\GameUI.cpp" />
     <ClCompile Include="GameObject\House.cpp" />
     <ClCompile Include="GameObject\HouseManager.cpp" />
+    <ClCompile Include="GameObject\HeartPopUp.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
@@ -156,6 +158,8 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="GameObject\ResultUI.cpp" />
     <ClCompile Include="GameObject\ReadyUI.cpp" />
+    <ClCompile Include="GameObject\ScorePopUp.cpp" />
+    <ClCompile Include="GameObject\Particle.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="System\ImGuiRenderer.cpp" />
     <ClCompile Include="System\PauseManager.cpp" />
@@ -178,12 +182,14 @@
     <ClCompile Include="System\InputManager.cpp" />
     <ClCompile Include="System\SceneManager.cpp" />
     <ClCompile Include="System\Time.cpp" />
+    <ClCompile Include="GameObject\Tree.cpp" />
     <ClCompile Include="Utility\Vector.cpp" />
     <ClCompile Include="GameObject\WireManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Image\Cloud.png" />
     <Image Include="Resources\Image\finish.png" />
+    <Image Include="Resources\Image\Heart.png" />
     <Image Include="Resources\Image\house.png" />
     <Image Include="Resources\Image\IconLightBulb.png" />
     <Image Include="Resources\Image\IconMoney.png" />
@@ -192,8 +198,11 @@
     <Image Include="Resources\Image\MenuButton.png" />
     <Image Include="Resources\Image\ready.png" />
     <Image Include="Resources\Image\start.png" />
+    <Image Include="Resources\Image\titleBg.png" />
+    <Image Include="Resources\Image\tree.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameObject\BackGround.h" />
     <ClInclude Include="Collision\Collision2D.h" />
     <ClInclude Include="Easing\AnimationCurve.h" />
     <ClInclude Include="Easing\Keyframe.h" />
@@ -203,6 +212,7 @@
     <ClInclude Include="GameObject\GameUI.h" />
     <ClInclude Include="GameObject\House.h" />
     <ClInclude Include="GameObject\HouseManager.h" />
+    <ClInclude Include="GameObject\HeartPopUp.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />
@@ -213,6 +223,8 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="GameObject\ResultUI.h" />
     <ClInclude Include="GameObject\ReadyUI.h" />
+    <ClInclude Include="GameObject\ScorePopUp.h" />
+    <ClInclude Include="GameObject\Particle.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="System\ImGuiRenderer.h" />
     <ClInclude Include="System\PauseManager.h" />
@@ -233,6 +245,7 @@
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="System\InputManager.h" />
     <ClInclude Include="System\Time.h" />
+    <ClInclude Include="GameObject\Tree.h" />
     <ClInclude Include="Utility\Color.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="System\SceneManager.h" />

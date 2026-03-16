@@ -68,6 +68,8 @@ private:
 	/// </summary>
 	void MovedToHouse(Vector2& newPos);
 
+	void GenerateParticle();
+
 	/// <summary>
 	/// 電線のマネージャーのポインタ
 	/// </summary>
@@ -97,9 +99,18 @@ private:
 	/// </summary>
 	float mSpeed;
 
+	/// <summary>
+	/// 移動開始するかどうか
+	/// </summary>
 	bool mIsStart;
 
-	bool mCanAccel;
-
+	/// <summary>
+	/// アニメーション用
+	/// </summary>
 	int mTimer;
+
+	/// <summary>
+	/// パーティクルを生成するカウンタ
+	/// </summary>
+	int mParticleTimer;
 };

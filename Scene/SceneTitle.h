@@ -58,6 +58,8 @@ private:
 
 	void AnimationButtonChoose();
 
+	int mGraphBackGround;
+
 	int mGraphLogo;
 
 	std::array<int, 3> mGraphButton;

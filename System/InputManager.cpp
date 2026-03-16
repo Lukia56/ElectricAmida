@@ -56,12 +56,15 @@ void InputManager::Initialize()
 	BindButton(Input::Action::Left, "Keyboard", "LeftArrow");
 	BindButton(Input::Action::Right, "Keyboard", "RightArrow");
 
+	BindButton(Input::Action::MenuUp, "Keyboard", "W");
 	BindButton(Input::Action::MenuUp, "Mouse", "WheelUp");
+	BindButton(Input::Action::MenuDown, "Keyboard", "S");
 	BindButton(Input::Action::MenuDown, "Mouse", "WheelDown");
-	BindButton(Input::Action::MenuLeft, "Mouse", "LClick");
-	BindButton(Input::Action::MenuRight, "Mouse", "RClick");
+	BindButton(Input::Action::MenuLeft, "Keyboard", "A");
+	BindButton(Input::Action::MenuLeft, "Mouse", "WheelUp");
+	BindButton(Input::Action::MenuRight, "Keyboard", "D");
+	BindButton(Input::Action::MenuRight, "Mouse", "WheelDown");
 
-	BindButton(Input::Action::StartMove, "Keyboard", "Space");
 	BindButton(Input::Action::Accel, "Keyboard", "Space");
 	BindButton(Input::Action::Confirm, "Mouse", "LClick");
 	BindButton(Input::Action::Draw, "Mouse", "LClick");

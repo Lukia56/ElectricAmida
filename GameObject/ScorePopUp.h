@@ -2,10 +2,9 @@
 
 #include "GameObject.h"
 
-class SceneMain;
 class Tween;
 
-class ReadyUI : public GameObject
+class ScorePopUp : public GameObject
 {
 public:
 
@@ -13,13 +12,12 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
-	/// <param name="scene">シーンのポインタ</param>
-	ReadyUI(ObjectManager* manager, SceneMain* scene);
+	ScorePopUp(ObjectManager* manager);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~ReadyUI() = default;
+	~ScorePopUp() = default;
 
 	/// <summary>
 	/// ゲームオブジェクト固有の初期化処理
@@ -41,8 +39,6 @@ public:
 	/// </summary>
 	void Draw() override;
 
-	void PostDraw() override;
-
 	/// <summary>
 	/// ImGuiの描画
 	/// </summary>
@@ -50,25 +46,9 @@ public:
 
 private:
 
-	/// <summary>
-	/// 不透明度
-	/// </summary>
-	float mTextReadyAlpha;
-	float mTextStartAlpha;
+	Vector2 mOffsetPos;
 
-	float mScale;
-
-	int mGraphTextReady;
-
-	int mGraphTextStart;
-
-	bool mIsStarted;
-
-	SceneMain* mScene;
+	float mAlpha;
 
 	Tween* mTween;
-
-	float mStartTimer;
-
-	float mAnimationTimer;
 };

@@ -2,10 +2,7 @@
 
 #include "GameObject.h"
 
-class SceneMain;
-class Tween;
-
-class ReadyUI : public GameObject
+class Particle : public GameObject
 {
 public:
 
@@ -13,13 +10,13 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
-	/// <param name="scene">シーンのポインタ</param>
-	ReadyUI(ObjectManager* manager, SceneMain* scene);
+	/// <param name="pos">初期位置</param>
+	Particle(ObjectManager* manager, Vector2 pos);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~ReadyUI() = default;
+	~Particle() = default;
 
 	/// <summary>
 	/// ゲームオブジェクト固有の初期化処理
@@ -41,34 +38,7 @@ public:
 	/// </summary>
 	void Draw() override;
 
-	void PostDraw() override;
-
-	/// <summary>
-	/// ImGuiの描画
-	/// </summary>
-	void DrawImGui() override;
-
 private:
 
-	/// <summary>
-	/// 不透明度
-	/// </summary>
-	float mTextReadyAlpha;
-	float mTextStartAlpha;
-
-	float mScale;
-
-	int mGraphTextReady;
-
-	int mGraphTextStart;
-
-	bool mIsStarted;
-
-	SceneMain* mScene;
-
-	Tween* mTween;
-
-	float mStartTimer;
-
-	float mAnimationTimer;
+	int mAlpha;
 };

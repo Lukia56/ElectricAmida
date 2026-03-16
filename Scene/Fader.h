@@ -47,19 +47,6 @@ public:
 	/// <param name="color">フェーダーの色</param>
 	void SetFadeColor(const int color) { mFadeColor = color; }
 
-private:
-
-	/// <summary>
-	/// フェード処理
-	/// </summary>
-	/// <returns>フェードが完了したらtrue</returns>
-	bool ProcessFade();
-
-	/// <summary>
-	/// フェードが完了したときにフェードを停止させる
-	/// </summary>
-	void StopFade();
-
 	/// <summary>
 	/// フェード中かどうか
 	/// </summary>
@@ -77,6 +64,19 @@ private:
 	/// </summary>
 	/// <returns>フェードアウト中ならtrue</returns>
 	bool IsFadingOut() const;
+
+private:
+
+	/// <summary>
+	/// フェード処理
+	/// </summary>
+	/// <returns>フェードが完了したらtrue</returns>
+	bool ProcessFade();
+
+	/// <summary>
+	/// フェードが完了したときにフェードを停止させる
+	/// </summary>
+	void StopFade();
 
 	/// <summary>
 	/// フェードインが完了したかどうか
@@ -106,8 +106,6 @@ private:
 template<class ClassName>
 inline void Fader::StartFadeOut(int speed, int color)
 {
-	if (IsFading()) return;
-
 	mFadeColor = color;
 	mFadeSpeed = speed;
 

@@ -164,7 +164,7 @@ bool Game::LoadSystemSetting()
 
 	return true;
 }
-
+          
 void Game::InitWindow()
 {
 	// ウィンドウ名を設定
@@ -174,13 +174,7 @@ void Game::InitWindow()
 	// ウィンドウのサイズを指定
 	SetGraphMode(mSystemSettingData["windowWidth"], mSystemSettingData["windowHeight"], mSystemSettingData["colorBit"]);
 
-	// Debugビルドならウィンドウ、
-	// Releaseビルドならフルスクリーンモードにする
-#ifdef _DEBUG
 	ChangeWindowMode(true);
-#else
-	ChangeWindowMode(false);
-#endif
 }
 
 float Game::CalculateDeltaTime() const

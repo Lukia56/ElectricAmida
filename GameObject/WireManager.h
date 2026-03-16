@@ -61,6 +61,8 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	void PostDraw() override;
+
 	/// <summary>
 	/// 電線リストに電線を追加する
 	/// </summary>
@@ -101,6 +103,8 @@ private:
 	/// 追加電線の生成
 	/// </summary>
 	void CreateAddWire();
+
+	bool CanCreateWire();
 
 	/// <summary>
 	/// シーンのポインタ

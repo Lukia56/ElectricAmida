@@ -10,7 +10,7 @@
 SceneManager::SceneManager() :
 	mPtrScene(nullptr)
 {
-	mPtrScene = new SceneMain();
+	mPtrScene = new SceneTitle();
 	mPtrScene->Initialize(this);
 }
 
