@@ -107,6 +107,16 @@ private:
 	bool CanCreateWire();
 
 	/// <summary>
+	/// 点線を描画する
+	/// </summary>
+	/// <param name="start">開始点</param>
+	/// <param name="end">終点</param>
+	/// <param name="color">線の色</param>
+	/// <param name="dotLen">点の長さ</param>
+	/// <param name="spaceLen">隙間の長さ</param>
+	void DrawDottedLine(const Vector2& start, const Vector2& end, unsigned int color, float dotLen, float spaceLen);
+
+	/// <summary>
 	/// シーンのポインタ
 	/// </summary>
 	SceneMain* mPtrScene;
@@ -125,4 +135,9 @@ private:
 	/// 追加しようとしている電線の線分
 	/// </summary>
 	LineSegment mDrawWire;
+
+	/// <summary>
+	/// 追加電線の準備中にならす音のタイマー
+	/// </summary>
+	float mSeTimer;
 };

@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject\CountdownManager.cpp" />
+    <ClCompile Include="GameObject\CountNumber.cpp" />
     <ClCompile Include="GameObject\BackGround.cpp" />
     <ClCompile Include="Collision\Collision2D.cpp" />
     <ClCompile Include="Easing\AnimationCurve.cpp" />
@@ -161,6 +163,7 @@
     <ClCompile Include="GameObject\ScorePopUp.cpp" />
     <ClCompile Include="GameObject\Particle.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
+    <ClCompile Include="System\SoundManager.cpp" />
     <ClCompile Include="System\ImGuiRenderer.cpp" />
     <ClCompile Include="System\PauseManager.cpp" />
     <ClCompile Include="Scene\SceneGameClear.cpp" />
@@ -188,6 +191,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Image\Cloud.png" />
+    <Image Include="Resources\Image\1.png" />
+    <Image Include="Resources\Image\2.png" />
+    <Image Include="Resources\Image\3.png" />
     <Image Include="Resources\Image\finish.png" />
     <Image Include="Resources\Image\Heart.png" />
     <Image Include="Resources\Image\house.png" />
@@ -196,12 +202,20 @@
     <Image Include="Resources\Image\IconTimer.png" />
     <Image Include="Resources\Image\Logo.png" />
     <Image Include="Resources\Image\MenuButton.png" />
+    <Image Include="Resources\Image\RankA.png" />
+    <Image Include="Resources\Image\RankB.png" />
+    <Image Include="Resources\Image\RankC.png" />
+    <Image Include="Resources\Image\RankD.png" />
+    <Image Include="Resources\Image\RankE.png" />
+    <Image Include="Resources\Image\RankS.png" />
     <Image Include="Resources\Image\ready.png" />
     <Image Include="Resources\Image\start.png" />
     <Image Include="Resources\Image\titleBg.png" />
     <Image Include="Resources\Image\tree.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameObject\CountdownManager.h" />
+    <ClInclude Include="GameObject\CountNumber.h" />
     <ClInclude Include="GameObject\BackGround.h" />
     <ClInclude Include="Collision\Collision2D.h" />
     <ClInclude Include="Easing\AnimationCurve.h" />
@@ -226,6 +240,7 @@
     <ClInclude Include="GameObject\ScorePopUp.h" />
     <ClInclude Include="GameObject\Particle.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
+    <ClInclude Include="System\SoundManager.h" />
     <ClInclude Include="System\ImGuiRenderer.h" />
     <ClInclude Include="System\PauseManager.h" />
     <ClInclude Include="Scene\SceneGameClear.h" />
@@ -255,6 +270,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\SystemSetting.json" />
+    <None Include="Resources\SoundPath.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Sound\BGM_InGame.mp3" />
+    <Media Include="Resources\Sound\BGM_Result.mp3" />
+    <Media Include="Resources\Sound\BGM_Title.mp3" />
+    <Media Include="Resources\Sound\SE_Confirm.mp3" />
+    <Media Include="Resources\Sound\SE_CreateWire.mp3" />
+    <Media Include="Resources\Sound\SE_Destination.mp3" />
+    <Media Include="Resources\Sound\SE_GameStart.mp3" />
+    <Media Include="Resources\Sound\SE_LightUp.mp3" />
+    <Media Include="Resources\Sound\SE_MenuMove.mp3" />
+    <Media Include="Resources\Sound\SE_ReadyDraw.mp3" />
+    <Media Include="Resources\Sound\SE_SwitchBranch.mp3" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

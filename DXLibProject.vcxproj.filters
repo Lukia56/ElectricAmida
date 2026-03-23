@@ -153,6 +153,15 @@
     <ClCompile Include="GameObject\Particle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="System\SoundManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\CountNumber.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\CountdownManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Image\Cloud.png">
@@ -192,6 +201,33 @@
       <Filter>リソース ファイル</Filter>
     </Image>
     <Image Include="Resources\Image\titleBg.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\1.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\2.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\3.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\RankA.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\RankB.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\RankC.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\RankD.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\RankE.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\RankS.png">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>
@@ -346,8 +382,31 @@
     <ClInclude Include="GameObject\Particle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="System\SoundManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\CountNumber.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\CountdownManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\SystemSetting.json" />
+    <None Include="Resources\SoundPath.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Sound\BGM_InGame.mp3" />
+    <Media Include="Resources\Sound\BGM_Result.mp3" />
+    <Media Include="Resources\Sound\BGM_Title.mp3" />
+    <Media Include="Resources\Sound\SE_SwitchBranch.mp3" />
+    <Media Include="Resources\Sound\SE_LightUp.mp3" />
+    <Media Include="Resources\Sound\SE_Destination.mp3" />
+    <Media Include="Resources\Sound\SE_Confirm.mp3" />
+    <Media Include="Resources\Sound\SE_CreateWire.mp3" />
+    <Media Include="Resources\Sound\SE_MenuMove.mp3" />
+    <Media Include="Resources\Sound\SE_GameStart.mp3" />
+    <Media Include="Resources\Sound\SE_ReadyDraw.mp3" />
   </ItemGroup>
 </Project>

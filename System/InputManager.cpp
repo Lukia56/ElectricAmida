@@ -66,6 +66,8 @@ void InputManager::Initialize()
 	BindButton(Input::Action::MenuRight, "Mouse", "WheelDown");
 
 	BindButton(Input::Action::Accel, "Keyboard", "Space");
+	BindButton(Input::Action::Accel, "Mouse", "RClick");
+	BindButton(Input::Action::Confirm, "Keyboard", "Space");
 	BindButton(Input::Action::Confirm, "Mouse", "LClick");
 	BindButton(Input::Action::Draw, "Mouse", "LClick");
 	BindButton(Input::Action::Pause, "Keyboard", "Escape");

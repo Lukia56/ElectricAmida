@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include <vector>
 #include "../System/InputManager.h"
+#include "../System/SoundManager.h"
 #include "../Utility/Color.h"
 #include "../ImGui/imgui.h"
 #include "../Scene/SceneMain.h"
@@ -28,6 +29,15 @@ namespace
 	const char* const kGraphTextPath = "Resources\\Image\\finish.png";
 
 	const char* const kButtonDesc = "左クリック：決定\nWS・マウスホイール：項目移動";
+
+	/*
+	S	~18
+	A	16~17	2
+	B	12~15	4
+	C	7~11	5
+	D	3~6	4
+	E	0~2	3
+	*/
 }
 
 ResultUI::ResultUI(ObjectManager* manager, SceneMain* scene) :
@@ -104,8 +114,16 @@ void ResultUI::Update()
 	case ResultState::Input:
 
 		// 上下ボタンで選択場所を移動
-		if (InputManager::GetInstance().IsPressed(Input::Action::MenuUp)) mMenuChoice--;
-		if (InputManager::GetInstance().IsPressed(Input::Action::MenuDown)) mMenuChoice++;
+		if (InputManager::GetInstance().IsPressed(Input::Action::MenuUp))
+		{
+			mMenuChoice--;
+			SoundManager::GetInstance().PlaySE(Sound::SE::MenuMove);
+		}
+		if (InputManager::GetInstance().IsPressed(Input::Action::MenuDown))
+		{
+			mMenuChoice++;
+			SoundManager::GetInstance().PlaySE(Sound::SE::MenuMove);
+		}
 
 		// 選択場所を項目の範囲内に収める
 		mMenuChoice = (mMenuChoice + Choice::Max) % Choice::Max;
@@ -113,6 +131,8 @@ void ResultUI::Update()
 		// 決定ボタンが押されたら項目を選ぶ
 		if (InputManager::GetInstance().IsPressed(Input::Action::Confirm))
 		{
+			SoundManager::GetInstance().PlaySE(Sound::SE::Confirm);
+
 			switch (mMenuChoice)
 			{
 			case Choice::Retry:

@@ -1,5 +1,6 @@
 #include "HeartPopUp.h"
 #include "../Easing/Tween.h"
+#include "../System/SoundManager.h"
 
 namespace
 {
@@ -39,6 +40,8 @@ void HeartPopUp::InitGameObject()
 	keyframes.emplace_back(Animation::Keyframe{ 255, 52, Animation::Ease::QuadIn });
 	keyframes.emplace_back(Animation::Keyframe{ 0, 60 });
 	mTween->StartAnim(&mAlpha, keyframes);
+
+	SoundManager::GetInstance().PlaySE(Sound::SE::LightUp);
 }
 
 void HeartPopUp::EndGameObject()

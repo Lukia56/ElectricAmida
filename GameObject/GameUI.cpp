@@ -1,6 +1,7 @@
 #include "GameUI.h"
 #include <DxLib.h>
 #include <string>
+#include <cmath>
 #include "../Utility/Color.h"
 #include "../Utility/Vector.h"
 #include "../Scene/SceneMain.h"
@@ -64,7 +65,9 @@ void GameUI::Draw()
 	DrawGraph(mTimerIconPos.x, mTimerIconPos.y, mGraphTimerIcon, 1);
 
 	DrawString(mLightTextPos.x, mLightTextPos.y, std::to_string(mSceneMain->GetSuccessNum()).c_str(), Color::kWhite);
-	DrawString(mTimerTextPos.x, mTimerTextPos.y, std::to_string(mSceneMain->GetRemainTime()).c_str(), Color::kWhite);
+
+	int remainTime = std::ceil(mSceneMain->GetRemainTime());
+	DrawString(mTimerTextPos.x, mTimerTextPos.y, std::to_string(remainTime).c_str(), Color::kWhite);
 }
 
 void GameUI::CountUpLightNum()

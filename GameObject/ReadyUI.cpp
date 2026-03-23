@@ -5,6 +5,7 @@
 #include "../System/InputManager.h"
 #include "../Scene/SceneMain.h"
 #include "../System/Time.h"
+#include "../System/SoundManager.h"
 #include "../Utility/Math.h"
 
 namespace
@@ -65,6 +66,8 @@ void ReadyUI::Update()
 		keyframes.emplace_back(Animation::Keyframe{ 255.0f, 0, Animation::Ease::Linear });
 		keyframes.emplace_back(Animation::Keyframe{ 0.0f, 6 });
 		mTween->StartAnim(&mTextReadyAlpha, keyframes);
+
+		SoundManager::GetInstance().PlaySE(Sound::SE::GameStart);
 	}
 
 	if (mIsStarted)

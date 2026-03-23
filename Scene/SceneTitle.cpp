@@ -2,13 +2,14 @@
 #include <DxLib.h>
 #include <memory>
 #include "../System/InputManager.h"
+#include "../System/SoundManager.h"
+#include "../System/SoundManager.h"
 #include "../Utility/Color.h"
 #include "../Scene/SceneMain.h"
 #include "../Scene/Fader.h"
 #include "../Easing/Tween.h"
 #include "../ImGui/imgui.h"
 #include "../Game.h"
-#include "../System/InputDevice/InputDeviceMouse.h"
 
 namespace
 {
@@ -71,6 +72,8 @@ void SceneTitle::InitializeScene()
 	mTween = std::make_unique<Tween>();
 
 	AnimationButtonMove();
+
+	SoundManager::GetInstance().PlayBGM(Sound::BGM::Title);
 }
 
 void SceneTitle::EndScene()
@@ -102,11 +105,15 @@ SceneBase* SceneTitle::UpdateScene()
 	if (preChoice != mMenuChoice)
 	{
 		AnimationButtonMove();
+		
+		SoundManager::GetInstance().PlaySE(Sound::SE::MenuMove);
 	}
 
 	// Œˆ’èƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚ç€–Ú‚ğ‘I‚Ô
 	if (InputManager::GetInstance().IsReleased(Input::Action::Confirm))
 	{
+		SoundManager::GetInstance().PlaySE(Sound::SE::Confirm);
+
 		switch (mMenuChoice)
 		{
 		case Choice::Start:

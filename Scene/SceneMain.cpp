@@ -7,6 +7,7 @@
 #include "../System/InputManager.h"
 #include "../System/Time.h"
 #include "../System/PauseManager.h"
+#include "../System/SoundManager.h"
 #include "../GameObject/WireManager.h"
 #include "../GameObject/Electricity.h"
 #include "../GameObject/HouseManager.h"
@@ -14,6 +15,7 @@
 #include "../GameObject/ResultUI.h"
 #include "../GameObject/ReadyUI.h"
 #include "../GameObject/BackGround.h"
+#include "../GameObject/CountdownManager.h"
 #include "../ImGui/imgui.h"
 
 namespace
@@ -60,6 +62,11 @@ void SceneMain::InitializeScene()
 
 	auto background = new BackGround(GetObjectManager());
 	background->Init();
+
+	auto countdown = new CountdownManager(GetObjectManager(), this);
+	countdown->Init();
+
+	SoundManager::GetInstance().PlayBGM(Sound::BGM::InGame);
 }
 
 void SceneMain::EndScene()
@@ -161,5 +168,7 @@ void SceneMain::GameResult()
 	{
 		mResultUI = new ResultUI(GetObjectManager(), this);
 		mResultUI->Init();
+
+		SoundManager::GetInstance().PlayBGM(Sound::BGM::Result);
 	}
 }

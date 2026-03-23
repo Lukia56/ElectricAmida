@@ -83,7 +83,7 @@ public:
 	/// c‚èŠÔ‚ğæ“¾‚·‚é
 	/// </summary>
 	/// <returns></returns>
-	int GetRemainTime() const { return mRemainTime; }
+	float GetRemainTime() const { return mRemainTime; }
 
 private:
 

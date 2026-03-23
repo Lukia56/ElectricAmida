@@ -6,6 +6,7 @@
 #include "../System/SceneManager.h"
 #include "../System/InputManager.h"
 #include "../System/Time.h"
+#include "../System/SoundManager.h"
 #include "../System/ImGuiRenderer.h"
 #include "../Utility/Math.h"
 #include "../ImGui/imgui.h"
@@ -58,6 +59,9 @@ bool Game::Initialize()
 	// シーンを作るためにシーンマネージャーを作成
 	mPtrSceneManager = new SceneManager();
 
+	// サウンドマネージャーを生成
+	SoundManager::GetInstance();
+
 	// ImGuiを描画するために作成
 	mImGuiRenderer = new ImGuiRenderer();
 	mImGuiRenderer->Initialize();
@@ -77,6 +81,8 @@ void Game::GameLoop()
 
 void Game::Finalize()
 {
+	SoundManager::GetInstance().Release();
+
 	if (mImGuiRenderer)
 	{
 		mImGuiRenderer->End();
@@ -127,6 +133,9 @@ void Game::ProcessOutput()
 	// DxLibの描画処理
 	mPtrSceneManager->Draw();
 
+	// サウンドマネージャーの更新
+	SoundManager::GetInstance().Update();
+
 	// DxLibの描画関数で描画したものはScreenFlipなどを使用した際に一気に描画するため
 	// ImGuiと描画順序で問題を起こさないために、ここで強制描画
 	RenderVertex();
@@ -161,7 +170,7 @@ bool Game::LoadSystemSetting()
 
 	// 変換
 	fIn >> mSystemSettingData;
-
+	
 	return true;
 }
           

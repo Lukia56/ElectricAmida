@@ -13,6 +13,7 @@
 #include "../Scene/Fader.h"
 #include "../System/Time.h"
 #include "../System/InputManager.h"
+#include "../System/SoundManager.h"
 #include "../ImGui/imgui.h"
 #include <cassert>
 
@@ -25,7 +26,11 @@ namespace
 	// 加速時の係数
 	constexpr float kCoefSpeed = 10.0f;
 
+	// パーティクルを生成する間隔
 	constexpr int kParticleDuration = 2;
+
+	// 速度上昇量
+	constexpr float kIncreaceSpeed = 100.0f / 1800.0f;
 }
 
 Electricity::Electricity(ObjectManager* manager, WireManager* wireMgr, SceneMain* scene, HouseManager* houseMgr) :
@@ -92,6 +97,8 @@ void Electricity::Update()
 	MoveToFixedWire(newPos);
 
 	SetPosition(newPos);
+
+	mSpeed += kIncreaceSpeed;
 }
 
 void Electricity::Draw()
@@ -182,6 +189,11 @@ void Electricity::MoveToOtherWire(Vector2& newPos)
 		// 電線に移動する
 		newPos = mStartPos;
 	}
+
+	if (!canMoveWires.empty())
+	{
+		SoundManager::GetInstance().PlaySE(Sound::SE::SwitchBranch);
+	}
 }
 
 void Electricity::MoveToFixedWire(Vector2& newPos)
@@ -216,6 +228,8 @@ void Electricity::MoveToFixedWire(Vector2& newPos)
 
 	// 座標更新
 	newPos.x = mStartPos.x;
+
+	SoundManager::GetInstance().PlaySE(Sound::SE::SwitchBranch);
 
 	// 固定電線の終点まで移動したら
 	if (newPos.y == wires[index].line.end.y)

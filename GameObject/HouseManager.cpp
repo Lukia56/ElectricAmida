@@ -3,6 +3,7 @@
 #include "House.h"
 #include "../Utility/Vector.h"
 #include "../GameObject/WireManager.h"
+#include "../System/SoundManager.h"
 
 namespace
 {
@@ -94,6 +95,8 @@ void HouseManager::EnableRandomHouse()
 	houseList[random]->SetWireActive(true);
 	auto iter = std::find(mObjHouseList.begin(), mObjHouseList.end(), houseList[random]);
 	mEnabledHouse = std::distance(mObjHouseList.begin(), iter);
+
+	//SoundManager::GetInstance().PlaySE(Sound::SE::Destination);
 }
 
 int HouseManager::GetHouseNum()

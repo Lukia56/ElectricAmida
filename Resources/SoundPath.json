@@ -1,0 +1,18 @@
+{
+    "bgmFilePath": [
+        "BGM_Title.mp3",
+        "BGM_InGame.mp3",
+        "BGM_Result.mp3"
+    ],
+    "folderPath": "Resources\\Sound\\",
+    "seFilePath": [
+        "SE_CreateWire.mp3",
+        "SE_SwitchBranch.mp3",
+        "SE_LightUp.mp3",
+        "SE_Destination.mp3",
+        "SE_GameStart.mp3",
+        "SE_Confirm.mp3",
+        "SE_MenuMove.mp3",
+        "SE_ReadyDraw.mp3"
+    ]
+}
