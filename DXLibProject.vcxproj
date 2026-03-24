@@ -163,6 +163,7 @@
     <ClCompile Include="GameObject\ScorePopUp.cpp" />
     <ClCompile Include="GameObject\Particle.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
+    <ClCompile Include="GameObject\Rank.cpp" />
     <ClCompile Include="System\SoundManager.cpp" />
     <ClCompile Include="System\ImGuiRenderer.cpp" />
     <ClCompile Include="System\PauseManager.cpp" />
@@ -202,6 +203,7 @@
     <Image Include="Resources\Image\IconTimer.png" />
     <Image Include="Resources\Image\Logo.png" />
     <Image Include="Resources\Image\MenuButton.png" />
+    <Image Include="Resources\Image\Rank.png" />
     <Image Include="Resources\Image\RankA.png" />
     <Image Include="Resources\Image\RankB.png" />
     <Image Include="Resources\Image\RankC.png" />
@@ -240,6 +242,7 @@
     <ClInclude Include="GameObject\ScorePopUp.h" />
     <ClInclude Include="GameObject\Particle.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
+    <ClInclude Include="GameObject\Rank.h" />
     <ClInclude Include="System\SoundManager.h" />
     <ClInclude Include="System\ImGuiRenderer.h" />
     <ClInclude Include="System\PauseManager.h" />
@@ -269,6 +272,7 @@
     <ClInclude Include="GameObject\WireManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\SaveData.json" />
     <None Include="Config\SystemSetting.json" />
     <None Include="Resources\SoundPath.json" />
   </ItemGroup>
@@ -277,12 +281,16 @@
     <Media Include="Resources\Sound\BGM_Result.mp3" />
     <Media Include="Resources\Sound\BGM_Title.mp3" />
     <Media Include="Resources\Sound\SE_Confirm.mp3" />
+    <Media Include="Resources\Sound\SE_Countdown.mp3" />
     <Media Include="Resources\Sound\SE_CreateWire.mp3" />
     <Media Include="Resources\Sound\SE_Destination.mp3" />
+    <Media Include="Resources\Sound\SE_Finish.mp3" />
     <Media Include="Resources\Sound\SE_GameStart.mp3" />
     <Media Include="Resources\Sound\SE_LightUp.mp3" />
     <Media Include="Resources\Sound\SE_MenuMove.mp3" />
+    <Media Include="Resources\Sound\SE_RankUp.mp3" />
     <Media Include="Resources\Sound\SE_ReadyDraw.mp3" />
+    <Media Include="Resources\Sound\SE_ShowRank.mp3" />
     <Media Include="Resources\Sound\SE_SwitchBranch.mp3" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

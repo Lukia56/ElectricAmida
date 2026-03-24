@@ -1,6 +1,7 @@
 #include "SceneTitle.h"
 #include <DxLib.h>
 #include <memory>
+#include <fstream>
 #include "../System/InputManager.h"
 #include "../System/SoundManager.h"
 #include "../System/SoundManager.h"
@@ -17,12 +18,11 @@ namespace
 	enum Choice
 	{
 		Start,
-		Settings,
 		Quit,
 		Max
 	};
 
-	const char* const kButtonText[] = {"はじめる", "設定", "やめる"};
+	const char* const kButtonText[] = {"はじめる", "やめる"};
 
 	const char* const kBGGraphPath = "Resources\\Image\\titleBg.png";
 
@@ -43,6 +43,8 @@ namespace
 	const char* const kMenuButtonPath = "Resources\\Image\\MenuButton.png";
 
 	const char* const kButtonDesc = "左クリック：決定\nWS・マウスホイール：項目移動";
+
+	const char* const kSaveDataPath = "Config\\SaveData.json";
 }
 
 SceneTitle::SceneTitle() :
@@ -67,11 +69,25 @@ void SceneTitle::InitializeScene()
 
 	mGraphLogo = LoadGraph(kLogoGraphPath);
 
-	LoadDivGraph(kMenuButtonPath, 3, 1, 3, 187, 31, mGraphButton.data());
+	LoadDivGraph(kMenuButtonPath, Choice::Max, 1, Choice::Max, 187, 31, mGraphButton.data());
 
 	mTween = std::make_unique<Tween>();
 
 	AnimationButtonMove();
+
+	std::ifstream fIn(kSaveDataPath);
+
+	// 成功したかチェック
+	if (fIn.is_open())
+	{
+		// 変換
+		fIn >> mSaveData;
+	}
+	// ファイルが無かったら新しく作る
+	else
+	{
+		mSaveData["highscore"] = 0;
+	}
 
 	SoundManager::GetInstance().PlayBGM(Sound::BGM::Title);
 }
@@ -123,19 +139,6 @@ SceneBase* SceneTitle::UpdateScene()
 
 			break;
 
-		case Choice::Settings:
-		{
-			// X座標のアニメーション
-			std::vector<Animation::Keyframe> keyframes;
-			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[Choice::Settings].x - 10, 0, Animation::Ease::QuadIn });
-			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[Choice::Settings].x + 5, 4, Animation::Ease::QuadInOut });
-			keyframes.emplace_back(Animation::Keyframe{ mButtonPos[Choice::Settings].x, 8 });
-
-			mTween->StartAnim(&mButtonPos[Choice::Settings].x, keyframes);
-
-			break;
-		}
-
 		case Choice::Quit:
 
 			Game::isRunning = false;
@@ -165,6 +168,8 @@ void SceneTitle::DrawScene()
 	}
 
 	DrawRotaGraph(kLogoPos.x, kLogoPos.y, kLogoScale, 0, mGraphLogo, true);
+
+	DrawString(160, 360, ("ハイスコア " + std::to_string(static_cast<int>(mSaveData["highscore"])) + "回").c_str(), Color::kWhite);
 
 	DrawString(20, 670, kButtonDesc, Color::kWhite);
 }

@@ -13,6 +13,11 @@
         "SE_GameStart.mp3",
         "SE_Confirm.mp3",
         "SE_MenuMove.mp3",
-        "SE_ReadyDraw.mp3"
+        "SE_ReadyDraw.mp3",
+        "SE_RankUp.mp3",
+        "SE_ShowRank.mp3",
+        "SE_Countdown.mp3",
+        "SE_Finish.mp3",
+        "SE_Pause.mp3"
     ]
 }

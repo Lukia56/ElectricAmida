@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <string>
 #include "../Utility/Vector.h"
+#include <nlohmann/json.hpp>
 
 class WireManager;
 class Electricity;
@@ -13,6 +14,8 @@ class GameUI;
 class PauseManager;
 class ResultUI;
 class ReadyUI;
+
+using json = nlohmann::json;
 
 class SceneMain : public SceneBase
 {
@@ -85,6 +88,14 @@ public:
 	/// <returns></returns>
 	float GetRemainTime() const { return mRemainTime; }
 
+	/// <summary>
+	/// ハイスコアを更新したか
+	/// </summary>
+	/// <returns></returns>
+	bool IsHighscore() const;
+
+	void SaveHighscore();
+
 private:
 
 	void GameReady();
@@ -130,4 +141,9 @@ private:
 	ResultUI* mResultUI;
 
 	ReadyUI* mReadyUI;
+
+	/// <summary>
+	/// セーブデータのjsonファイル
+	/// </summary>
+	json mSaveData;
 };

@@ -78,13 +78,15 @@ void SoundManager::Update()
 	if (m_nextBgmHandle != -1) ChangeVolumeSoundMem((kDefaultVolume * m_nextBgmVolume) / kMaxVolume, m_nextBgmHandle);
 }
 
-void SoundManager::PlaySE(Sound::SE id, int playType)
+void SoundManager::PlaySE(Sound::SE id, float freq, int playType)
 {
 	int handle = m_seHandles[static_cast<int>(id)];
 
 	// “Ç‚İ‚ß‚Ä‚¢‚È‚¢ID‚È‚ç‘¦return
 	assert(handle != -1 && "“Ç‚İ‚İ‚É¸”s‚µ‚½SE‚ğÄ¶‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·");
 	if (handle == -1) return;
+
+	SetFrequencySoundMem(freq, handle);
 
 	// SE‚ÌÄ¶
 	PlaySoundMem(handle, playType);

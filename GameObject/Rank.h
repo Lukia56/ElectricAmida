@@ -1,34 +1,24 @@
 #pragma once
 
 #include "GameObject.h"
+#include <array>
 
-class SceneMain;
 class Tween;
-class Rank;
 
-class ResultUI : public GameObject
+class Rank : public GameObject
 {
 public:
-
-	enum class ResultState
-	{
-		Text,
-		ScoreAnim,
-		ShowScore,
-		Input
-	};
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="manager">オブジェクトマネージャーのポインタ</param>
-	/// <param name="scene">シーンメインのポインタ
-	ResultUI(ObjectManager* manager, SceneMain* scene);
+	Rank(ObjectManager* manager);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~ResultUI();
+	~Rank();
 
 	/// <summary>
 	/// ゲームオブジェクト固有の初期化処理
@@ -57,41 +47,50 @@ public:
 	/// </summary>
 	void DrawImGui() override;
 
+	/// <summary>
+	/// ランクアップ演出
+	/// </summary>
+	void RankUp();
+
+	/// <summary>
+	/// 最終的なランクを発表する演出
+	/// </summary>
+	void ShowFinalRank(int score);
+
+	/// <summary>
+	/// 退場演出
+	/// </summary>
+	void Remove();
+
+	/// <summary>
+	/// 現在のグラフィックハンドルを取得
+	/// </summary>
+	/// <returns></returns>
+	int GetCurrentGraph() const { return mGraphs[mCurrentGraph]; }
+
 private:
 
-	SceneMain* mScene;
+	/// <summary>
+	/// 画像の塗りつぶしを行う
+	/// </summary>
+	void FillColorGraph(int graph, Vector2 pos, float scale);
 
 	/// <summary>
-	/// メニューで選択している場所
+	/// スコアからランクを計算する
 	/// </summary>
-	int mMenuChoice;
+	int CalculateRank(int score);
 
-	/// <summary>
-	/// メニューの不透明度
-	/// </summary>
+	std::array<int, 6> mGraphs;
+
+	int mCurrentGraph;
+
+	float mScale;
+
 	float mAlpha;
-
-	/// <summary>
-	/// メニューのY座標
-	/// </summary>
-	float mMenuY;
 
 	Tween* mTween;
 
-	ResultState mState;
+	float mPosY;
 
-	float mTextScale;
-
-	int mGraphText;
-
-	Rank* mRank;
-
-	/// <summary>
-	/// ランク演出中のタイマー
-	/// </summary>
-	float mRankTimer;
-
-	int mScore;
-
-	float mScaleAnim;
+	float mFillAlpha;
 };

@@ -1,5 +1,7 @@
 #include "SceneMain.h"
 #include <DxLib.h>
+#include <fstream>
+#include <nlohmann/json.hpp>
 #include "SceneBase.h"
 #include "../Scene/SceneGameClear.h"
 #include "../Scene/Fader.h"
@@ -22,6 +24,9 @@ namespace
 {
 	// ゲームの制限時間
 	constexpr float kLimitTime = 30.0f;
+
+	// セーブデータのファイルパス
+	const char* const kSaveDataPath = "Config\\SaveData.json";
 }
 
 SceneMain::SceneMain() :
@@ -67,6 +72,20 @@ void SceneMain::InitializeScene()
 	countdown->Init();
 
 	SoundManager::GetInstance().PlayBGM(Sound::BGM::InGame);
+
+	std::ifstream fIn(kSaveDataPath);
+
+	// 成功したかチェック
+	if (fIn.is_open())
+	{
+		// 変換
+		fIn >> mSaveData;
+	}
+	// ファイルが無かったら新しく作る
+	else
+	{
+		mSaveData["highscore"] = 0;
+	}
 }
 
 void SceneMain::EndScene()
@@ -123,6 +142,11 @@ void SceneMain::DrawSceneImGui()
 		ImGui::Text("SceneMain");
 
 		ImGui::Text(u8"成功回数 = %d", mSuccessNum);
+		ImGui::SameLine();
+		if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { mSuccessNum--; }
+		ImGui::SameLine();
+		if (ImGui::ArrowButton("##right", ImGuiDir_Right)) { mSuccessNum++; }
+
 		ImGui::SliderFloat(u8"残り時間 = %f", &mRemainTime, 0, kLimitTime);
 	}
 
@@ -136,6 +160,22 @@ void SceneMain::SuccessToDelivery()
 	mGameUI->CountUpLightNum();
 
 	mObjHouseManager->EnableRandomHouse();
+}
+
+bool SceneMain::IsHighscore() const
+{
+	return mSuccessNum > mSaveData["highscore"];
+}
+
+void SceneMain::SaveHighscore()
+{
+	if (IsHighscore())
+	{
+		mSaveData["highscore"] = mSuccessNum;
+
+		std::ofstream fOut(kSaveDataPath);
+		fOut << std::setw(4) << mSaveData << std::endl;
+	}
 }
 
 void SceneMain::GameReady()
@@ -159,6 +199,8 @@ void SceneMain::GamePlay()
 	if (mRemainTime <= 0)
 	{
 		mGameState = GameState::Result;
+
+		SoundManager::GetInstance().PlaySE(Sound::SE::Finish);
 	}
 }
 

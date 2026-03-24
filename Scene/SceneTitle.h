@@ -3,9 +3,12 @@
 #include "SceneBase.h"
 #include <array>
 #include <memory>
+#include <nlohmann/json.hpp>
 #include "../Utility/Vector.h"
 
 class Tween;
+
+using json = nlohmann::json;
 
 /// <summary>
 /// タイトル画面のシーン
@@ -71,4 +74,6 @@ private:
 	int mMenuChoice;
 
 	std::unique_ptr<Tween> mTween;
+
+	json mSaveData;
 };

@@ -4,6 +4,7 @@
 #include "../Scene/SceneMain.h"
 #include "../GameObject/CountNumber.h"
 #include "../ImGui/imgui.h"
+#include "../System/SoundManager.h"
 
 namespace
 {
@@ -61,6 +62,8 @@ void CountdownManager::Update()
 		// カウントを表示
 		auto count = new CountNumber(GetObjectManager(), mNumberGraphs[mCurrentCounting - 1]);
 		count->Init();
+
+		SoundManager::GetInstance().PlaySE(Sound::SE::Countdown);
 	}
 }
 

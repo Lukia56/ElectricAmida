@@ -162,6 +162,9 @@
     <ClCompile Include="GameObject\CountdownManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Rank.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Image\Cloud.png">
@@ -228,6 +231,9 @@
       <Filter>リソース ファイル</Filter>
     </Image>
     <Image Include="Resources\Image\RankS.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resources\Image\Rank.png">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>
@@ -391,10 +397,14 @@
     <ClInclude Include="GameObject\CountdownManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\Rank.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\SystemSetting.json" />
     <None Include="Resources\SoundPath.json" />
+    <None Include="Config\SaveData.json" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resources\Sound\BGM_InGame.mp3" />
@@ -408,5 +418,9 @@
     <Media Include="Resources\Sound\SE_MenuMove.mp3" />
     <Media Include="Resources\Sound\SE_GameStart.mp3" />
     <Media Include="Resources\Sound\SE_ReadyDraw.mp3" />
+    <Media Include="Resources\Sound\SE_RankUp.mp3" />
+    <Media Include="Resources\Sound\SE_ShowRank.mp3" />
+    <Media Include="Resources\Sound\SE_Finish.mp3" />
+    <Media Include="Resources\Sound\SE_Countdown.mp3" />
   </ItemGroup>
 </Project>

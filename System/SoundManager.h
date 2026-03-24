@@ -23,6 +23,11 @@ namespace Sound
 		Confirm,
 		MenuMove,
 		ReadyDraw,
+		RankUp,
+		ShowRank,
+		Countdown,
+		Finish,
+		Pause,
 		Max
 	};
 }
@@ -46,7 +51,9 @@ public:
 	/// SE‚ÌÄ¶
 	/// </summary>
 	/// <param name="id">Ä¶‚µ‚½‚¢SE‚ÌID</param>
-	void PlaySE(Sound::SE id, int playType = DX_PLAYTYPE_BACK);
+	/// <param name="freq">Ä¶ü”g”</param>
+	/// <param name="playType">Ä¶•û–@</param>
+	void PlaySE(Sound::SE id, float freq = -1, int playType = DX_PLAYTYPE_BACK);
 
 	/// <summary>
 	/// BGM‚ÌÄ¶

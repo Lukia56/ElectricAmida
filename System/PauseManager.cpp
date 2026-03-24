@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include "../System/InputManager.h"
 #include "../System/ObjectManager.h"
+#include "../System/SoundManager.h"
 #include "../Scene/SceneBase.h"
 #include "../Scene/SceneMain.h"
 #include "../Scene/SceneTitle.h"
@@ -90,8 +91,16 @@ void PauseManager::OnPause()
 	if (mScene->GetFader()->IsFadingOut()) return;
 
 	// 上下ボタンで選択場所を移動
-	if (InputManager::GetInstance().IsPressed(Input::Action::MenuUp)) mMenuChoice--;
-	if (InputManager::GetInstance().IsPressed(Input::Action::MenuDown)) mMenuChoice++;
+	if (InputManager::GetInstance().IsPressed(Input::Action::MenuUp))
+	{
+		mMenuChoice--;
+		SoundManager::GetInstance().PlaySE(Sound::SE::MenuMove);
+	}
+	if (InputManager::GetInstance().IsPressed(Input::Action::MenuDown))
+	{
+		mMenuChoice++;
+		SoundManager::GetInstance().PlaySE(Sound::SE::MenuMove);
+	}
 
 	// 選択場所を項目の範囲内に収める
 	mMenuChoice = (mMenuChoice + Choice::Max) % Choice::Max;
@@ -99,6 +108,8 @@ void PauseManager::OnPause()
 	// 決定ボタンが押されたら項目を選ぶ
 	if (InputManager::GetInstance().IsPressed(Input::Action::Confirm))
 	{
+		SoundManager::GetInstance().PlaySE(Sound::SE::Confirm);
+
 		switch (mMenuChoice)
 		{
 		case Choice::EndPause:
@@ -126,6 +137,8 @@ void PauseManager::TogglePause()
 {
 	// ポーズ状態を切り替える
 	mIsPaused = !mIsPaused;
+
+	SoundManager::GetInstance().PlaySE(Sound::SE::Pause);
 
 	// ポーズされたならゲームオブジェクトを停止する
 	if (mIsPaused)

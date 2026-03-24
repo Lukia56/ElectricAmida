@@ -3,6 +3,7 @@
 #include <vector>
 #include "../System/InputManager.h"
 #include "../System/SoundManager.h"
+#include "../System/Time.h"
 #include "../Utility/Color.h"
 #include "../ImGui/imgui.h"
 #include "../Scene/SceneMain.h"
@@ -11,6 +12,8 @@
 #include "../Easing/Tween.h"
 #include "../Easing/Keyframe.h"
 #include "../Utility/Vector.h"
+#include "../Utility/Math.h"
+#include "../GameObject/Rank.h"
 
 namespace
 {
@@ -32,11 +35,11 @@ namespace
 
 	/*
 	S	~18
-	A	16~17	2
-	B	12~15	4
-	C	7~11	5
-	D	3~6	4
-	E	0~2	3
+	A	14~17	4
+	B	9~13	4
+	C	5~8	4
+	D	2~4	3
+	E	0~1	2
 	*/
 }
 
@@ -49,7 +52,11 @@ ResultUI::ResultUI(ObjectManager* manager, SceneMain* scene) :
 	mTween(nullptr),
 	mState(ResultState::Text),
 	mTextScale(1.0f),
-	mGraphText(-1)
+	mGraphText(-1),
+	mRank(nullptr),
+	mRankTimer(0.0f),
+	mScore(0),
+	mScaleAnim(0)
 {
 	SetPosition(kCenterPos);
 }
@@ -90,11 +97,56 @@ void ResultUI::Update()
 {
 	mTween->Update();
 
+	if (mScene->GetFader()->IsFading()) return;
+
 	switch (mState)
 	{
 	case ResultState::Text:
 
 		if (mAlpha == 0.0f)
+		{
+			mState = ResultState::ScoreAnim;
+
+			mRank = new Rank(GetObjectManager());
+			mRank->Init();
+		}
+
+		break;
+
+	case ResultState::ScoreAnim:
+
+		if (mRankTimer < 0 && mScore < mScene->GetSuccessNum())
+		{
+			mScore++;
+
+			switch (mScore)
+			{
+			case 2:
+			case 5:
+			case 9:
+			case 14:
+			case 18:
+
+				mRank->RankUp();
+			}
+
+			mRankTimer = 0.25f;
+		}
+		mRankTimer -= Time::GetInstance().GetDeltaTime();
+
+		// 決定ボタンが押されたら演出スキップ
+		if (InputManager::GetInstance().IsPressed(Input::Action::Confirm) || mRankTimer < -0.7f)
+		{
+			mState = ResultState::ShowScore;
+			mRankTimer = 1.0f;
+			mRank->ShowFinalRank(mScene->GetSuccessNum());
+		}
+
+		break;
+
+	case ResultState::ShowScore:
+
+		if (mRankTimer < 0)
 		{
 			mState = ResultState::Input;
 
@@ -107,7 +159,10 @@ void ResultUI::Update()
 			keyframes.emplace_back(Animation::Keyframe{ 0.0f, 0, Animation::Ease::Linear });
 			keyframes.emplace_back(Animation::Keyframe{ 255.0f, 10 });
 			mTween->StartAnim(&mAlpha, keyframes);
+
+			mRank->Remove();
 		}
+		mRankTimer -= Time::GetInstance().GetDeltaTime();
 
 		break;
 
@@ -132,6 +187,8 @@ void ResultUI::Update()
 		if (InputManager::GetInstance().IsPressed(Input::Action::Confirm))
 		{
 			SoundManager::GetInstance().PlaySE(Sound::SE::Confirm);
+
+			mScene->SaveHighscore();
 
 			switch (mMenuChoice)
 			{
@@ -186,8 +243,19 @@ void ResultUI::PostDraw()
 		DrawBox(pos.x - kBoxSize.x * 0.5f, pos.y - kBoxSize.y * 0.5f, pos.x + kBoxSize.x * 0.5f, pos.y + kBoxSize.y * 0.5f, Color::kWhite, false);
 
 		DrawString(pos.x - 40, pos.y - 140, "スコア", Color::kWhite);
+
+		DrawString(pos.x - 60, pos.y - 80, "ランク", Color::kWhite);
+		DrawRotaGraph(pos.x + 20, pos.y - 80, 0.25f, 0, mRank->GetCurrentGraph(), true);
+
 		DrawString(pos.x - 90, pos.y - 40, "電気を届けた数：", Color::kWhite);
 		DrawString(pos.x + 60, pos.y - 40, std::to_string(mScene->GetSuccessNum()).c_str(), Color::kWhite);
+
+		if (mScene->IsHighscore())
+		{
+			DrawRotaString(pos.x + 83, pos.y - 37, 0.75f + std::abs(std::sin(Math::ToRadian(mScaleAnim)) * 0.25f), 0.75f + std::abs(std::sin(Math::ToRadian(mScaleAnim)) * 0.25f), 60, 20, Math::ToRadian(10), Color::kMagenta, 0, 0, "ハイスコア！");
+			DrawRotaString(pos.x + 80, pos.y - 40, 0.75f + std::abs(std::sin(Math::ToRadian(mScaleAnim)) * 0.25f), 0.75f + std::abs(std::sin(Math::ToRadian(mScaleAnim)) * 0.25f), 60, 20, Math::ToRadian(10), Color::kYellow, 0, 0, "ハイスコア！");
+			mScaleAnim += 4;
+		}
 
 		DrawString(pos.x - 40, pos.y + 100, "リトライ", mMenuChoice == 0 ? Color::kYellow : Color::kGray);
 		DrawString(pos.x - 80, pos.y + 140, "タイトル画面へ戻る", mMenuChoice == 1 ? Color::kYellow : Color::kGray);
