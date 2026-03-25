@@ -42,7 +42,7 @@ namespace
 	// メニューボタンのパス
 	const char* const kMenuButtonPath = "Resources\\Image\\MenuButton.png";
 
-	const char* const kButtonDesc = "左クリック：決定\nWS・マウスホイール：項目移動";
+	const char* const kButtonDesc = "スペース・左クリック：決定\nWS・マウスホイール：項目移動";
 
 	const char* const kSaveDataPath = "Config\\SaveData.json";
 }

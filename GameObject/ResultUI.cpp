@@ -31,7 +31,7 @@ namespace
 
 	const char* const kGraphTextPath = "Resources\\Image\\finish.png";
 
-	const char* const kButtonDesc = "左クリック：決定\nWS・マウスホイール：項目移動";
+	const char* const kButtonDesc = "スペース・左クリック：決定\nWS・マウスホイール：項目移動";
 
 	/*
 	S	~18
