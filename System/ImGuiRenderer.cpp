@@ -17,13 +17,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 void ImGuiRenderer::Initialize()
 {
 	// DxLibが持つDirectXの情報を取得する
-	auto g_pd3dDevice = (ID3D11Device*)(GetUseDirect3D11Device());
-	auto g_pd3dDeviceContext = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
+	auto pDevice = (ID3D11Device*)(GetUseDirect3D11Device());
+	auto pDeviceContext = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
 
 	// ImGuiを初期化
 	ImGui::CreateContext();
 	ImGui_ImplWin32_Init(GetMainWindowHandle());
-	ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
+	ImGui_ImplDX11_Init(pDevice, pDeviceContext);
 
 	// フォントの初期化
 	// アルファベットはデフォルトのままに、日本語のみを変更
