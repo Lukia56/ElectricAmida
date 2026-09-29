@@ -96,7 +96,7 @@ public:
 	{
 		if (s == 0.0f)
 		{
-			assert(false, "ゼロ除算が発生しました。長さ0のベクトルを返します");
+			assert(false && "ゼロ除算が発生しました。長さ0のベクトルを返します");
 			return Vector2::Zero;
 		}
 
@@ -164,7 +164,7 @@ public:
 	{
 		if (s == 0.0f)
 		{
-			assert(false, "ゼロ除算が発生しました。値を変更せずに返します");
+			assert(false && "ゼロ除算が発生しました。値を変更せずに返します");
 			return *this;
 		}
 
@@ -394,7 +394,7 @@ public:
 	{
 		if (s == 0.0f)
 		{
-			assert(false, "ゼロ除算が発生しました。長さ0のベクトルを返します");
+			assert(false && "ゼロ除算が発生しました。長さ0のベクトルを返します");
 			return Vector3::Zero;
 		}
 
@@ -493,7 +493,7 @@ public:
 	{
 		if (s == 0.0f)
 		{
-			assert(false, "ゼロ除算が発生しました。値を変更せずに返します");
+			assert(false && "ゼロ除算が発生しました。値を変更せずに返します");
 			return *this;
 		}
 

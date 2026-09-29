@@ -1,5 +1,6 @@
 #include "Collision2D.h"
 #include <cmath>
+#include <limits>
 #include "../Utility/Vector.h"
 
 bool Collision::IsIntersect(const LineSegment& lineA, const LineSegment& lineB)
@@ -97,10 +98,10 @@ Vector2 Collision::GetIntersectPoint(const LineSegment& lineA, const LineSegment
 	Vector2 d = lineB.end;
 
 	float deno = Vector2::Cross(b - a, d - c);
-
+	
 	if (deno == 0.0f)
 	{
-		return Vector2(INFINITE, INFINITE);
+		return Vector2(std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity());
 	}
 
 	float s = Vector2::Cross(c - a, d - c) / deno;
@@ -108,7 +109,7 @@ Vector2 Collision::GetIntersectPoint(const LineSegment& lineA, const LineSegment
 
 	if (s < 0.0 || 1.0 < s || t < 0.0 || 1.0 < t)
 	{
-		return Vector2(INFINITE, INFINITE);
+		return Vector2(std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity());
 	}
 
 	return Vector2(a.x + s * (b - a).x, a.y + s * (b - a).y);
